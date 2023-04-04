@@ -55,7 +55,7 @@ const create = async (
     nameChecker(lastName);
 
     if(!email.contains("@")) throw `not a valid email`;
-    if(!email.contains(".org") && !email.contains(".edu") && !email.contains(".gov") && !email.contains(".net")) throw `Not a valid email`;
+    if(!email.contains(".org") && !email.contains(".edu") && !email.contains(".com") && !email.contains(".gov") && !email.contains(".net")) throw `Not a valid email`;
     let at = email.indexOf("@");
     let end = email.indexOf(".");
     if(at < end) throw `not a valid email`;
