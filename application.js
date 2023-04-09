@@ -1,4 +1,4 @@
-import {users} from '../config/mongoCollections.js';
+import {users, dogs} from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
 import { inputChecker, boolChecker, numChecker, stringChecker, nameChecker, arrayChecker } from './applicationhelpers.js'
 
@@ -107,23 +107,35 @@ const create = async (
         reasoningExperience
     }
     newApp._id = new ObjectId();
-    // const updating = await userFunctions.get(userId);
-    // let updatedApplication = updating.application;
-    // updatedApplication.push(newApp);
+    const updating = await userFunctions.get(userId);
+    let updatedApplication = updating.application;
+    updatedApplication.push(newApp);
 
-    // const updated = await userCollection.findOneAndUpdate(
-    //     {_id: new ObjectId(userId)}, 
-    //     {$set: {application: newApp}}, 
-    //     {returnDocument: "after"});
-    // if(updated.lastErrorObject.n === 0) throw `Application could not be updated`;
+    const updated = await users.findOneAndUpdate(
+        {_id: new ObjectId(userId)}, 
+        {$set: {application: newApp}}, 
+        {returnDocument: "after"});
+    if(updated.lastErrorObject.n === 0) throw `Application could not be updated`;
 
     return newApp;
 }
 
-const sending = async(applicationId, dogId) =>
+const sending = async(appID, dogID) => {
     //this will send the application to the user
+    stringChecker(appID);
+    stringChecker(dogID);
+    if(!Object.isValid(appID)) throw `Application ID isn't valid`;
+    if(!Object.isValid(dogID)) throw `Dog ID isn't valid`;
     
-    //will add the applicationId to the interest array in dogs
-    0;
+    const currInterest = await dogs.get(dogID);
+    if(currInterest.interest.contains(appID)) throw `You already applied for this dog`;
 
-export {create};
+    const updated = await dogs.findOneAndUpdate(
+        {_id: new ObjectId(dogID)}, 
+        {$push: {interest: appID}}, 
+        {returnDocument: "after"});
+    if(updated.lastErrorObject.n === 0) throw `Application could not be updated`;
+    return `${appID} is now interested`;
+}
+
+export {create, sending};
