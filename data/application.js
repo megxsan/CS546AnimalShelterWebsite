@@ -34,7 +34,6 @@ const create = async (
     inputChecker(typeAnimals);
     inputChecker(yard);
     inputChecker(reasoningExperience);
-
     //checking booleans
     boolChecker(children);
     boolChecker(animals);
@@ -44,7 +43,7 @@ const create = async (
     numChecker(phone);
     numChecker(timeAlone);
     if(age < 18 || age > 120) throw `Age is invalid`;
-    if(phone.length != 9) throw `Invalid phone number`;
+    if(phone.toString().length != 10) throw `Invalid phone number`;
     if(timeAlone < 0 || timeAlone > 24) throw `Time alone must be between 0 and 24 hours`;
 
     //checking strings
@@ -53,17 +52,17 @@ const create = async (
     email = stringChecker(email);
     livingAccommodations = stringChecker(livingAccommodations);
     reasoningExperience = stringChecker(reasoningExperience);
-    nameChecker(firstName);
-    nameChecker(lastName);
+    // nameChecker(firstName);
+    // nameChecker(lastName);
 
-    if(!email.contains("@")) throw `not a valid email`;
-    if(!email.contains(".org") && !email.contains(".edu") && !email.contains(".com") && !email.contains(".gov") && !email.contains(".net")) throw `Not a valid email`;
-    let at = email.indexOf("@");
-    let end = email.indexOf(".");
-    if(at < end) throw `not a valid email`;
+    // if(!email.includes("@")) throw `not a valid email`;
+    // if(!email.includes(".org") && !email.includes(".edu") && !email.includes(".com") && !email.includes(".gov") && !email.includes(".net")) throw `Not a valid email`;
+    // let at = email.indexOf("@");
+    // let end = email.indexOf(".");
+    // if(at < end) throw `not a valid email`;
 
     livingAccommodations = livingAccommodations.toLowerCase();
-    if(livingAccommodations != "home" || livingAccommodations != "apartment" || livingAccommodations != "townhouse" || livingAccommodations != "other"){
+    if(livingAccommodations != "home" && livingAccommodations != "apartment" && livingAccommodations != "townhouse" && livingAccommodations != "other"){
         throw `Living accommodation isn't valid`;
     }
 
@@ -79,19 +78,19 @@ const create = async (
     for(let i = 0; i < typeAnimals.length; i++){
         stringChecker(typeAnimals[i]);
         typeAnimals[i] = typeAnimals[i].toLowerCase();
-        if(typeAnimals[i] != 'dog' || typeAnimals[i] != 'cat' || typeAnimals[i] != 'other'){
+        if(typeAnimals[i] != 'dog' && typeAnimals[i] != 'cat' && typeAnimals[i] != 'other'){
             throw `Animal types not valid`;
         }
     }
     for(let i = 0; i < yard.length; i++){
         stringChecker(yard[i]);
         yard[i] = yard[i].toLowerCase();
-        if(yard[i] != 'enclosed front yard' || yard[i] != 'enclosed back yard' || yard[i] != 'garage' || yard[i] != 'dog house' || yard[i] != 'other'){
+        if(yard[i] != 'enclosed front yard' && yard[i] != 'enclosed back yard' && yard[i] != 'garage' && yard[i] != 'dog house' && yard[i] != 'other'){
             throw `yard types not valid`;
         }
     }
-    userId = stringChecker(userId);
-    if(!Object.isValid(userId)) throw `not a valid user id`;
+    //userId = stringChecker(userId);
+    if(!ObjectId.isValid(userId)) throw `not a valid user id`;
 
     let newApp = {
         firstName,
@@ -115,6 +114,7 @@ const create = async (
 
     const updating = await user.get(userId);
     let updatedApplication = updating.application;
+    //this push function isn't working
     updatedApplication.push(newApp);
 
     const updated = await userCollection.findOneAndUpdate(
