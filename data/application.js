@@ -106,22 +106,31 @@ const create = async (
         yard,
         reasoningExperience
     }
-
     newApp._id = new ObjectId();
-
-    const userCollection = await users();
-
-    // const updating = await user.get(userId);
-    // let updatedApplication = updating.application;
-    // //this push function isn't working
-    // updatedApplication.update(newApp);
+    
+    let userCollection = await users();
+    let result = await user.get(userId);
+    const userWithApp = {
+        firstName: result.firstName,
+        lastName: result.lastName,
+        age: result.age,
+        email: result.email,
+        password: result.password,
+        dogs: result.dogs,
+        quizResult: result.quizResult,
+        application: newApp,
+        accepted: result.accepted,
+        pending: result.pending,
+        rejected: result.rejected,
+        liked: result.liked,
+        disliked: result.disliked
+    }
 
     const updated = await userCollection.findOneAndUpdate(
         {_id: new ObjectId(userId)}, 
-        {$set: {application: newApp}}, 
+        {$set: userWithApp}, 
         {returnDocument: "after"});
     if(updated.lastErrorObject.n === 0) throw `Application could not be updated`;
-
     return newApp;
 }
 
