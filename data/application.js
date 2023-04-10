@@ -1,6 +1,6 @@
 import {users, dogs} from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
-import { inputChecker, boolChecker, numChecker, stringChecker, nameChecker, arrayChecker } from './applicationhelpers.js'
+import { inputChecker, boolChecker, numChecker, stringChecker, nameChecker, arrayChecker } from '../applicationhelpers.js'
 
 const create = async (
   userId,
