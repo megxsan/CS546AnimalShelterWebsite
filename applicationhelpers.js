@@ -6,7 +6,7 @@ export function inputChecker(input){
  }
  export function numChecker(input){
     if(typeof input != 'number') throw `A number is required`;
-    if(isNan(input) === true) throw `A number is required`;
+    if(isNaN(input) === true) throw `A number is required`;
     if(input != Math.floor(input)) throw `Decimals are not valid`;
  }
  export function stringChecker(input){
@@ -19,7 +19,7 @@ export function inputChecker(input){
  export function nameChecker(input){
     //allowed ascii codes: 32, 45, 65-90, 97-122
     for(let i = 0; i < input.length; i++){
-        if(charCodeAt(input[i]) != 35 || charCodeAt(input[i]) != 45 || charCodeAt(input[i]) < 65 || (charCodeAt(input[i]) > 90 && charCodeAt(input[i]) < 97) || charCodeAt(input[i]) > 122){
+        if(input.charCodeAt(input[i]) != 35 || input.charCodeAt(input[i]) != 45 || input.charCodeAt(input[i]) < 65 || (input.charCodeAt(input[i]) > 90 && input.charCodeAt(input[i]) < 97) || input.charCodeAt(input[i]) > 122){
             throw `Invalid character present in name`;
         }
     }
