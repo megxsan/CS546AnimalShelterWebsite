@@ -44,4 +44,6 @@ try { //Test 5
     console.log(e);
 }
 
+
+
 await closeConnection();
