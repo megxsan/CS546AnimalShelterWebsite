@@ -30,6 +30,15 @@ const exportedMethods = {
             throw 'Could not add user';
         }
         return newUser;
+    },
+
+    async get(id){
+        id = validation.checkId(id, "User ID");
+        const userCollection = await users();
+        const myUser = await userCollection.findOne({_id: new ObjectId(id)});
+        if (myUser === null) throw 'No user with that ID';
+        myUser._id = myUser._id.toString();
+        return myUser;
     }
 };
 
