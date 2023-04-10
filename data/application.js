@@ -1,6 +1,8 @@
 import {users, dogs} from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
-import { inputChecker, boolChecker, numChecker, stringChecker, nameChecker, arrayChecker } from './applicationhelpers.js'
+import { inputChecker, boolChecker, numChecker, stringChecker, nameChecker, arrayChecker } from '../applicationhelpers.js'
+import * as user from './users.js';
+import * as dog from './dogs.js';
 
 const create = async (
   userId,
@@ -106,12 +108,16 @@ const create = async (
         yard,
         reasoningExperience
     }
+
     newApp._id = new ObjectId();
-    const updating = await userFunctions.get(userId);
+
+    const userCollection = await users();
+
+    const updating = await user.get(userId);
     let updatedApplication = updating.application;
     updatedApplication.push(newApp);
 
-    const updated = await users.findOneAndUpdate(
+    const updated = await userCollection.findOneAndUpdate(
         {_id: new ObjectId(userId)}, 
         {$set: {application: newApp}}, 
         {returnDocument: "after"});
@@ -127,10 +133,12 @@ const sending = async(appID, dogID) => {
     if(!Object.isValid(appID)) throw `Application ID isn't valid`;
     if(!Object.isValid(dogID)) throw `Dog ID isn't valid`;
     
-    const currInterest = await dogs.get(dogID);
+    const dogCollection = await dogs();
+
+    const currInterest = await dog.get(dogID);
     if(currInterest.interest.contains(appID)) throw `You already applied for this dog`;
 
-    const updated = await dogs.findOneAndUpdate(
+    const updated = await dogCollection.findOneAndUpdate(
         {_id: new ObjectId(dogID)}, 
         {$push: {interest: appID}}, 
         {returnDocument: "after"});

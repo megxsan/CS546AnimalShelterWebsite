@@ -2,7 +2,7 @@ import * as dogs from './data/dogs.js';
 import {dbConnection, closeConnection} from './config/mongoConnection.js';
 
 const db = await dbConnection();
-await db.dropDatabase();
+// await db.dropDatabase();
 
 let tobi = undefined;
 let buddy = undefined;
