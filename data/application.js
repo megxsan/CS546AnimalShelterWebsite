@@ -66,7 +66,6 @@ const create = async (
         throw `Living accommodation isn't valid`;
     }
 
-
     //checking arrays
     arrayChecker(childrenAges);
     arrayChecker(typeAnimals);
@@ -112,10 +111,10 @@ const create = async (
 
     const userCollection = await users();
 
-    const updating = await user.get(userId);
-    let updatedApplication = updating.application;
-    //this push function isn't working
-    updatedApplication.push(newApp);
+    // const updating = await user.get(userId);
+    // let updatedApplication = updating.application;
+    // //this push function isn't working
+    // updatedApplication.update(newApp);
 
     const updated = await userCollection.findOneAndUpdate(
         {_id: new ObjectId(userId)}, 

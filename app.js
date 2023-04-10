@@ -23,25 +23,26 @@ try{
 }catch(e){
     console.log(e);
 }
-// try{
-//     await apps.create(
-//         personID,
-//         "Patrick", 
-//         "Hill",
-//         80,
-//         "phill@stevens.edu",
-//         1234567890,
-//         "home", 
-//         true,
-//         [15], 
-//         15,
-//         true,
-//         ["Cat"],
-//         ["enclosed back yard"],
-//         "I really want one")
-// }catch(e){
-//     console.log(e);
-// }
+try{
+    await apps.create(
+        personID,
+        "Patrick", 
+        "Hill",
+        80,
+        "phill@stevens.edu",
+        1234567890,
+        "home", 
+        true,
+        [15], 
+        15,
+        true,
+        ["Cat"],
+        ["enclosed back yard"],
+        "I really want one")
+}catch(e){
+    console.log(e);
+}
+console.log(person);
 
 try { //Test 1
     tobi = await dogs.create("Tobias", "male", 8, ["Light Brown", "Grey", "Black"], ["Yorkshire Terrier"], 13.5, "The cutest little doggy you will ever meet.  He is super friendly and loves people, even babies!  He is a bit territorial when it comes to letting other animals in his house, but is otherwise friendly to other animals outside of the house", ["Playful", "Adorable", "Small", "Friendly"], [], ["Rabies"], [], "641fc2896a56dea7f4f2d780");
@@ -78,20 +79,5 @@ try { //Test 5
 } catch (e) {
     console.log(e);
 }
-
-try{
-    await dogs.remove(tobi._id);
-    await dogs.remove(tobi._id);
-    await dogs.remove(tobi._id);
-
-    await dogs.remove(tobi._id);
-
-    await dogs.remove(tobi._id);
-
-}catch(e){
-    console.log(e)
-}
-
-
 
 await closeConnection();
