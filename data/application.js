@@ -118,7 +118,7 @@ const create = async (
         password: result.password,
         dogs: result.dogs,
         quizResult: result.quizResult,
-        application: newApp,
+        application: newApp, 
         accepted: result.accepted,
         pending: result.pending,
         rejected: result.rejected,
