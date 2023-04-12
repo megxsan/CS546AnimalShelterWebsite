@@ -2,6 +2,8 @@
 import {Router} from 'express';
 const router = Router();
 import validation from "../validation.js";
+import { userData } from '../data/index.js';
+import { dogData } from '../data/index.js';
 
 router
 //this is like our homepage
@@ -43,10 +45,10 @@ router
         .render('error', {title: "Invalid Input"});
     }
     const {name, sex, age, color, breeds, weight, description, traits, medicalInfo, vaccines, pictures, userId, interest, adopted, likes, comments} = dog;
-    // const newDog = await dogData.create(name, sex, age, color, breeds, weight, description, traits, medicalInfo, vaccines, pictures, userId, interest, adopted, likes, comments);
-    // return res
-    //   .status(200)
-    //   .render('posts', {title: "New Post", dog: dog});
+    const newDog = await dogData.create(name, sex, age, color, breeds, weight, description, traits, medicalInfo, vaccines, pictures, userId, interest, adopted, likes, comments);
+    return res
+      .status(200)
+      .render('posts', {title: "New Post", dog: newDog});
 
   });
 
