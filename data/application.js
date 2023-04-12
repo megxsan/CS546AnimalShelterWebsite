@@ -52,14 +52,15 @@ const create = async (
     email = stringChecker(email);
     livingAccommodations = stringChecker(livingAccommodations);
     reasoningExperience = stringChecker(reasoningExperience);
-    // nameChecker(firstName);
-    // nameChecker(lastName);
+    nameChecker(firstName);
+    nameChecker(lastName);
 
-    // if(!email.includes("@")) throw `not a valid email`;
-    // if(!email.includes(".org") && !email.includes(".edu") && !email.includes(".com") && !email.includes(".gov") && !email.includes(".net")) throw `Not a valid email`;
-    // let at = email.indexOf("@");
-    // let end = email.indexOf(".");
-    // if(at < end) throw `not a valid email`;
+    if(!email.includes("@")) throw `not a valid email`;
+    if(!email.includes(".org") && !email.includes(".edu") && !email.includes(".com") && !email.includes(".gov") && !email.includes(".net")) throw `Not a valid email`;
+    let at = email.indexOf("@");
+    let end = email.indexOf(".");
+    if(!(at< end)) throw `not a valid email`;
+    if(at === -1 || end === -1) throw `not a valid email`;
 
     livingAccommodations = livingAccommodations.toLowerCase();
     if(livingAccommodations != "home" && livingAccommodations != "apartment" && livingAccommodations != "townhouse" && livingAccommodations != "other"){

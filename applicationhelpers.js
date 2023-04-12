@@ -20,7 +20,7 @@ export function stringChecker(input){
 export function nameChecker(input){
    //allowed ascii codes: 32, 45, 65-90, 97-122
    for(let i = 0; i < input.length; i++){
-       if(input.charCodeAt(input[i]) != 35 || input.charCodeAt(input[i]) != 45 || input.charCodeAt(input[i]) < 65 || (input.charCodeAt(input[i]) > 90 && input.charCodeAt(input[i]) < 97) || input.charCodeAt(input[i]) > 122){
+       if((input.charCodeAt(input[i]) != 32 || input.charCodeAt(input[i]) != 45) && !(input.charCodeAt(input[i]) >= 65 && (input.charCodeAt(input[i]) <= 90)) && !(input.charCodeAt(input[i]) >= 97 && (input.charCodeAt(input[i]) <= 122))){
            throw `Invalid character present in name`;
        }
    }
