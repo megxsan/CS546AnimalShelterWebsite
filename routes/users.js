@@ -67,12 +67,7 @@ router
       res
         .status(500);
     }
-  })
-  
-
-  .post(async (req, res) => {
-    //code here for POST
-
   });
+  
 
 export default router;
