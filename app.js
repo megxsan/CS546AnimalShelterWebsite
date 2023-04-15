@@ -4,7 +4,7 @@ import * as users from './data/users.js';
 import * as apps from './data/application.js';
 
 import {dbConnection, closeConnection} from './config/mongoConnection.js';
-import exportedMethods from './usersHelpers.js';
+import exportedMethods from './validation.js';
 
 const db = await dbConnection();
 // await db.dropDatabase();
