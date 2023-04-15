@@ -76,7 +76,7 @@ const update = async(id, firstName, lastName, age, email, password) => {
     return updatedInfo.value;
 };
 
-const getUserByEmail = async(email) => {
+const getEmail = async(email) => {
     email = validation.checkString(email, "Email");
     const userCollection = await users();
     const myUser = await userCollection.findOne({email: email});
@@ -85,4 +85,4 @@ const getUserByEmail = async(email) => {
     return myUser;
 };
 
-export {create, get, update, getUserByEmail};
+export {create, get, update, getEmail};
