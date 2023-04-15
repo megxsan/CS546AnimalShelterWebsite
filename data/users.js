@@ -1,6 +1,6 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
-import validation from "../usersHelpers.js";
+import validation from "../validation.js";
 
 
 const create = async(firstName, lastName, age, email, password) => {
