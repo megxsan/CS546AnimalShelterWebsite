@@ -76,4 +76,13 @@ const update = async(id, firstName, lastName, age, email, password) => {
     return updatedInfo.value;
 };
 
-export {create, get, update};
+const getUserByEmail = async(email) => {
+    email = validation.checkString(email, "Email");
+    const userCollection = await users();
+    const myUser = await userCollection.findOne({email: email});
+    if (myUser === null) throw 'No user with that email';
+    myUser._id = myUser._id.toString();
+    return myUser;
+};
+
+export {create, get, update, getUserByEmail};
