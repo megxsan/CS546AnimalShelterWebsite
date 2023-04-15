@@ -1,65 +1,174 @@
-//routes for app
-import { userData } from '../data/index.js';
-import { dogData } from '../data/index.js';
-import { appData } from '../data/index.js';
-import * as helper from '../applicationhelpers.js';
+import {users, dogs} from '../config/mongoCollections.js';
+import { ObjectId } from 'mongodb';
+import { inputChecker, boolChecker, numChecker, stringChecker, nameChecker, arrayChecker } from '../applicationhelpers.js'
+import * as user from './users.js';
+import * as dog from './dogs.js';
 
+const create = async (
+  userId,
+  firstName,
+  lastName,
+  age,
+  email,
+  phone,
+  livingAccommodations,
+  children,
+  childrenAges, 
+  timeAlone,
+  animals,
+  typeAnimals,
+  yard,
+  reasoningExperience
+) => {
+    inputChecker(userId);
+    inputChecker(firstName);
+    inputChecker(lastName);
+    inputChecker(age);
+    inputChecker(email);
+    inputChecker(phone);
+    inputChecker(livingAccommodations);
+    inputChecker(children);
+    inputChecker(childrenAges);
+    inputChecker(timeAlone);
+    inputChecker(animals);
+    inputChecker(typeAnimals);
+    inputChecker(yard);
+    inputChecker(reasoningExperience);
+    //checking booleans
+    boolChecker(children);
+    boolChecker(animals);
 
-import {Router} from 'express';
-const router = Router();
-//add imports
+    //checking numbers
+    numChecker(age);
+    numChecker(phone);
+    numChecker(timeAlone);
+    if(age < 18 || age > 120) throw `Age is invalid`;
+    if(phone.toString().length != 10) throw `Invalid phone number`;
+    if(timeAlone < 0 || timeAlone > 24) throw `Time alone must be between 0 and 24 hours`;
 
-router
-  .route('/:account/app')
-  .get(async (req, res) => {
-    //code here for GET
-    if(!ObjectId.isValid(req.params.account)){
-      return res.render('error',{title:"Invalid ID"})
+    //checking strings
+    firstName = stringChecker(firstName);
+    lastName = stringChecker(lastName);
+    email = stringChecker(email);
+    livingAccommodations = stringChecker(livingAccommodations);
+    reasoningExperience = stringChecker(reasoningExperience);
+    nameChecker(firstName);
+    nameChecker(lastName);
+
+    if(!email.includes("@")) throw `not a valid email`;
+    if(!email.includes(".org") && !email.includes(".edu") && !email.includes(".com") && !email.includes(".gov") && !email.includes(".net")) throw `Not a valid email`;
+    let at = email.indexOf("@");
+    let end = email.indexOf(".");
+    if(!(at< end)) throw `not a valid email`;
+    if(at === -1 || end === -1) throw `not a valid email`;
+
+    livingAccommodations = livingAccommodations.toLowerCase();
+    if(livingAccommodations != "home" && livingAccommodations != "apartment" && livingAccommodations != "townhouse" && livingAccommodations != "other"){
+        throw `Living accommodation isn't valid`;
     }
-    res.render('application', {title: "Application", id: req.params.account});
-  })
-  .post(async (req, res) => {
-    //code here for POST
-    let application = req.body;
-    if(!application || Object.keys(application).length != 14){
-      res.render('error', {title: "missing application input"});
+
+    //checking arrays
+    arrayChecker(childrenAges);
+    arrayChecker(typeAnimals);
+    arrayChecker(yard);
+    for(let i = 0; i < childrenAges.length; i++){
+        numChecker(childrenAges[i]);
+        if(childrenAges[i] < 0 || childrenAges[i] > 18) throw `Children age isn't valid`;
+    }
+    for(let i = 0; i < typeAnimals.length; i++){
+        stringChecker(typeAnimals[i]);
+        typeAnimals[i] = typeAnimals[i].toLowerCase();
+        if(typeAnimals[i] != 'dog' && typeAnimals[i] != 'cat' && typeAnimals[i] != 'other'){
+            throw `Animal types not valid`;
+        }
+    }
+    for(let i = 0; i < yard.length; i++){
+        stringChecker(yard[i]);
+        yard[i] = yard[i].toLowerCase();
+        if(yard[i] != 'enclosed front yard' && yard[i] != 'enclosed back yard' && yard[i] != 'garage' && yard[i] != 'dog house' && yard[i] != 'other'){
+            throw `yard types not valid`;
+        }
+    }
+    //userId = stringChecker(userId);
+    if(!ObjectId.isValid(userId)) throw `not a valid user id`;
+
+    let newApp = {
+        firstName,
+        lastName,
+        age,
+        email,
+        phone,
+        livingAccommodations,
+        children,
+        childrenAges, 
+        timeAlone,
+        animals,
+        typeAnimals,
+        yard,
+        reasoningExperience
+    }
+    newApp._id = new ObjectId();
+    
+    let userCollection = await users();
+    let result = await user.get(userId);
+    const userWithApp = {
+        firstName: result.firstName,
+        lastName: result.lastName,
+        age: result.age,
+        email: result.email,
+        password: result.password,
+        dogs: result.dogs,
+        quizResult: result.quizResult,
+        application: newApp, 
+        accepted: result.accepted,
+        pending: result.pending,
+        rejected: result.rejected,
+        liked: result.liked,
+        disliked: result.disliked
     }
 
-    //now error check for the application
-    try{
-      helper.boolChecker(application.children);
-      helper.boolChecker(application.aniamls);
-      helper.numChecker(application.age);
-      helper.numChecker(application.phone);
-      helper.numChecker(application.timeAlone);
+    const updated = await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(userId)}, 
+        {$set: userWithApp}, 
+        {returnDocument: "after"});
+    if(updated.lastErrorObject.n === 0) throw `Application could not be updated`;
+    return newApp;
+}
 
-      //insert checking age/time/phone ranges
-      application.firstName = helper.stringChecker(application.firstName);
-      application.lastName = helper.stringChecker(application.lastName);
-      application.email = helper.stringChecker(application.email);
-      application.livingAccomodations = helper.stringChecker(application.livingAccomodations);
-      application.reasoning = helper.stringChecker(application.reasoning);
-      helper.nameChecker(firstName);
-      helper.nameChecker(lastName);
+const get = async (id) => 
+{
+  //id = validation.checkId(id, "Dog ID");
+  if(!ObjectId.isValid(id)) throw `User ID isn't valid`;
+  const userCollection = await user();
+  const userObj = await userCollection.findOne({_id: new ObjectId(id)});
+  if(userObj === null) 
+  {
+    throw "There is no application with this id";
+  };
 
-      //include checking email and living accom
-      helper.arrayChecker(application.childrenAges);
-      helper.arrayChecker(application.typeAnimals);
-      helper.arrayChecker(application.yard);
-      //go back and check these values
+  let app = userObj.application;
+  return app;
+};
 
-    }catch(e){
-      res.render('error', {title: "incorrect application input", error:e});
-    }
-    if(!ObjectId.isValid(application.userId)){
-      res.render('error', {title: "invalid userID", error:e});
-    }
+const sending = async(appID, dogID) => {
+    //this will send the application to the user
+    stringChecker(appID);
+    stringChecker(dogID);
+    if(!Object.isValid(appID)) throw `Application ID isn't valid`;
+    if(!Object.isValid(dogID)) throw `Dog ID isn't valid`;
+    
+    const dogCollection = await dogs();
+    const currInterest = await dog.get(dogID);
+    const app = await get(dogID);
 
-    const {userId,firstName,lastName,age,email,phone,livingAccommodations,children,childrenAges, timeAlone,animals,typeAnimals,yard,reasoningExperience}= application;
-    const newApp = await appData.create(userId,firstName,lastName,age,email,phone,livingAccommodations,children,childrenAges, timeAlone,animals,typeAnimals,yard,reasoningExperience);
-    return res
-      .status(200)
-      .render('posts', {title: "New Post", app: newApp});
-  });
+    if(currInterest.interest.contains(appID)) throw `You already applied for this dog`;
 
-export default router;
+    const updated = await dogCollection.findOneAndUpdate(
+        {_id: new ObjectId(dogID)}, 
+        {$push: {interest: app}}, 
+        {returnDocument: "after"});
+    if(updated.lastErrorObject.n === 0) throw `Application could not be updated`;
+    return `${appID} is now interested`;
+}
+
+export {create, get, sending};
