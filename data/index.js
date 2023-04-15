@@ -1,7 +1,17 @@
-import * as userFunctions from './users.js';
-import * as dogFunctions from './dogs.js';
-import * as appFunctions from './application.js';
+import dogRoutes from './dogs.js';
+import userRoutes from './user.js';
+import appRoutes from './application.js';
 
-export const userData = userFunctions;
-export const dogData = dogFunctions;
-export const appData = appFunctions;
+const constructorMethod = (app) => {
+    //I'm not sure if this is what we want or not  
+    app.use('/', userRoutes);
+    app.use('/dog', dogRoutes)
+    app.use('/app', appRoutes)
+
+
+    app.use('*', (req, res) => {
+        res.status(404).json({error: 'Route Not Found'});
+    });
+};
+
+export default constructorMethod;

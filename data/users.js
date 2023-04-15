@@ -1,79 +1,73 @@
-import { users } from "../config/mongoCollections.js";
-import { ObjectId } from "mongodb";
-import validation from "../usersHelpers.js";
+//routes for user
+import {Router} from 'express';
+const router = Router();
+import validation from "../validation.js";
+import { userData } from '../data/index.js';
+import { dogData } from '../data/index.js';
 
-
-const create = async(firstName, lastName, age, email, password) => {
-    firstName = validation.checkString(firstName, "First Name");
-    lastName = validation.checkString(lastName, "Last Name");
-    age = validation.checkAge(age);
-    email = validation.checkEmail(email);
-    password = validation.checkString(password, "Password");
-    let newUser = {
-        firstName: firstName,
-        lastName: lastName,
-        age: age,
-        email: email,
-        password: password,
-        dogs: [],
-        quizResult: [],
-        application: {},
-        accepted: [],
-        pending: [],
-        rejected: [],
-        liked: [],
-        disliked: []
-    };
-    const userCollection = await users();
-    const insertInfo = await userCollection.insertOne(newUser);
-    if (!insertInfo.acknowledged || !insertInfo.insertedId){
-        throw 'Could not add user';
+router
+//this is like our homepage
+  .route('/')
+  .get(async (req, res) => {
+    //code here for GET
+    try{
+      res.render('homepage', {title: "User Homepage"});
+    }catch(e){
+      res
+        .status(500);
     }
-    return newUser;
-};
+  })
+  .post(async (req, res) => {
+    //code here for POST
+    let dog = req.body;
+    if(!dog || Object.keys(dog).length != 12){
+      return res
+        .status(400)
+        .render('error', {title: "Error Page", error: 'There are fields missing in the request body'});
+    }
+    try{
+      //error check for posts
+      band.name = validation.checkString(band.name, "Name");
+      band.sex = validation.checkSex(band.sex, "Sex");
+      band.age = validation.checkDogAge(band.age, "Age");
+      band.color = validation.checkStringArray(band.color, "Color", 1);
+      band.breeds = validation.checkStringArray(band.breeds, "Breeds", 1);
+      band.weight = validation.checkWeight(band.weight, "Weight");
+      band.description = validation.checkString(band.description, "Description");
+      band.traits = validation.checkStringArray(band.traits, "Traits", 0);
+      band.medicalInfo = validation.checkStringArray(band.medicalInfo, "Medical Info", 0);
+      band.vaccines = validation.checkStringArray(band.vaccines, "Vaccines", 0);
+      band.pictures = validation.checkStringArray(band.pictures, "Pictures", 0); //NEEDS TO BE PROPERLY VALIDATED
+      band.userId = validation.checkId(band.userId, "User ID");
+    }catch(e){
+      return res
+        .status(400)
+        .render('error', {title: "Invalid Input"});
+    }
+    const {name, sex, age, color, breeds, weight, description, traits, medicalInfo, vaccines, pictures, userId, interest, adopted, likes, comments} = dog;
+    const newDog = await dogData.create(name, sex, age, color, breeds, weight, description, traits, medicalInfo, vaccines, pictures, userId, interest, adopted, likes, comments);
+    return res
+      .status(200)
+      .render('posts', {title: "New Post", dog: newDog});
 
-const get = async(id) => {
-    id = validation.checkId(id, "User ID");
-    const userCollection = await users();
-    const myUser = await userCollection.findOne({_id: new ObjectId(id)});
-    if (myUser === null) throw 'No user with that ID';
-    myUser._id = myUser._id.toString();
-    return myUser;
-};
+  });
 
-const update = async(id, firstName, lastName, age, email, password) => {
-    id = validation.checkId(id, "User ID");
-    firstName = validation.checkString(firstName, "First Name");
-    lastName = validation.checkString(lastName, "Last Name");
-    age = validation.checkAge(age);
-    email = validation.checkEmail(email);
-    password = validation.checkString(password, "Password");
-    const userCollection = await users();
-    const myUser = await userCollection.findOne({_id: new ObjectId(id)});
-    if (myUser === null) throw 'No user with that ID';
-    const updatedUser = {
-        firstName: firstName,
-        lastName: lastName,
-        age: age,
-        email: email,
-        password: password,
-        dogs: myUser.dogs,
-        quizResult: myUser.quizResult,
-        application: myUser.application,
-        accepted: myUser.accepted,
-        pending: myUser.pending,
-        rejected: myUser.rejected,
-        liked: myUser.liked,
-        disliked: myUser.disliked
-    };
-    const updatedInfo = await userCollection.findOneAndReplace(
-        {_id: new ObjectId(id)},
-        updatedUser,
-        {returnDocument: 'after'}
-    );
-    if (updatedInfo.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update post with id ${id}`];
-    updatedInfo.value._id = updatedInfo.value._id.toString();
-    return updatedInfo.value;
-};
+router
+  .route('/logout/:id')
+  .get(async (req, res) => {
+    //code here for GET
+    if(!ObjectId.isValid(req.params.id)){
+      return res
+        .status(500)
+        .render('error', {title: "Error Page", error: "Id is not found"});
+    }
+    try{
+      res.render('logout', {title:"Logout Page"});
+    }catch(e){
+      res
+        .status(500);
+    }
+  });
+  
 
-export {create, get, update};
+export default router;
