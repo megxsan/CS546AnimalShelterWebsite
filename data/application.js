@@ -135,6 +135,21 @@ const create = async (
     return newApp;
 }
 
+const get = async (id) => 
+{
+  //id = validation.checkId(id, "Dog ID");
+  if(!ObjectId.isValid(id)) throw `User ID isn't valid`;
+  const userCollection = await user();
+  const userObj = await userCollection.findOne({_id: new ObjectId(id)});
+  if(userObj === null) 
+  {
+    throw "There is no application with this id";
+  };
+
+  let app = userObj.application;
+  return app;
+};
+
 const sending = async(appID, dogID) => {
     //this will send the application to the user
     stringChecker(appID);
@@ -143,16 +158,17 @@ const sending = async(appID, dogID) => {
     if(!Object.isValid(dogID)) throw `Dog ID isn't valid`;
     
     const dogCollection = await dogs();
-
     const currInterest = await dog.get(dogID);
+    const app = await get(dogID);
+
     if(currInterest.interest.contains(appID)) throw `You already applied for this dog`;
 
     const updated = await dogCollection.findOneAndUpdate(
         {_id: new ObjectId(dogID)}, 
-        {$push: {interest: appID}}, 
+        {$push: {interest: app}}, 
         {returnDocument: "after"});
     if(updated.lastErrorObject.n === 0) throw `Application could not be updated`;
     return `${appID} is now interested`;
 }
 
-export {create, sending};
+export {create, get, sending};
