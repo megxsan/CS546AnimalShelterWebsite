@@ -147,6 +147,111 @@ const exportedMethods = {
 		return app;
 	},
 
+	async updateApp(userId,firstName,lastName,age,email,phone, livingAccommodations,
+		children,childrenAges,timeAlone,animals,typeAnimals,yard,reasoningExperience){
+
+		//error checking goes here
+		userId = validation.checkId(userId, "User ID");
+		// Checking booleans
+		children = validation.checkBool(children, "Children Boolean");
+		animals = validation.checkBool(animals, "Animals Boolean");
+	
+		// Checking numbers
+		age = validation.checkAge(age);
+		phone = validation.checkNum(phone, "Phone Number");
+		timeAlone = validation.checkNum(timeAlone, "Time Alone");
+		if (phone.toString().length != 10) throw `Error: Invalid phone number`;
+		if (timeAlone < 0 || timeAlone > 24)
+			throw `Error: Time alone must be between 0 and 24 hours`;
+	
+		// Checking strings
+		firstName = validation.checkString(firstName, "First Name");
+		lastName = validation.checkString(lastName, "Last Name");
+		firstName = validation.checkName(firstName, "First Name");
+		lastName = validation.checkName(lastName, "Last Name");
+		email = validation.checkEmail(email);
+		livingAccommodations = validation.checkString(
+			livingAccommodations,
+			"Living Accommodations"
+		);
+		reasoningExperience = validation.checkString(
+			reasoningExperience,
+			"Reasoning and Experience"
+		);
+		livingAccommodations = livingAccommodations.toLowerCase();
+		if (
+			livingAccommodations != "home" &&
+			livingAccommodations != "apartment" &&
+			livingAccommodations != "townhouse" &&
+			livingAccommodations != "other"
+		) {
+			throw `Error: Living accommodation isn't valid`;
+		}
+	
+		// Checking arrays
+		childrenAges = validation.checkNumArray(childrenAges, "Children Ages");
+		typeAnimals = validation.checkStringArray(typeAnimals, "Types of Animals", 0);
+		yard = validation.checkStringArray(yard, "Yard", 0);
+		for (let i = 0; i < childrenAges.length; i++) {
+			if (childrenAges[i] < 0 || childrenAges[i] > 18)
+				throw `Children age isn't valid`;
+		}
+		for (let i = 0; i < typeAnimals.length; i++) {
+			typeAnimals[i] = typeAnimals[i].toLowerCase();
+			if (
+				typeAnimals[i] != "dog" &&
+				typeAnimals[i] != "cat" &&
+				typeAnimals[i] != "other"
+			) {
+				throw `Animal types not valid`;
+			}
+		}
+		for (let i = 0; i < yard.length; i++) {
+			yard[i] = yard[i].toLowerCase();
+			if (
+				yard[i] != "enclosed front yard" &&
+				yard[i] != "enclosed back yard" &&
+				yard[i] != "garage" &&
+				yard[i] != "dog house" &&
+				yard[i] != "other"
+			) {
+				throw `yard types not valid`;
+			}
+		}
+		let result = await get(userId);
+		//at least 1 thing needs to be updated, else throw an error
+		if(result.userId === userId && result.firstName === firstName && result.lastName === lastName
+			&& result.age === age && result.email === email && result.phone === phone && result.livingAccommodations === livingAccommodations
+			&& result.children === children && result.childrenAges === childrenAges && result.timeAlone === timeAlone &&
+			result.animals === animals && result.typeAnimals === typeAnimals && result.yard === yard && result.reasoningExperience === reasoningExperience){
+		  throw `At least 1 input needs to be different than the original band when you update`;
+		}
+		const update = {
+			userId,
+			firstName,
+			lastName,
+			age,
+			email,
+			phone,
+			livingAccommodations,
+			children,
+			childrenAges,
+			timeAlone,
+			animals,
+			typeAnimals,
+			yard,
+			reasoningExperience
+		}
+		//find the user and update it; throw error if this doesn't happen
+		const userCollection = await users();
+		const updatedUser = await userCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: update}, {returnDocument: "after"});
+		if(updatedUser.lastErrorObject.n === 0) throw `Application could not be updated`;
+		updatedUser.value._id = updatedUser.value._id.toString();
+	  
+		//returns the updated user
+		return updatedUser.value;
+	},
+
 	async sendApp(appID, dogID) {
 		// This will send the application to the user
 		appID = validation.checkId(appID, "Application ID");
