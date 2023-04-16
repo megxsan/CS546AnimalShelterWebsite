@@ -12,12 +12,21 @@ router
         /*  Get 
                 -Seeing quiz form
         */
+        if(!req.sessions.user._id){
+                res.render('error', {title: "Quiz Error", error: "Must be signed in to access the quiz"});
+        }
+        res.render('quiz', {title: 'Quiz'});
 
     })
     .post(async (req, res) => {
         /*  Post
                 -Recieving quiz form
         */
+        if(!req.sessions.user._id){
+                res.render('error', {title: "Quiz Error", error: "Must be signed in to access the quiz"});
+        }
+
+        //insert stuff relating to quiz result input
     });
 
  export default router;
