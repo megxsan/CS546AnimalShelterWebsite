@@ -1,119 +1,38 @@
-import * as dogs from "./data/dogs.js";
-import * as users from "./data/users.js";
-// import exportedMethods from './data/users.js';
-import * as apps from "./data/application.js";
+import express from 'express';
+const app = express();
+import configRoutes from './routes/index.js';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
+import exphbs from 'express-handlebars';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-import { dbConnection, closeConnection } from "./config/mongoConnection.js";
-import exportedMethods from "./validation.js";
+const staticDir = express.static(__dirname + '/public');
 
-const db = await dbConnection();
-// await db.dropDatabase();
+const rewriteUnsupportedBrowserMethods = (req, res, next) => {
+  // If the user posts to the server with a property called _method, rewrite the request's method
+  // To be that method; so if they post _method=PUT you can now allow browsers to POST to a route that gets
+  // rewritten in this middleware to a PUT route
+  if (req.body && req.body._method) {
+    req.method = req.body._method;
+    delete req.body._method;
+  }
 
-let tobi = undefined;
-let buddy = undefined;
-let kika = undefined;
+  // let the next middleware run:
+  next();
+};
 
-let person = undefined;
-let personID = undefined;
-try {
-	person = await users.create(
-		"Patrick",
-		"Hill",
-		80,
-		"phill@stevens.edu",
-		"patty"
-	);
-	personID = person._id.toString();
-} catch (e) {
-	console.log(e);
-}
-try {
-	await apps.create(
-		personID,
-		"Patrick",
-		"Hill",
-		80,
-		"phill@stevens.edu",
-		1234567890,
-		"home",
-		true,
-		[15],
-		15,
-		true,
-		["Cat"],
-		["enclosed back yard"],
-		"I really want one"
-	);
-} catch (e) {
-	console.log(e);
-}
+app.use('/public', staticDir);
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(rewriteUnsupportedBrowserMethods);
 
-try {
-	//Test 1
-	tobi = await dogs.create(
-		"Tobias",
-		"male",
-		8,
-		["Light Brown", "Grey", "Black"],
-		["Yorkshire Terrier"],
-		13.5,
-		"The cutest little doggy you will ever meet.  He is super friendly and loves people, even babies!  He is a bit territorial when it comes to letting other animals in his house, but is otherwise friendly to other animals outside of the house",
-		["Playful", "Adorable", "Small", "Friendly"],
-		[],
-		["Rabies"],
-		[],
-		"641fc2896a56dea7f4f2d780"
-	);
-} catch (e) {
-	console.log(e);
-}
+app.engine('handlebars', exphbs.engine({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
-try {
-	//Test 2
-	kika = await dogs.create(
-		"Kika",
-		"female",
-		16,
-		["Gold"],
-		["Pomeranian"],
-		12,
-		"Cute and angry",
-		["Lazy", "Adorable", "Small", "Chonky"],
-		["Diabetes"],
-		["Rabies"],
-		[],
-		"641fc2896a56dea7f4f2d780"
-	);
-} catch (e) {
-	console.log(e);
-}
+configRoutes(app);
 
-try {
-	//Test 3
-	console.log(await dogs.get(tobi._id));
-} catch (e) {
-	console.log(e);
-}
-
-try {
-	//Test 3
-	//console.log(await dogs.getAll());
-} catch (e) {
-	console.log(e);
-}
-
-try {
-	//Test 4
-	console.log(await dogs.remove(kika._id));
-} catch (e) {
-	console.log(e);
-}
-
-try {
-	//Test 5
-	//console.log(await dogs.getAll());
-} catch (e) {
-	console.log(e);
-}
-
-await closeConnection();
+app.listen(3000, () => {
+  console.log("We've now got a server!");
+  console.log('Your routes will be running on http://localhost:3000');
+});

@@ -7,20 +7,25 @@ import { Router } from "express";
 const router = Router();
 
 router
-	.route("/:dogId")
+	.route("/")
 	.get(async (req, res) => {
         /*  Get 
-                -Displaying all the data on the dog
-                -Seeing likes & comments
+                -Seeing status (accepted, rejected, pending) of all applications sent out
         */
 
+    });
+
+router
+	.route("/settings")
+	.get(async (req, res) => {
+	/*  Get 
+			-Seeing edit settings form
+	*/
 
     })
     .patch(async (req, res) => {
         /*  Patch 
-                -Sending an application
-                -Clicking a like
-                -Adding a comment
+                -Recieving edit settings form
         */
 
     });

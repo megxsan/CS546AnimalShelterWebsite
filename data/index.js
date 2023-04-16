@@ -1,6 +1,6 @@
-import * as userFunctions from './users.js';
-import * as dogFunctions from './dogs.js';
-import * as appFunctions from './application.js';
+import userFunctions from './users.js';
+import dogFunctions from './dogs.js';
+import appFunctions from './application.js';
 
 export const userData = userFunctions;
 export const dogData = dogFunctions;

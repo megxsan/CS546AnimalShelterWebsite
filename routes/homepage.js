@@ -7,43 +7,42 @@ import { Router } from "express";
 const router = Router();
 
 router
-	.route("/application")
+	.route("/")
 	.get(async (req, res) => {
         /*  Get 
-                -Seeing application form
+                -Seeing all the dogs
+                -Signing in button
+                -Signing up button 
         */
 
     });
 
 router
-	.route("/application/edit")
+	.route("/login")
 	.get(async (req, res) => {
         /*  Get 
-                -Seeing edit application form
+                -Seeing login form
         */
 
     })
-    .patch(async (req, res) => {
-        /*  Patch 
-                -Recieving edit application form
-        */
-
-    });
-
-router
-	.route("/application/add")
-	.get(async (req, res) => {
-        /*  Get 
-                -Seeing application form
-        */
-
-    })
-    .patch(async (req, res) => {
+    .post(async (req, res) => {
         /*  Post 
-                -Recieving application form
+                -Recieving login form
         */
-
     });
 
- export default router;
- 
+router
+	.route("/signup")
+	.get(async (req, res) => {
+        /*  Get 
+                -Seeing signup form
+        */
+
+    })
+    .post(async (req, res) => {
+        /*  Post 
+                -Recieving signup form
+        */
+    });
+
+export default router;

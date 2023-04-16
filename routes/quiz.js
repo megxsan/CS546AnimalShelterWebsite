@@ -7,22 +7,17 @@ import { Router } from "express";
 const router = Router();
 
 router
-	.route("/:dogId")
+	.route("/quiz")
 	.get(async (req, res) => {
         /*  Get 
-                -Displaying all the data on the dog
-                -Seeing likes & comments
+                -Seeing quiz form
         */
-
 
     })
-    .patch(async (req, res) => {
-        /*  Patch 
-                -Sending an application
-                -Clicking a like
-                -Adding a comment
+    .post(async (req, res) => {
+        /*  Post
+                -Recieving quiz form
         */
-
     });
 
  export default router;

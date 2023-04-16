@@ -1,34 +1,24 @@
 import { ObjectId } from "mongodb";
 
 const exportedMethods = {
-	nameChecker(input) {
-		//allowed ascii codes: 32, 45, 65-90, 97-122
-		for (let i = 0; i < input.length; i++) {
-			if (
-				(input.charCodeAt(input[i]) != 32 ||
-					input.charCodeAt(input[i]) != 45) &&
-				!(
-					input.charCodeAt(input[i]) >= 65 && input.charCodeAt(input[i]) <= 90
-				) &&
-				!(input.charCodeAt(input[i]) >= 97 && input.charCodeAt(input[i]) <= 122)
-			) {
-				throw `Invalid character present in name`;
-			}
-		}
-		return input;
+	checkName(name, varNam) {
+		var regName = /^[a-z ,.'-]+$/i;
+		name = name.trim();
+		if(!regName.test(name)) throw `Error: Invalid ${varName} given`;		
+		return name;
 	},
 
 	checkNum(num, varName) {
-		if (!num) throw `You must provide a ${varName}`;
-		if (typeof num != "number") throw `${varName} must be a number`;
-		if (isNaN(num) === true) throw `${varName} must be a number`;
-		if (num != Math.floor(num)) throw `${varName} cannot be a decimal`;
+		if (!num) throw `Error: You must provide a ${varName}`;
+		if (typeof num != "number") throw `Error: ${varName} must be a number`;
+		if (isNaN(num) === true) throw `Error: ${varName} must be a number`;
+		if (num != Math.floor(num)) throw `Error ${varName} cannot be a decimal`;
 		return num;
 	},
 
 	checkBool(bool, varName) {
-		if (!bool) throw `You must provide a ${varName}`;
-		if (typeof bool != "boolean") throw `A boolean is required`;
+		if (!bool) throw `Error: You must provide a ${varName}`;
+		if (typeof bool != "boolean") throw `Error: A boolean is required`;
 		return bool;
 	},
 
@@ -55,12 +45,12 @@ const exportedMethods = {
 
 	checkStringArray(arr, varName, minLength) {
 		if (!arr || !Array.isArray(arr))
-			throw `You must provide an array of ${varName}`;
+			throw `Error: You must provide an array of ${varName}`;
 		if (arr.length < minLength)
-			throw `${varName} must have at least ${minLength} element(s)`;
+			throw `Error: ${varName} must have at least ${minLength} element(s)`;
 		for (let i in arr) {
 			if (typeof arr[i] !== "string" || arr[i].trim().length === 0) {
-				throw `One or more elements in ${varName} array is not a string or is an empty string`;
+				throw `Error: One or more elements in ${varName} array is not a string or is an empty string`;
 			}
 			arr[i] = arr[i].trim();
 		}
@@ -69,9 +59,9 @@ const exportedMethods = {
 
 	checkNumArray(arr, varName, minLength) {
 		if (!arr || !Array.isArray(arr))
-			throw `You must provide an array of ${varName}`;
+			throw `Error: You must provide an array of ${varName}`;
 		if (arr.length < minLength)
-			throw `${varName} must have at least ${minLength} element(s)`;
+			throw `Error: ${varName} must have at least ${minLength} element(s)`;
 		for (let i in arr) {
 			this.checkNum(arr[i], varName);
 		}
@@ -120,22 +110,22 @@ const exportedMethods = {
 
 	checkAge(num) {
 		if (!num) throw "Error: You must supply an age";
-		if (typeof num !== "number") throw "Age must be a number";
-		if (!Number.isInteger(num)) throw "Age must be an integer";
+		if (typeof num !== "number") throw "Error: Age must be a number";
+		if (!Number.isInteger(num)) throw "Error: Age must be an integer";
 		if (num < 18 || num > 120)
-			throw "You are too young or have provided a fake age";
+			throw "Error: You are too young or have provided a fake age";
 		return num;
 	},
 
 	checkEmail(email) {
-		if (!email) throw "You must provide an email";
-		if (typeof email !== "string") throw "Email must be a string";
+		if (!email) throw "Error: You must provide an email";
+		if (typeof email !== "string") throw "Error: Email must be a string";
 		email = email.trim();
-		if (email.length === 0) throw "Email must be more than an empty string";
+		if (email.length === 0) throw "Error: Email must be more than an empty string";
 		let at = email.indexOf("@");
 		let end = email.indexOf(".");
-		if (!(at < end)) throw `not a valid email`;
-		if (at === -1 || end === -1) throw `not a valid email`;
+		if (!(at < end)) throw `Error: not a valid email`;
+		if (at === -1 || end === -1) throw `Error: not a valid email`;
 		let emailEnd = email.slice(-4);
 		if (
 			emailEnd !== ".com" &&
@@ -144,9 +134,9 @@ const exportedMethods = {
 			emailEnd !== ".gov" &&
 			emailEnd !== ".org"
 		)
-			throw "You must provide a valid email";
+			throw "Error: You must provide a valid email";
 		return email;
-	},
+	}
 };
 
 export default exportedMethods;

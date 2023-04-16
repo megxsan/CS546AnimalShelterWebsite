@@ -7,40 +7,46 @@ import { Router } from "express";
 const router = Router();
 
 router
-	.route("/application")
+	.route("/dogs")
 	.get(async (req, res) => {
         /*  Get 
-                -Seeing application form
+                -Seeing all your dogs
         */
 
     });
 
 router
-	.route("/application/edit")
+	.route("/dogs/:dogID/add")
 	.get(async (req, res) => {
         /*  Get 
-                -Seeing edit application form
+                -Seeing add dog form
         */
 
     })
-    .patch(async (req, res) => {
-        /*  Patch 
-                -Recieving edit application form
-        */
-
-    });
-
-router
-	.route("/application/add")
-	.get(async (req, res) => {
-        /*  Get 
-                -Seeing application form
-        */
-
-    })
-    .patch(async (req, res) => {
+    .post(async (req, res) => {
         /*  Post 
-                -Recieving application form
+                -Recieving add dog form form
+        */
+
+    });
+
+router
+	.route("/dogs/:dogID/edit")
+	.get(async (req, res) => {
+	/*  Get 
+			-Seeing edit dog form
+	*/
+
+    })
+    .patch(async (req, res) => {
+        /*  Patch
+                -Recieving edit dog form form
+        */
+
+    })
+    .delete(async (req, res) => {
+        /*  Delete
+                -Delete dog
         */
 
     });
