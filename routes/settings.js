@@ -16,7 +16,7 @@ router
     });
 
 router
-	.route("/settings")
+	.route("/")
 	.get(async (req, res) => {
 	/*  Get 
 			-Seeing edit settings form

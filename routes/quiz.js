@@ -7,7 +7,7 @@ import { Router } from "express";
 const router = Router();
 
 router
-	.route("/quiz")
+	.route("/")
 	.get(async (req, res) => {
         /*  Get 
                 -Seeing quiz form

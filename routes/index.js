@@ -8,9 +8,9 @@ import settingsRoutes from './settings.js';
 const constructorMethod = (app) => { 
     app.use('/', homepageRoutes);
     app.use('/dogs', dogsRoutes);
-    app.use('/account', settingsRoutes);
-    app.use('/account', quizRoutes);
-    app.use('/account', myDogsRoutes);
+    app.use('/account/settings', settingsRoutes);
+    app.use('/account/quiz', quizRoutes);
+    app.use('/account/dogs', myDogsRoutes);
     app.use('/account/application', appRoutes);
 
     app.use('*', (req, res) => {

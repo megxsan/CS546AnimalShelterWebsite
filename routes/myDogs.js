@@ -7,7 +7,7 @@ import { Router } from "express";
 const router = Router();
 
 router
-	.route("/dogs")
+	.route("/")
 	.get(async (req, res) => {
         /*  Get 
                 -Seeing all your dogs
@@ -16,7 +16,7 @@ router
     });
 
 router
-	.route("/dogs/:dogID/add")
+	.route("/:dogID/add")
 	.get(async (req, res) => {
         /*  Get 
                 -Seeing add dog form
@@ -31,7 +31,7 @@ router
     });
 
 router
-	.route("/dogs/:dogID/edit")
+	.route("/:dogID/edit")
 	.get(async (req, res) => {
 	/*  Get 
 			-Seeing edit dog form
