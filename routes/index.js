@@ -11,7 +11,7 @@ const constructorMethod = (app) => {
     app.use('/account', settingsRoutes);
     app.use('/account', quizRoutes);
     app.use('/account', myDogsRoutes);
-    app.use('/account', appRoutes);
+    app.use('/account/application', appRoutes);
 
     app.use('*', (req, res) => {
         res.redirect('/');

@@ -7,7 +7,7 @@ import { Router } from "express";
 const router = Router();
 
 router
-        .route("/application")
+        .route("/")
 	.get(async (req, res) => {
         //  Get - Seeing application form
                 if(!req.sessions.user._id){
@@ -23,7 +23,7 @@ router
     });
 
 router
-	.route("/application/edit")
+	.route("/edit")
 	.get(async (req, res) => {
         //  Get -Seeing edit application form
         if(!req.sessions.user._id){
@@ -60,7 +60,7 @@ router
     });
 
 router
-	.route("/application/add")
+	.route("/add")
 	.get(async (req, res) => {
         /*  Get 
                 -Seeing application form
