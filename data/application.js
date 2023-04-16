@@ -140,6 +140,64 @@ const exportedMethods = {
 		);
 		if (updated.lastErrorObject.n === 0) throw `Error: Application could not be updated`;
 		return `${appID} is now interested`;
+	},
+	async appStatus(appID, dogID, status){
+		//error checking
+		appID = validation.checkId(appID, "Application ID");
+		dogID = validation.checkId(dogID, "Dog ID");
+		status = validation.checkString(status, "Application Status");
+		status = status.toLowerCase();
+		if(status != "rejected" && status != "pending" && status != "accepted") throw `Status can only be rejected, pending, or accepted.`;
+
+		let application = await getApp(ID);
+		let user = application.userId;
+		let userInfo = await userData.getUserById(user);
+
+		const userCollection = await users();
+		let updated = {};
+
+		if(status === userInfo.pending){
+			// await userData.updatedUser(userInfo.id, userInfo.firstName, userInfo.lastName, userInfo.age, userInfo.email, userInfo.password);
+			updated = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(user) },
+				{ $push: { pending: dogID } },
+				{ returnDocument: "after" }
+			);
+			if (updated.lastErrorObject.n === 0) throw `Error: Pending could not be updated`;
+		}else if(status === userInfo.accepted){
+			let index = 0;
+			for(let i = 0; i < userInfo.pending.length; i++){
+				if(userInfo.pending[i] === dogID){
+					index = i;
+					break;
+				}
+			}
+			let updatedPending = userInfo.pending.splice(index,1);
+			updated = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(user) },
+				{ $push: { accepted: dogID } },
+				{ $set: {pending: updatedPending}},
+				{ returnDocument: "after" }
+			);
+			if (updated.lastErrorObject.n === 0) throw `Error: Pending could not be updated`;
+		}else{
+			let index = 0;
+			for(let i = 0; i < userInfo.pending.length; i++){
+				if(userInfo.pending[i] === dogID){
+					index = i;
+					break;
+				}
+			}
+			let updatedPending = userInfo.pending.splice(index,1);
+			updated = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(user) },
+				{ $push: { rejected: dogID } },
+				{ $set: {pending: updatedPending}},
+				{ returnDocument: "after" }
+			);
+			if (updated.lastErrorObject.n === 0) throw `Error: Pending could not be updated`;
+		}
+		return updated;
 	}
 }
 
