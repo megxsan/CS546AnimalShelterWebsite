@@ -136,7 +136,106 @@ const exportedMethods = {
 		)
 			throw "Error: You must provide a valid email";
 		return email;
-	}
+	},
+
+	checkAppInputs(userId,
+		firstName,
+		lastName,
+		age,
+		email,
+		phone,
+		livingAccommodations,
+		children,
+		childrenAges,
+		timeAlone,
+		animals,
+		typeAnimals,
+		yard,
+		reasoningExperience){
+			userId = checkId(userId, "User ID");
+			// Checking booleans
+			children = checkBool(children, "Children Boolean");
+			animals = checkBool(animals, "Animals Boolean");
+		
+			// Checking numbers
+			age = checkAge(age);
+			phone = checkNum(phone, "Phone Number");
+			timeAlone = checkNum(timeAlone, "Time Alone");
+			if (phone.toString().length != 10) throw `Error: Invalid phone number`;
+			if (timeAlone < 0 || timeAlone > 24)
+				throw `Error: Time alone must be between 0 and 24 hours`;
+		
+			// Checking strings
+			firstName = checkString(firstName, "First Name");
+			lastName = checkString(lastName, "Last Name");
+			firstName = checkName(firstName, "First Name");
+			lastName = checkName(lastName, "Last Name");
+			email = checkEmail(email);
+			livingAccommodations = checkString(
+				livingAccommodations,
+				"Living Accommodations"
+			);
+			reasoningExperience = checkString(
+				reasoningExperience,
+				"Reasoning and Experience"
+			);
+			livingAccommodations = livingAccommodations.toLowerCase();
+			if (
+				livingAccommodations != "home" &&
+				livingAccommodations != "apartment" &&
+				livingAccommodations != "townhouse" &&
+				livingAccommodations != "other"
+			) {
+				throw `Error: Living accommodation isn't valid`;
+			}
+		
+			// Checking arrays
+			childrenAges = checkNumArray(childrenAges, "Children Ages");
+			typeAnimals = checkStringArray(typeAnimals, "Types of Animals", 0);
+			yard = checkStringArray(yard, "Yard", 0);
+			for (let i = 0; i < childrenAges.length; i++) {
+				if (childrenAges[i] < 0 || childrenAges[i] > 18)
+					throw `Children age isn't valid`;
+			}
+			for (let i = 0; i < typeAnimals.length; i++) {
+				typeAnimals[i] = typeAnimals[i].toLowerCase();
+				if (
+					typeAnimals[i] != "dog" &&
+					typeAnimals[i] != "cat" &&
+					typeAnimals[i] != "other"
+				) {
+					throw `Animal types not valid`;
+				}
+			}
+			for (let i = 0; i < yard.length; i++) {
+				yard[i] = yard[i].toLowerCase();
+				if (
+					yard[i] != "enclosed front yard" &&
+					yard[i] != "enclosed back yard" &&
+					yard[i] != "garage" &&
+					yard[i] != "dog house" &&
+					yard[i] != "other"
+				) {
+					throw `yard types not valid`;
+				}
+			}
+			let newApp = {
+				firstName,
+				lastName,
+				age,
+				email,
+				phone,
+				livingAccommodations,
+				children,
+				childrenAges,
+				timeAlone,
+				animals,
+				typeAnimals,
+				yard,
+				reasoningExperience,
+			};
+			return newApp;
+		}
 };
 
 export default exportedMethods;

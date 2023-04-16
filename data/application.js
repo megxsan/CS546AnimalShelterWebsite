@@ -5,6 +5,7 @@ import dog from "./dogs.js";
 import validation from "../validation.js";
 
 const exportedMethods = {
+
 	async addApp(
 		userId,
 		firstName,
@@ -21,75 +22,8 @@ const exportedMethods = {
 		yard,
 		reasoningExperience
 	) {
-		userId = validation.checkId(userId, "User ID");
-		// Checking booleans
-		children = validation.checkBool(children, "Children Boolean");
-		animals = validation.checkBool(animals, "Animals Boolean");
-	
-		// Checking numbers
-		age = validation.checkAge(age);
-		phone = validation.checkNum(phone, "Phone Number");
-		timeAlone = validation.checkNum(timeAlone, "Time Alone");
-		if (phone.toString().length != 10) throw `Error: Invalid phone number`;
-		if (timeAlone < 0 || timeAlone > 24)
-			throw `Error: Time alone must be between 0 and 24 hours`;
-	
-		// Checking strings
-		firstName = validation.checkString(firstName, "First Name");
-		lastName = validation.checkString(lastName, "Last Name");
-		firstName = validation.checkName(firstName, "First Name");
-		lastName = validation.checkName(lastName, "Last Name");
-		email = validation.checkEmail(email);
-		livingAccommodations = validation.checkString(
-			livingAccommodations,
-			"Living Accommodations"
-		);
-		reasoningExperience = validation.checkString(
-			reasoningExperience,
-			"Reasoning and Experience"
-		);
-		livingAccommodations = livingAccommodations.toLowerCase();
-		if (
-			livingAccommodations != "home" &&
-			livingAccommodations != "apartment" &&
-			livingAccommodations != "townhouse" &&
-			livingAccommodations != "other"
-		) {
-			throw `Error: Living accommodation isn't valid`;
-		}
-	
-		// Checking arrays
-		childrenAges = validation.checkNumArray(childrenAges, "Children Ages");
-		typeAnimals = validation.checkStringArray(typeAnimals, "Types of Animals", 0);
-		yard = validation.checkStringArray(yard, "Yard", 0);
-		for (let i = 0; i < childrenAges.length; i++) {
-			if (childrenAges[i] < 0 || childrenAges[i] > 18)
-				throw `Children age isn't valid`;
-		}
-		for (let i = 0; i < typeAnimals.length; i++) {
-			typeAnimals[i] = typeAnimals[i].toLowerCase();
-			if (
-				typeAnimals[i] != "dog" &&
-				typeAnimals[i] != "cat" &&
-				typeAnimals[i] != "other"
-			) {
-				throw `Animal types not valid`;
-			}
-		}
-		for (let i = 0; i < yard.length; i++) {
-			yard[i] = yard[i].toLowerCase();
-			if (
-				yard[i] != "enclosed front yard" &&
-				yard[i] != "enclosed back yard" &&
-				yard[i] != "garage" &&
-				yard[i] != "dog house" &&
-				yard[i] != "other"
-			) {
-				throw `yard types not valid`;
-			}
-		}
-	
-		let newApp = {
+		
+		let newApp = validation.checkAppInputs(userId,
 			firstName,
 			lastName,
 			age,
@@ -102,10 +36,9 @@ const exportedMethods = {
 			animals,
 			typeAnimals,
 			yard,
-			reasoningExperience,
-		};
+			reasoningExperience);
 		newApp._id = new ObjectId();
-	
+
 		let userCollection = await users();
 		let result = await user.getUserById(userId);
 		const userWithApp = {
@@ -150,97 +83,33 @@ const exportedMethods = {
 	async updateApp(userId,firstName,lastName,age,email,phone, livingAccommodations,
 		children,childrenAges,timeAlone,animals,typeAnimals,yard,reasoningExperience){
 
-		//error checking goes here
-		userId = validation.checkId(userId, "User ID");
-		// Checking booleans
-		children = validation.checkBool(children, "Children Boolean");
-		animals = validation.checkBool(animals, "Animals Boolean");
-	
-		// Checking numbers
-		age = validation.checkAge(age);
-		phone = validation.checkNum(phone, "Phone Number");
-		timeAlone = validation.checkNum(timeAlone, "Time Alone");
-		if (phone.toString().length != 10) throw `Error: Invalid phone number`;
-		if (timeAlone < 0 || timeAlone > 24)
-			throw `Error: Time alone must be between 0 and 24 hours`;
-	
-		// Checking strings
-		firstName = validation.checkString(firstName, "First Name");
-		lastName = validation.checkString(lastName, "Last Name");
-		firstName = validation.checkName(firstName, "First Name");
-		lastName = validation.checkName(lastName, "Last Name");
-		email = validation.checkEmail(email);
-		livingAccommodations = validation.checkString(
-			livingAccommodations,
-			"Living Accommodations"
-		);
-		reasoningExperience = validation.checkString(
-			reasoningExperience,
-			"Reasoning and Experience"
-		);
-		livingAccommodations = livingAccommodations.toLowerCase();
-		if (
-			livingAccommodations != "home" &&
-			livingAccommodations != "apartment" &&
-			livingAccommodations != "townhouse" &&
-			livingAccommodations != "other"
-		) {
-			throw `Error: Living accommodation isn't valid`;
-		}
-	
-		// Checking arrays
-		childrenAges = validation.checkNumArray(childrenAges, "Children Ages");
-		typeAnimals = validation.checkStringArray(typeAnimals, "Types of Animals", 0);
-		yard = validation.checkStringArray(yard, "Yard", 0);
-		for (let i = 0; i < childrenAges.length; i++) {
-			if (childrenAges[i] < 0 || childrenAges[i] > 18)
-				throw `Children age isn't valid`;
-		}
-		for (let i = 0; i < typeAnimals.length; i++) {
-			typeAnimals[i] = typeAnimals[i].toLowerCase();
-			if (
-				typeAnimals[i] != "dog" &&
-				typeAnimals[i] != "cat" &&
-				typeAnimals[i] != "other"
-			) {
-				throw `Animal types not valid`;
-			}
-		}
-		for (let i = 0; i < yard.length; i++) {
-			yard[i] = yard[i].toLowerCase();
-			if (
-				yard[i] != "enclosed front yard" &&
-				yard[i] != "enclosed back yard" &&
-				yard[i] != "garage" &&
-				yard[i] != "dog house" &&
-				yard[i] != "other"
-			) {
-				throw `yard types not valid`;
-			}
-		}
+		let checked = validation.checkAppInputs(userId,firstName,lastName,age,email,phone, livingAccommodations,
+			children,childrenAges,timeAlone,animals,typeAnimals,yard,reasoningExperience);
+			
+		
 		let result = await get(userId);
 		//at least 1 thing needs to be updated, else throw an error
-		if(result.userId === userId && result.firstName === firstName && result.lastName === lastName
-			&& result.age === age && result.email === email && result.phone === phone && result.livingAccommodations === livingAccommodations
-			&& result.children === children && result.childrenAges === childrenAges && result.timeAlone === timeAlone &&
-			result.animals === animals && result.typeAnimals === typeAnimals && result.yard === yard && result.reasoningExperience === reasoningExperience){
+		if(result.firstName === checked.firstName && result.lastName === checked.lastName
+			&& result.age === checked.age && result.email === checked.email && result.phone === checked.phone && result.livingAccommodations === checked.livingAccommodations
+			&& result.children === checked.children && result.childrenAges === checked.childrenAges && result.timeAlone === checked.timeAlone &&
+			result.animals === checked.animals && result.typeAnimals === checked.typeAnimals && result.yard === checked.yard && result.reasoningExperience === checked.reasoningExperience){
 		  throw `At least 1 input needs to be different than the original band when you update`;
 		}
 		const update = {
 			userId,
-			firstName,
-			lastName,
-			age,
-			email,
-			phone,
-			livingAccommodations,
-			children,
-			childrenAges,
-			timeAlone,
-			animals,
-			typeAnimals,
-			yard,
-			reasoningExperience
+			firstName:checked.firstName,
+			lastName:checked.lastName,
+			age:checked.age,
+			email:checked.email,
+			phone:checked.phone,
+			livingAccommodations:checked.livingAccommodations,
+			children:checked.children,
+			childrenAges:checked.childrenAges,
+			timeAlone:checked.timeAlone,
+			animals:checked,animals,
+			typeAnimals:checked.typeAnimals,
+			yard:checked.yard,
+			reasoningExperience:checked.reasoningExperience
 		}
 		//find the user and update it; throw error if this doesn't happen
 		const userCollection = await users();
