@@ -1,21 +1,21 @@
-import homepageRoutes from './homepage.js';
-import dogsRoutes from './dogs.js';
-import appRoutes from './application.js';
-import myDogsRoutes from './myDogs.js';
-import quizRoutes from './quiz.js';
-import settingsRoutes from './settings.js';
+import homepageRoutes from "./homepage.js";
+import dogsRoutes from "./dogs.js";
+import appRoutes from "./application.js";
+import myDogsRoutes from "./myDogs.js";
+import quizRoutes from "./quiz.js";
+import settingsRoutes from "./settings.js";
 
-const constructorMethod = (app) => { 
-    app.use('/', homepageRoutes);
-    app.use('/dogs', dogsRoutes);
-    app.use('/account/settings', settingsRoutes);
-    app.use('/account/quiz', quizRoutes);
-    app.use('/account/dogs', myDogsRoutes);
-    app.use('/account/application', appRoutes);
+const constructorMethod = (app) => {
+	app.use("/", homepageRoutes);
+	app.use("/dogs", dogsRoutes);
+	app.use("/account/settings", settingsRoutes);
+	app.use("/account/quiz", quizRoutes);
+	app.use("/account/dogs", myDogsRoutes);
+	app.use("/account/application", appRoutes);
 
-    app.use('*', (req, res) => {
-        res.redirect('/');
-    });
+	app.use("*", (req, res) => {
+		res.redirect("/");
+	});
 };
 
 export default constructorMethod;

@@ -89,32 +89,4 @@ try {
 	console.log(e);
 }
 
-try {
-	//Test 3
-	console.log(await dogs.getDogById(tobi._id));
-} catch (e) {
-	console.log(e);
-}
-
-try {
-	//Test 3
-	console.log(await dogs.getAllDogs());
-} catch (e) {
-	console.log(e);
-}
-
-try {
-	//Test 4
-	console.log(await dogs.removeDog(kika._id));
-} catch (e) {
-	console.log(e);
-}
-
-try {
-	//Test 5
-	console.log(await dogs.getAllDogs());
-} catch (e) {
-	console.log(e);
-}
-
 await closeConnection();

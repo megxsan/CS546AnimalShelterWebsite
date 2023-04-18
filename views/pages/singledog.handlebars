@@ -1,0 +1,59 @@
+<article class="dog">
+	<h1>{{dog.name}}</h1>
+
+	<address>Owner: {{user.firstName}} {{user.lastName}}</address>
+
+	{{#each dog.pictures}}
+		<img src="{{this}}" />
+	{{/each}}
+
+	<h3>Sex:</h3>
+	<p>{{dog.sex}}</p>
+
+	<h3>Color:</h3>
+	<ul>
+		{{#each dog.color}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ul>
+
+	<h3>Breeds:</h3>
+	<ul>
+		{{#each dog.breeds}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ul>
+
+	<h3>Weight:</h3>
+	<p>{{dog.weight}}</p>
+
+	<h3>Description:</h3>
+	<p>{{dog.description}}</p>
+
+	{{#if dog.traits.length}}
+		<h3>Traits:</h3>
+		<ul>
+			{{#each dog.traits}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	{{#if dog.medicalInfo.length}}
+		<h3>Medical Info:</h3>
+		<ul>
+			{{#each dog.medicalInfo}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	{{#if dog.vaccines.length}}
+		<h3>Vaccines:</h3>
+		<ul>
+			{{#each dog.vaccines}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+</article>

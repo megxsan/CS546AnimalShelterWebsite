@@ -1,0 +1,9 @@
+<section>
+	<h1>All Dogs</h1>
+	{{#each dogs}}
+		<article class="dog">
+			<h2><a href="/dogs/{{_id}}">{{name}}</a></h2>
+			<img src="{{pictures[0]}}" />
+		</article>
+	{{/each}}
+</section>
