@@ -13,25 +13,26 @@ router
                 -Displaying all the data on the dog
                 -Seeing likes & comments
         */
-		if (!req.sessions.user._id) {
+		/*if (!req.sessions.user._id) {
 			res.render("error", {
 				title: "DogID Error",
 				error: "Must be signed in to change your settings",
 			});
-		}
+		}*/
 		try {
 			req.params.dogId = validation.checkId(req.params.dogId, "Dog ID");
 		} catch (e) {
-			res.render("error", { title: "DogID Error", error: e }).status(400);
+			res.status(400).render("error", { title: "DogID Error", error: e });
 		}
 		let dog = {};
+		let user = {};
 		try {
 			dog = await dogData.getDogById(req.params.dogId);
 			user = await userData.getUserById(dog.userId);
 		} catch (e) {
-			res.render("error", { title: "DogID Error", error: e }).status(404);
+			res.status(404).render("error", { title: "DogID Error", error: e });
 		}
-		res.render("singledog", { dog: dog, user: user }).status(200);
+		res.status(200).render("pages/singledog", { dog: dog, user: user });
 	})
 	.patch(async (req, res) => {
 		/*  Patch 
