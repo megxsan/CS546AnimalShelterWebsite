@@ -14,7 +14,7 @@ router
                         res.render('error', {title: "Application Error", error: "Must be signed in to access your application"});
                 }
                 try{
-                        let application = await appData.getApp(req.sessions.user._id);
+                        let application = await appData.getApp(req.session.user._id);
                         res.render('application', {title: "Application", app: application});
                 }catch(e){
                         res.render('error', {title: "Application Error", error:e});
@@ -29,7 +29,7 @@ router
         if(!req.session.user._id){
                 res.render('error', {title: "Application Error", error: "Must be signed in to edit an application"});
         }
-        res.render('application', {tite:"Editing Application Page", user: req.sessions.user._id});
+        res.render('application', {tite:"Editing Application Page", user: req.session.user._id});
     })
     .patch(async (req, res) => {
         /*  Patch 
@@ -50,7 +50,7 @@ router
                         //figure out what status goes here
                 }
                 try{
-                        let application = await appData.updateApp(req.sessions.user._id,checked.firstName,checked.lastName,checked.age,checked.email,checked.phone,checked.livingAccommodations,
+                        let application = await appData.updateApp(req.session.user._id,checked.firstName,checked.lastName,checked.age,checked.email,checked.phone,checked.livingAccommodations,
                                 checked.children,checked.childrenAges,checked.timeAlone,checked.animals,checked.typeAnimals,checked.yard,checked.reasoningExperience);
                         res.render('application', {title: "Application", app: application});
                 }catch(e){
@@ -68,7 +68,7 @@ router
                 if(!req.session.user._id){
                         res.render('error', {title: "Application Error", error: "Must be signed in to add an application"});
                 }
-                res.render('application', {title: "Application", user: req.sessions.user._id});
+                res.render('pages/app', {title: "Application", user: req.session.user._id});
     })
     .patch(async (req, res) => {
         /*  Post 
@@ -89,9 +89,9 @@ router
                         //figure out what status goes here
                 }
                 try{
-                        let application = await appData.addApp(req.sessions.user._id,checked.firstName,checked.lastName,checked.age,checked.email,checked.phone,checked.livingAccommodations,
+                        let application = await appData.addApp(req.session.user._id,checked.firstName,checked.lastName,checked.age,checked.email,checked.phone,checked.livingAccommodations,
                                 checked.children,checked.childrenAges,checked.timeAlone,checked.animals,checked.typeAnimals,checked.yard,checked.reasoningExperience);
-                        res.render('application', {title: "Application", app: application});
+                        res.render('pages/app', {title: "Application", app: application});
                 }catch(e){
                         res.render('error', {title: "Application Error", error:e});
                         //figure out what status to put
