@@ -17,6 +17,17 @@ router
         // }
         res.render('pages/myaccount', {title: "Status"});
         });
+router
+        .route("/get")
+        .get(async (req, res) => {
+            /*  Get 
+                    -Seeing status (accepted, rejected, pending) of all applications sent out
+            */
+            // if(!req.session.user){
+            //         res.render('error', {title: "Seetings Error", error: "Must be signed in to access statuses"});
+            // }
+            res.render('pages/settings', {title: "Status"});
+            });
 
 router
 	.route("/edit")
@@ -24,10 +35,10 @@ router
 	/*  Get 
 			-Seeing edit settings form
 	*/
-    if(!req.sessions.user._id){
-        res.render('error', {title: "Settings Error", error: "Must be signed in to change your settings"});
-    }
-        res.render('settings', {title: "Settings", id: req.sessions.user._id});
+    // if(!req.sessions.user._id){
+    //     res.render('error', {title: "Settings Error", error: "Must be signed in to change your settings"});
+    // }
+        res.render('pages/updateSettings', {title: "Settings"});
     })
     .patch(async (req, res) => {
         /*  Patch 
