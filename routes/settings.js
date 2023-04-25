@@ -12,10 +12,10 @@ router
         /*  Get 
                 -Seeing status (accepted, rejected, pending) of all applications sent out
         */
-        if(!req.sessions.user._id){
-                res.render('error', {title: "Seetings Error", error: "Must be signed in to access statuses"});
-        }
-        res.render('status', {title: "Status", id: req.sessions.user._id});
+        // if(!req.session.user){
+        //         res.render('error', {title: "Seetings Error", error: "Must be signed in to access statuses"});
+        // }
+        res.render('pages/myaccount', {title: "Status"});
         });
 
 router
