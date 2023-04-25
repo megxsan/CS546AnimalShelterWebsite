@@ -20,8 +20,11 @@ router
                 // res.render('homepage', {dogs: allDogs});
         // }
         //Homepage for when signed in
+        let signedOut = true;
+        let signedIn = false;
+        let loggedOut = false;
         let allDogs = await dogData.getAllDogs();
-        res.render('pages/homepage', {dogs: allDogs});
+        res.render('pages/homepage', {dogs: allDogs, signedOut: signedOut, signedIn: signedIn, loggedOut: loggedOut});
     });
 
 router
