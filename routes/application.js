@@ -10,7 +10,7 @@ router
         .route("/")
 	.get(async (req, res) => {
         //  Get - Seeing application form
-                if(!req.sessions.user._id){
+                if(!req.session.user._id){
                         res.render('error', {title: "Application Error", error: "Must be signed in to access your application"});
                 }
                 try{
@@ -26,7 +26,7 @@ router
 	.route("/edit")
 	.get(async (req, res) => {
         //  Get -Seeing edit application form
-        if(!req.sessions.user._id){
+        if(!req.session.user._id){
                 res.render('error', {title: "Application Error", error: "Must be signed in to edit an application"});
         }
         res.render('application', {tite:"Editing Application Page", user: req.sessions.user._id});
@@ -65,7 +65,7 @@ router
         /*  Get 
                 -Seeing application form
         */
-                if(!req.sessions.user._id){
+                if(!req.session.user._id){
                         res.render('error', {title: "Application Error", error: "Must be signed in to add an application"});
                 }
                 res.render('application', {title: "Application", user: req.sessions.user._id});
