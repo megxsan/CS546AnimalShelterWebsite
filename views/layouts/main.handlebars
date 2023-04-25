@@ -10,12 +10,12 @@
 <body>
     <!-- this navbar may need to be updated -->
     <nav>
-        <a href="../../views/pages/homepage.handlebars">Main Page</a>
+        <a href="/">Main Page</a>
         {{#if signedOut }}
-            <a href="../../views/pages/loginForm.handlebars">Login/SignUp</a>
+            <a href="/login">Login/SignUp</a>
         {{/if}}
         {{#if signedIn}}
-            <a href="../../views/pages/homepage.handlebars">Logout</a>
+            <a href="/">Logout</a>
         {{/if}}
     </nav>
 
