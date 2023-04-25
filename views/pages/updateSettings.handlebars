@@ -1,0 +1,31 @@
+<section>
+    <h2>Update Your Settings</h2>
+    <p>Only enter information for what you want to update. Blank inputs will keep what you currently have in settings.</p>
+    <form id="settingsUpdate-form" method="POST">
+        <label for="firstNameInput" id="first">First Name</label>
+        <input id="firstNameInput" type="text" name = "firstNameInput"> <br>
+        <div id="error1" class="error" hidden>
+            <p class="red">Error: Please enter a valid email! </p>
+        </div>
+
+        <label for="lastNameInput" id="last">Last Name</label>
+        <input id="lastNameInput" type="text" name = "lastNameInput"> <br>
+        <div id="error2" class="error" hidden>
+            <p class="red">Error: Please enter a valid name! </p>
+        </div>
+
+        <label for="emailInput" id="email">Email</label>
+        <input id="emailInput" type="email" name = "emailInput"> <br>
+           <div id="error3" class="error" hidden>
+            <p class="red">Error: Email is either invalid or taken! </p>
+        </div>
+
+        <label for="ageInput" id="age">Age</label>
+        <input id="ageInput" type="number" name = "ageInput"> <br>
+        <div id="error4" class="error" hidden>
+            <p class="red">Error: Please enter a valid age! </p>
+        </div>
+
+        <button id = "updateSettingsButton" type ="submit">Submit</button>
+    </form>
+</section>

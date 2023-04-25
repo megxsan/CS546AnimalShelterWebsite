@@ -8,7 +8,20 @@
 </head>
 
 <body>
+    <!-- this navbar may need to be updated -->
+    <nav>
+        <a href="../../views/pages/homepage.handlebars">Main Page</a>
+        {{#if signedOut}}
+            <a href="../../views/pages/loginForm.handlebars">Login/SignUp</a>
+        {{/if}}
+        {{#if signedIn}}
+            <a href="../../views/pages/homepage.handlebars">Logout</a>
+        {{{/if}}}
+    </nav>
     <main>
+        {{#if loggedOut}}
+            <p>You have successfully logged out!</p>
+        {{/if}}
         {{{body}}}
     </main>
 </body>

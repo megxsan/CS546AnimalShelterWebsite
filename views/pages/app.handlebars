@@ -1,0 +1,27 @@
+<section>
+    {{#if app}}
+        <!-- write out all of the fields of the application-->
+        <!-- these may need to be adjusted --> 
+        <h2>Your Application</h2>
+        <p>Name: {{{first}}} {{{last}}}</p>
+        <p>Age: {{{age}}}</p>
+        <p>Email: {{{email}}}</p>
+        <p>Phone: {{{phone}}}</p>
+        <p>Living Acconomodations: {{{livingAccomodations}}}</p>
+        <p>Children: {{{children}}}</p>
+        <p>Ages of Children: {{{childrenAges}}}</p>
+        <p>Time you would be away from your dog: {{{timeAlone}}}</p>
+        <p>Do you have any pets: {{{animals}}}</p>
+        <p>If applicable, what pets do you already have: {{{typeAnimals}}}</p>
+        <p>How would you describe your yard: {{{yard}}}</p>
+        <p>Why do you want this dog: {{{reasoningExperience}}}</p>
+
+        <a href = "./updateApp.handlebars">Click here to update your application!</a>
+
+    {{/if}}
+
+    {{#if noApp}}
+            <p>You have not filled out an application!</p>
+            <a href = "./updateApp.handlebars">Click here to fill out an application!</a>
+    {{/if}}
+</section>
