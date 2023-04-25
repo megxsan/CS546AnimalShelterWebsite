@@ -14,7 +14,7 @@ router
                 -Signing in button
                 -Signing up button 
         */
-        if(!req.sessions.user._id){
+        if(!req.session.user){
                 //Homepage for when signed out
                 let allDogs = await dogData.getAllDogs();
                 res.render('homepage', {dogs: allDogs});
