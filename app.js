@@ -30,12 +30,22 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
 };
 
 app.use("/public", staticDir);
+app.use("/", express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
+
+app.use(express.json());
+
+app.use(session({
+    name: 'AuthCookie',
+    secret: 'some secret string!',
+    resave: false,
+    saveUninitialized: false
+  }));
 
 configRoutes(app);
 

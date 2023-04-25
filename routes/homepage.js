@@ -14,14 +14,14 @@ router
                 -Signing in button
                 -Signing up button 
         */
-        if(!req.session.user){
+        // if(req.session.user === undefined){
                 //Homepage for when signed out
-                let allDogs = await dogData.getAllDogs();
-                res.render('homepage', {dogs: allDogs});
-        }
+                // let allDogs = await dogData.getAllDogs();
+                // res.render('homepage', {dogs: allDogs});
+        // }
         //Homepage for when signed in
         let allDogs = await dogData.getAllDogs();
-        res.render('homepage', {dogs: allDogs});
+        res.render('pages/homepage', {dogs: allDogs});
     });
 
 router
