@@ -1,0 +1,16 @@
+<Section>
+    <form method="post" id="login-form">
+        <label for="emailAddressInput">Email:</label>
+        <input type="email" id="emailAddressInput" name="emailAddressInput">
+        <label for="passwordInput">Password:</label>
+        <input type="password" id="passwordInput" name="passwordInput">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="error" class="error" hidden></div>
+    <ul class="error">
+    {{#each errors}}
+        <li>{{this}}</li>
+    {{/each}}
+    </ul>
+    <a href="/register">Click here to register!</a>
+</Section>

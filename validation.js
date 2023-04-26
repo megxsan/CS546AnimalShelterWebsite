@@ -125,8 +125,8 @@ const exportedMethods = {
 			throw "Error: Email must be more than an empty string";
 		let at = email.indexOf("@");
 		let end = email.indexOf(".");
-		if (!(at < end)) throw `Error: not a valid email`;
-		if (at === -1 || end === -1) throw `Error: not a valid email`;
+		if (!(at < end)) throw `Error: Not a valid email`;
+		if (at === -1 || end === -1) throw `Error: Not a valid email`;
 		let emailEnd = email.slice(-4);
 		if (
 			emailEnd !== ".com" &&
@@ -137,6 +137,11 @@ const exportedMethods = {
 		)
 			throw "Error: You must provide a valid email";
 		return email;
+		/* Do we want to use this email validator instead?
+		var regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if(!regEmail.test(email)) throw `Error: Invalid Email given`;
+		return email;
+		*/
 	},
 
 	checkAppInputs(
@@ -238,6 +243,13 @@ const exportedMethods = {
 			reasoningExperience,
 		};
 		return newApp;
+	},
+
+	checkPassword(password) {
+		if((/\s/).test(password)) throw `Error: Invalid Password given`;
+        if(!(/(?=.*\d)(?=.*[A-Z])(?=.*\W)/).test(password)) throw `Error: Invalid Password given`;
+        if(password.length < 8) throw `Error: Invalid Password given`;		
+		return password;
 	},
 };
 

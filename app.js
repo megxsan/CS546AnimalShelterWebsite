@@ -47,6 +47,39 @@ app.use(session({
     saveUninitialized: false
   }));
 
+// Middleware
+app.use('/login', (req, res, next) => {
+    if (req.session && req.session.user) {
+        return res.redirect('/');
+    } else {
+        next();
+    }
+});
+
+app.use('/register', (req, res, next) => {
+    if (req.session && req.session.user) {
+        return res.redirect('/');
+    } else {
+        next();
+    }
+});
+
+app.use('/logout', (req, res, next) => {
+    if (req.session && req.session.user) {
+        next();
+    } else {
+        return res.redirect('/');
+    }
+});
+
+app.use('/account', (req, res, next) => {
+    if (req.session && req.session.user) {
+        next();
+    } else {
+        return res.redirect('/');
+    }
+});
+
 configRoutes(app);
 
 app.listen(3000, () => {

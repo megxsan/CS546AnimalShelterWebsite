@@ -13,6 +13,7 @@ const exportedMethods = {
         email = validation.checkEmail(email);
         email = email.toLowerCase();
         password = validation.checkString(password, "Password");
+        password = validation.checkPassword(password);
         const hash = await bcrypt.hash(password, 10);
 
         const userCollection = await users();
@@ -63,6 +64,7 @@ const exportedMethods = {
         email = validation.checkEmail(email);
         email = email.toLowerCase();
         password = validation.checkString(password, "Password");
+        password = validation.checkPassword(password);
         const hash = await bcrypt.hash(password, 10);
 
         const userCollection = await users();
@@ -94,11 +96,30 @@ const exportedMethods = {
         updatedInfo.value._id = updatedInfo.value._id.toString();
         return updatedInfo.value;
     },
+
     async getUserByEmail(email) {
         email = validation.checkEmail(email, "Email");
         const userCollection = await users();
         const myUser = await userCollection.findOne({email: email});
         if (myUser === null) throw 'No user with that email';
+        myUser._id = myUser._id.toString();
+        return myUser;
+    },
+
+    async checkUser(email, password){
+        password = validation.checkString(password, "Password");
+        password = validation.checkPassword(password);
+      
+        email = email.toLowerCase();
+        email = validation.checkString(email, "Email");
+        email = validation.checkEmail(email);
+        const userCollection = await users();
+        const myUser = await userCollection.findOne({email: email});
+        if (myUser === null) throw 'Either the email address or password is invalid';
+        
+        let comparePassword = await bcrypt.compare(password, myUser.password);
+        if (comparePassword == false) throw 'Either the email address or password is invalid';
+        
         myUser._id = myUser._id.toString();
         return myUser;
     }

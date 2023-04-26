@@ -18,16 +18,23 @@ router
         res.render('pages/myaccount', {title: "Status"});
         });
 router
-        .route("/get")
-        .get(async (req, res) => {
-            /*  Get 
-                    -Seeing status (accepted, rejected, pending) of all applications sent out
-            */
-            // if(!req.session.user){
-            //         res.render('error', {title: "Seetings Error", error: "Must be signed in to access statuses"});
-            // }
-            res.render('pages/settings', {title: "Status"});
-            });
+	.route("/get")
+	.get(async (req, res) => {
+		/*  Get 
+				-Seeing status (accepted, rejected, pending) of all applications sent out
+		*/
+		// if(!req.session.user){
+		//         res.render('error', {title: "Seetings Error", error: "Must be signed in to access statuses"});
+		// }
+
+		// OLIVIA CODED THIS FOR TESTING PURPOSE (NEEDS TO BE MODIFIED FOR BETTER ERROR CHECKING)
+		if (!req.session.user) {
+			res.render('pages/settings', {title: "Status"});
+		} else {
+			let data = await userData.getUserById(req.session.user._id);
+			res.render('pages/settings', {first: data.firstName, last: data.lastName, age: data.age, email: data.email});
+		}
+		});
 
 router
 	.route("/edit")
