@@ -74,9 +74,9 @@ const exportedMethods = {
 			throw "Error: There is no user with this id";
 		}
 		let app = myUser.application;
-		if (myUser.application.keys() === 0) {
-			throw "Error: There is application associated with this user";
-		}
+		// if (myUser.application.keys() === 0) {
+		// 	throw "Error: There is application associated with this user";
+		// }
 		return app;
 	},
 

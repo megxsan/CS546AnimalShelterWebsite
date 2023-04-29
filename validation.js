@@ -136,6 +136,11 @@ const exportedMethods = {
 			emailEnd !== ".org"
 		)
 			throw "Error: You must provide a valid email";
+		
+		if(email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) === false){
+			//we got this match comparison from https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
+			throw "Error: You must provide a valid email";
+		}
 		return email;
 		/* Do we want to use this email validator instead?
 		var regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
