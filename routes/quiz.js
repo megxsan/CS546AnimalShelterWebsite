@@ -12,12 +12,13 @@ router
         /*  Get 
                 -Seeing quiz form
         */
-        if(!req.sessions.user._id){
-                res.render('error', {title: "Quiz Error", error: "Must be signed in to access the quiz"});
-        }
-        res.render('quiz', {title: 'Quiz'});
+        // if(!req.session.user._id){
+        //         res.render('error', {title: "Quiz Error", error: "Must be signed in to access the quiz"});
+        // }
+        //MEGAN PUT THIS TO GET TO THE PAGE WE NEED TO CHECK FOR LOGIN AND STUFF
+                res.render('pages/quiz', {title: "Quiz"});
 
-    })
+        })
     .post(async (req, res) => {
         /*  Post
                 -Recieving quiz form

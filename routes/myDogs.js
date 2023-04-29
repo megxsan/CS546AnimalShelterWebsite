@@ -12,16 +12,16 @@ router
         /*  Get 
                 -Seeing all your dogs
         */
-                if(!req.sessions.user._id){
-                        res.render('error', {title: "Dog Error", error: "Must be signed in to access your dogs"});
-                }
-                try{
-                        let dogs = await dogData.getAllDogs(req.sessions.user._id);
-                        res.render('dogs', {title: "MyDogs", dogs: dogs});
-                }catch(e){
-                        res.render('error', {title: "MyDogs Error", error:e});
-                        //figure out what status to put
-                }
+                // if(!req.sessions.user._id){
+                //         res.render('error', {title: "Dog Error", error: "Must be signed in to access your dogs"});
+                // }
+                // try{
+                        let dogs = await dogData.getAllDogs(req.session.user._id);
+                        res.render('pages/myDogs', {title: "MyDogs"});
+                // }catch(e){
+                //         res.render('error', {title: "MyDogs Error", error:e});
+                //         //figure out what status to put
+                // }
 
     });
 

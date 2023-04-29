@@ -68,13 +68,13 @@ const exportedMethods = {
 
 	async getApp(id) {
 		id = validation.checkId(id, "User ID");
-		const userCollection = await user();
+		const userCollection = await users();
 		const myUser = await userCollection.findOne({ _id: new ObjectId(id) });
 		if (myUser === null) {
 			throw "Error: There is no user with this id";
 		}
-		let app = userObj.application;
-		if (userObj.application.keys() === 0) {
+		let app = myUser.application;
+		if (myUser.application.keys() === 0) {
 			throw "Error: There is application associated with this user";
 		}
 		return app;

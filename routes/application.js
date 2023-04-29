@@ -10,16 +10,16 @@ router
         .route("/")
 	.get(async (req, res) => {
         //  Get - Seeing application form
-                if(!req.session.user._id){
-                        res.render('error', {title: "Application Error", error: "Must be signed in to access your application"});
-                }
-                try{
+                // if(!req.session.user._id){
+                //         res.render('error', {title: "Application Error", error: "Must be signed in to access your application"});
+                // }
+                // try{
                         let application = await appData.getApp(req.session.user._id);
-                        res.render('application', {title: "Application", app: application});
-                }catch(e){
-                        res.render('error', {title: "Application Error", error:e});
-                        //figure out what status to put
-                }
+                        res.render('pages/app', {title: "Application"});
+                // }catch(e){
+                //         res.render('error', {title: "Application Error", error:e});
+                //         //figure out what status to put
+                // }
     });
 
 router
