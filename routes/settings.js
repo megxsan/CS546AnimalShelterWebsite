@@ -51,19 +51,22 @@ router
         /*  Patch 
                 -Recieving edit settings form
         */
-        if(!req.sessions.user._id){
-            res.render('error', {title: "Settings Error", error: "Must be signed in to change your settings"});
-        }
+        // if(!req.session.user._id){
+        //     res.render('error', {title: "Settings Error", error: "Must be signed in to change your settings"});
+        // }
         let settingInputs = req.body;
-        try{
-            //error check all setting inputs
+        // try{
+        //     //error check all setting inputs
             
-        }catch(e){
-            res.render('error', {title: "Settings Error", error: "Must be signed in to change your settings"})
-        }
+        // }catch(e){
+        //     res.render('error', {title: "Settings Error", error: "Must be signed in to change your settings"})
+        // }
+
 
         //update informaiton in the database using a user update function
-
+        if(!firstNameInput && !lastNameInput && !emailInput && !ageInput){
+            res.render('pages/updateSettings', {title: "Update Settings"})
+        }
     });
 
  export default router;

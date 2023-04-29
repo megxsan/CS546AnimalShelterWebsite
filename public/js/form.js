@@ -64,7 +64,8 @@
   
     const registrationForm = document.getElementById('registration-form');
     const loginForm = document.getElementById('login-form');
-  
+    const settingsForm = document.getElementById("settings-form");
+
     if (registrationForm) {
   
       registrationForm.addEventListener('submit', (event) => {
@@ -198,5 +199,104 @@
               errorDiv.hidden = false;
           }
         });
+      }
+
+      if(settingsForm){
+        settingsForm.addEventListener('submit', (event) => {
+
+            let first = document.getElementById('firstNameInput');
+            let last = document.getElementById('lastNameInput');
+            let email = document.getElementById('emailInput');
+            let age = document.getElementById('ageInput');
+            let emptyError = document.getElementById('emptyError');
+            let error1 = document.getElementById('error1');
+            let error2 = document.getElementById('error2');
+            let error3 = document.getElementById('error3');
+            let error4 = document.getElementById('error4');
+
+            let firstErr = false;
+            let lastErr = false;
+            let emailErr = false;
+            let ageErr = false;
+            first.value = first.value.trim();
+            last.value = last.value.trim();
+            email.value = email.value.trim();
+            age.value = age.value.trim();
+            if(first.value === "" && last.value === "" && email.value === "" && age.value === ""){
+                event.preventDefault();
+                emptyError.hidden = false;
+                
+                error1.hidden = true;
+                error2.hidden = true;
+                error3.hidden = true;
+                error4.hidden = true;
+            }
+            if(first.value){
+                try{
+                    first.value = checkName(first.value, "First Name");
+                    firstErr = false;
+                }catch(e){
+                    event.preventDefault();
+                    first.value = "";
+                    error1.hidden = false;
+                    emptyError.hidden = true;
+                    firstErr = true;
+
+                    if(!last.value){error2.hidden = true};
+                    if(!email.value){error3.hidden = true};
+                    if(!age.value){error4.hidden = true};
+                }
+            }
+            if(last.value){
+                try{
+                    last.value = checkName(last.value, "Last Name");
+                    lastErr = false;
+                }catch(e){
+                    event.preventDefault();
+                    last.value = "";
+                    error2.hidden = false;
+                    emptyError.hidden = true;
+                    lastErr = true;
+
+                    if(!first.value && firstErr === false){error1.hidden = true};
+                    if(!email.value){error3.hidden = true};
+                    if(!age.value){error4.hidden = true};
+                }
+            }
+            if(email.value){
+                try{
+                    email.value = checkEmail(email.value, "Email");
+                    emailErr = false;
+                }catch(e){
+                    event.preventDefault();
+                    email.value = "";
+                    error3.hidden = false;
+                    emptyError.hidden = true;
+                    if(!first.value && firstErr ===false){error1.hidden = true};
+                    if(!last.value && lastErr === false){error2.hidden = true};
+                    if(!age.value){error4.hidden = true};
+                } 
+            }
+            if(age.value){
+                try{
+                    age.value = checkAge(age.value, "Age");
+                    ageErr = false;
+                }catch(e){
+                    event.preventDefault();
+                    age.value = "";
+                    error4.hidden = false;
+                    emptyError.hidden = true;
+                    ageErr = true;
+                    if(!first.value && firstErr === false){error1.hidden = true};
+                    if(!last.value && lastErr === false){error2.hidden = true};
+                    if(!email.value && emailErr === false){error3.hidden = true};
+                }
+            }
+            
+            if(first.value || last.value || email.value || age.value){
+                emptyError.hidden = true;
+            }
+
+        }  ); 
       }
   })();
