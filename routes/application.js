@@ -10,12 +10,17 @@ router
         .route("/")
 	.get(async (req, res) => {
         //  Get - Seeing application form
-                // if(!req.session.user._id){
-                //         res.render('error', {title: "Application Error", error: "Must be signed in to access your application"});
-                // }
-                // try{
-                        let application = await appData.getApp(req.session.user._id);
-                        res.render('pages/app', {title: "Application"});
+                let hasApp;
+                let noApp;
+                let application = await appData.getApp(req.session.user._id);
+                if(Object.keys(application).length === 0){
+                        hasApp = false;
+                        noApp = true;
+                }else{
+                        hasApp = true;
+                        noApp = false;
+                }
+                res.render('pages/app', {title: "Application", app: hasApp, noApp: noApp});
                 // }catch(e){
                 //         res.render('error', {title: "Application Error", error:e});
                 //         //figure out what status to put
@@ -29,9 +34,9 @@ router
         if(!req.session.user._id){
                 res.render('error', {title: "Application Error", error: "Must be signed in to edit an application"});
         }
-        res.render('application', {tite:"Editing Application Page", user: req.session.user._id});
+        res.render('pages/updateApp', {tite:"Editing Application Page", user: req.session.user._id});
     })
-    .patch(async (req, res) => {
+    .post(async (req, res) => {
         /*  Patch 
                 -Recieving edit application form
         */
@@ -70,7 +75,7 @@ router
                 }
                 res.render('pages/app', {title: "Application", user: req.session.user._id});
     })
-    .patch(async (req, res) => {
+    .post(async (req, res) => {
         /*  Post 
                 -Recieving application form
         */
