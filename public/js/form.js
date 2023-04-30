@@ -208,25 +208,29 @@
             let last = document.getElementById('lastNameInput');
             let email = document.getElementById('emailInput');
             let age = document.getElementById('ageInput');
-            // let oldPassword = document.getElementById('oldPasswordInput');
-            // let newPassword = document.getElementById('newPasswordInput');
+            let oldPassword = document.getElementById('oldPasswordInput');
+            let newPassword = document.getElementById('newPasswordInput');
             let emptyError = document.getElementById('emptyError');
             let error1 = document.getElementById('error1');
             let error2 = document.getElementById('error2');
             let error3 = document.getElementById('error3');
             let error4 = document.getElementById('error4');
-            // let error5 = document.getElementById('error5');
-            // let error6 = document.getElementById('error6');
+            let error5 = document.getElementById('error5');
+            let error6 = document.getElementById('error6');
 
             let firstErr = false;
             let lastErr = false;
             let emailErr = false;
             let ageErr = false;
+            let passErr = false;
             first.value = first.value.trim();
             last.value = last.value.trim();
             email.value = email.value.trim();
             age.value = age.value.trim();
-            if(first.value === "" && last.value === "" && email.value === "" && age.value === "" && oldPassword.value === "" && newPassword.value === ""){
+            oldPassword.value = oldPassword.value.trim();
+            newPassword.value = newPassword.value.trim();
+
+            if(first.value === "" && last.value === "" && email.value === "" && age.value === "" && newPassword.value === ""){
                 event.preventDefault();
                 emptyError.hidden = false;
                 
@@ -234,13 +238,14 @@
                 error2.hidden = true;
                 error3.hidden = true;
                 error4.hidden = true;
-                // error5.hidden = true;
-                // error6.hidden = true;
+                error5.hidden = true;
+                error6.hidden = true;
             }
-            // if(!oldPassword){
-            //     event.preventDefault()
-            //     error5.hidden = false;
-            // }
+            console.log(oldPassword.value);
+            if(!oldPassword.value){
+                event.preventDefault()
+                error5.hidden = false;
+            }
             if(first.value){
                 try{
                     first.value = checkName(first.value, "First Name");
@@ -255,6 +260,7 @@
                     if(!last.value){error2.hidden = true};
                     if(!email.value){error3.hidden = true};
                     if(!age.value){error4.hidden = true};
+                    if(!newPassword.value){error6.hidden = true};
                 }
             }
             if(last.value){
@@ -271,6 +277,7 @@
                     if(!first.value && firstErr === false){error1.hidden = true};
                     if(!email.value){error3.hidden = true};
                     if(!age.value){error4.hidden = true};
+                    if(!newPassword.value){error6.hidden = true};
                 }
             }
             if(email.value){
@@ -285,6 +292,8 @@
                     if(!first.value && firstErr ===false){error1.hidden = true};
                     if(!last.value && lastErr === false){error2.hidden = true};
                     if(!age.value){error4.hidden = true};
+                    if(!newPassword.value){error6.hidden = true};
+
                 } 
             }
             let changeAge = 0;
@@ -302,9 +311,24 @@
                     if(!first.value && firstErr === false){error1.hidden = true};
                     if(!last.value && lastErr === false){error2.hidden = true};
                     if(!email.value && emailErr === false){error3.hidden = true};
+                    if(!newPassword.value){error6.hidden = true};
+
                 }
             }
-            
+            if(newPassword.value){
+                try{
+                    newPassword.value = checkPassword(newPassword.value, "New Password");
+                    passErr = false;
+                }catch(e){
+                    newPassword.value = "";
+                    error6.hidden = false;
+                    emptyError.hidden = true;
+                    passErr = true;
+                    if(!first.value && firstErr === false){error1.hidden = true};
+                    if(!last.value && lastErr === false){error2.hidden = true};
+                    if(!email.value && emailErr === false){error3.hidden = true};
+                }
+            }
             if(first.value || last.value || email.value || age.value){
                 emptyError.hidden = true;
             }

@@ -68,14 +68,15 @@ const exportedMethods = {
         newPassword = validation.checkString(newPassword, "Password");
         newPassword = validation.checkPassword(newPassword);
 
-        let comparePassword = await bcrypt.compare(oldPassword, myUser.password);
-        if (comparePassword == false) throw 'Ppassword is invalid';
-        const hash = await bcrypt.hash(newPassword, 10);
 
         const userCollection = await users();
         const myUser = await userCollection.findOne({_id: new ObjectId(id)});
         if (myUser === null) throw 'Error: No user with that ID';
 
+        let comparePassword = await bcrypt.compare(oldPassword, myUser.password);
+        if (comparePassword == false) throw 'Password is invalid';
+        const hash = await bcrypt.hash(newPassword, 10);
+        
         const updatedUser = {
             firstName: firstName,
             lastName: lastName,
