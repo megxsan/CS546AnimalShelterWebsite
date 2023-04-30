@@ -279,6 +279,7 @@
             }
             if(age.value){
                 try{
+                    age.value = parseInt(age.value);
                     age.value = checkAge(age.value, "Age");
                     ageErr = false;
                 }catch(e){
