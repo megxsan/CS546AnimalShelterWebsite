@@ -1,9 +1,9 @@
 <section>
     <h2>Update Your Settings</h2>
-    <p>Only enter information for what you want to update. Blank inputs will keep what you currently have in settings.</p>
-    <form id="settings-form" method="PATCH" action="/account/settings/edit">
+    <p>You must fill out at least 1 data form (in addition to current password) to update your settings</p>
+    <form id="settings-form" method="post">
         <div id="emptyError" class="error" hidden>
-            <p>At least setting must be changed to fill out this form</p>
+            <p>At least 1 setting must be changed to fill out this form</p>
         </div>
 
         <label for="firstNameInput" id="first">First Name</label>
@@ -28,6 +28,18 @@
         <input id="ageInput" type="number" name = "ageInput"> <br>
         <div id="error4" class="error" hidden>
             <p class="red">Error: Please enter a valid age! </p>
+        </div>
+
+        <label for="oldPasswordInput" id="oldPassword">Current Password</label>
+        <input id="oldPasswordInput" type="string" name = "oldPasswordInput"> <br>
+        <div id="error5" class="error" hidden>
+            <p class="red">Error: Missing / incorrect password </p>
+        </div>
+
+        <label for="newPasswordInput" id="newPassword">Updated Password</label>
+        <input id="newPasswordInput" type="string" name = "newPasswordInput"> <br>
+        <div id="error6" class="error" hidden>
+            <p class="red">Error: New Password doesn't meet the requirements</p>
         </div>
 
         <button id = "updateSettingsButton" type ="submit">Submit</button>

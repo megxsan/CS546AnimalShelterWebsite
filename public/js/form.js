@@ -208,11 +208,15 @@
             let last = document.getElementById('lastNameInput');
             let email = document.getElementById('emailInput');
             let age = document.getElementById('ageInput');
+            // let oldPassword = document.getElementById('oldPasswordInput');
+            // let newPassword = document.getElementById('newPasswordInput');
             let emptyError = document.getElementById('emptyError');
             let error1 = document.getElementById('error1');
             let error2 = document.getElementById('error2');
             let error3 = document.getElementById('error3');
             let error4 = document.getElementById('error4');
+            // let error5 = document.getElementById('error5');
+            // let error6 = document.getElementById('error6');
 
             let firstErr = false;
             let lastErr = false;
@@ -222,7 +226,7 @@
             last.value = last.value.trim();
             email.value = email.value.trim();
             age.value = age.value.trim();
-            if(first.value === "" && last.value === "" && email.value === "" && age.value === ""){
+            if(first.value === "" && last.value === "" && email.value === "" && age.value === "" && oldPassword.value === "" && newPassword.value === ""){
                 event.preventDefault();
                 emptyError.hidden = false;
                 
@@ -230,7 +234,13 @@
                 error2.hidden = true;
                 error3.hidden = true;
                 error4.hidden = true;
+                // error5.hidden = true;
+                // error6.hidden = true;
             }
+            // if(!oldPassword){
+            //     event.preventDefault()
+            //     error5.hidden = false;
+            // }
             if(first.value){
                 try{
                     first.value = checkName(first.value, "First Name");
@@ -277,10 +287,11 @@
                     if(!age.value){error4.hidden = true};
                 } 
             }
+            let changeAge = 0;
             if(age.value){
                 try{
-                    age.value = parseInt(age.value);
-                    age.value = checkAge(age.value, "Age");
+                    changeAge = parseInt(age.value);
+                    changeAge = checkAge(changeAge, "Age");
                     ageErr = false;
                 }catch(e){
                     event.preventDefault();

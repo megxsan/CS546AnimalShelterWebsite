@@ -47,11 +47,10 @@ router
     // }
         res.render('pages/updateSettings', {title: "Settings"});
     })
-    .patch(async (req, res) => {
+    .post(async (req, res) => {
         /*  Patch 
                 -Recieving edit settings form
         */
-       console.log("in patch")
         // if(!req.session.user._id){
         //     res.render('error', {title: "Settings Error", error: "Must be signed in to change your settings"});
         // }
@@ -67,13 +66,31 @@ router
         if(!req.body.firstNameInput && !req.body.lastNameInput && !req.body.emailInput && !req.body.ageInput){
             res.render('pages/updateSettings', {title: "Update Settings"})
         }else{
-            let user = await userData.getUserById(req.session.user._id);
+            let user = {};
+            try{
+                user = await userData.getUserById(req.session.user._id);
+            }catch(e){
+                console.log("errored at get");
+                res.render('pages/updateSettings', {title: "Update Settings"})
+
+            }
             if(!req.body.firstNameInput){ req.body.firstNameInput = user.firstName};
             if(!req.body.lastNameInput){ req.body.lastNameInput = user.lastName};
             if(!req.body.emailInput){ req.body.emailInput = user.email};
             if(!req.body.ageInput){ req.body.ageInput = user.age};
+            if(req.body.ageInput){
+                req.body.ageInput = parseInt(req.body.ageInput);
+            }
 
-            await userData.updateUser(req.body.firstNameInput, req.body.lastNameInput, req.body.ageInput, req.body.emailInput, user.password);
+            
+            try{
+
+                await userData.updateUser(req.session.user._id, req.body.firstNameInput, req.body.lastNameInput, req.body.ageInput, req.body.emailInput, req.body.oldPasswordInput, req.body.newPasswordInput);
+                res.render('pages/settings', {title: "Settings"})
+            }catch(e){
+                console.log("errored at update");
+                res.render('pages/updateSettings', {title: "Update Settings"});
+            }
         }
     });
 

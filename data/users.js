@@ -54,7 +54,7 @@ const exportedMethods = {
         return myUser;
     },
 
-    async updateUser(id, firstName, lastName, age, email, password) {
+    async updateUser(id, firstName, lastName, age, email, oldPassword, newPassword) {
         id = validation.checkId(id, "User ID");
         firstName = validation.checkString(firstName, "First Name");
         lastName = validation.checkString(lastName, "Last Name");
@@ -63,9 +63,14 @@ const exportedMethods = {
         age = validation.checkAge(age);
         email = validation.checkEmail(email);
         email = email.toLowerCase();
-        password = validation.checkString(password, "Password");
-        password = validation.checkPassword(password);
-        const hash = await bcrypt.hash(password, 10);
+        oldPassword = validation.checkString(oldPassword, "Password");
+        oldPassword = validation.checkPassword(oldPassword);
+        newPassword = validation.checkString(newPassword, "Password");
+        newPassword = validation.checkPassword(newPassword);
+
+        let comparePassword = await bcrypt.compare(oldPassword, myUser.password);
+        if (comparePassword == false) throw 'Ppassword is invalid';
+        const hash = await bcrypt.hash(newPassword, 10);
 
         const userCollection = await users();
         const myUser = await userCollection.findOne({_id: new ObjectId(id)});
@@ -76,7 +81,7 @@ const exportedMethods = {
             lastName: lastName,
             age: age,
             email: email,
-            password: password,
+            password: hash,
             dogs: myUser.dogs,
             quizResult: myUser.quizResult,
             application: myUser.application,
