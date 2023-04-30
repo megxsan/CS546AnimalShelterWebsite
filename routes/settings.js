@@ -51,10 +51,10 @@ router
         /*  Patch 
                 -Recieving edit settings form
         */
+       console.log("in patch")
         // if(!req.session.user._id){
         //     res.render('error', {title: "Settings Error", error: "Must be signed in to change your settings"});
         // }
-        let settingInputs = req.body;
         // try{
         //     //error check all setting inputs
             
@@ -64,8 +64,16 @@ router
 
 
         //update informaiton in the database using a user update function
-        if(!firstNameInput && !lastNameInput && !emailInput && !ageInput){
+        if(!req.body.firstNameInput && !req.body.lastNameInput && !req.body.emailInput && !req.body.ageInput){
             res.render('pages/updateSettings', {title: "Update Settings"})
+        }else{
+            let user = await userData.getUserById(req.session.user._id);
+            if(!req.body.firstNameInput){ req.body.firstNameInput = user.firstName};
+            if(!req.body.lastNameInput){ req.body.lastNameInput = user.lastName};
+            if(!req.body.emailInput){ req.body.emailInput = user.email};
+            if(!req.body.ageInput){ req.body.ageInput = user.age};
+
+            await userData.updateUser(req.body.firstNameInput, req.body.lastNameInput, req.body.ageInput, req.body.emailInput, user.password);
         }
     });
 
