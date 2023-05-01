@@ -1,0 +1,42 @@
+<section>
+	<h2>Search for Dogs</h2>
+
+	<div id="error" hidden>
+		<p>Double check for correct input!</p>
+	</div>
+	<form id="filter-form" method="post" action="/homepage">
+		<fieldset id="sex-input">
+			<legend>Filter Sex</legend>
+			<input id="male" type="radio" name="sex-input" value="male" />
+			<label for="male" id="male">Male</label><br />
+			<input id="female" type="radio" name="sex-input" value="female" />
+			<label for="female" id="female">Female</label>
+		</fieldset>
+
+		<fieldset id="color-input">
+			<legend>Filter Color</legend>
+			{{#if colors.length}}
+				{{#each colors}}
+					<input id={{this}} type="checkbox" name="color-input" />
+					<label for={{this}}>{{this}}</label><br />
+				{{/each}}
+			{{else}}
+				<p>There are no colors to select from</p>
+			{{/if}}
+		</fieldset>
+
+		<fieldset id="breed-input">
+			<legend>Filter Breed</legend>
+			{{#if breeds.length}}
+				{{#each breeds}}
+					<input id={{this}} type="checkbox" name="breed-input" />
+					<label for={{this}}>{{this}}</label><br />
+				{{/each}}
+			{{else}}
+				<p>There are no breeds to select from</p>
+			{{/if}}
+		</fieldset>
+
+		<button id="filterButton" type="submit">Submit</button>
+	</form>
+</section>
