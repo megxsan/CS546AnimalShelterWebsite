@@ -1,1 +1,89 @@
-<p>This is where the form is</p>
+<section>
+    <h2>Fill Out Your Application!</h2>
+    <h3>All form items must be completed to complete your application</h3>
+
+    <form id="application-form" method="post">
+        <label for="firstNameInput" id="first">First Name</label>
+        <input id="firstNameInput" type="text" name = "firstNameInput"> <br>
+
+        <label for="lastNameInput" id="last">Last Name</label>
+        <input id="lastNameInput" type="text" name = "lastNameInput"> <br>
+
+        <label for="emailInput" id="email">Email</label>
+        <input id="emailInput" type="email" name = "emailInput"> <br>
+
+        <label for="ageInput" id="age">Age</label>
+        <input id="ageInput" type="number" name = "ageInput"> <br>
+
+        <label for="phoneInput" id="phone">Phone Number</label>
+        <input id="phoneInput" type="tel" name = "phoneInput"> <br>   
+
+        <label for="livingAccommodationsInput" id="accommodations">What best describes your living situation?</label>
+        <select id="livingAccommodationsInput" name="livingAccommodationsInput">
+            <option value="home">Home</option>
+            <option value="apartment">Apartment</option>
+            <option value="townhouse">Townhouse</option>
+            <option value="other">Other</option>
+        </select> <br>
+
+        <label for="childrenInput" id="children">Do you have any children?</label>
+        <select id="childrenInput" name="childrenInput">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select> <br>
+
+        {{!-- learned how to select multiple options from W3 schools: https://www.w3schools.com/tags/att_select_multiple.asp#:~:text=For%20windows%3A%20Hold%20down%20the,button%20to%20select%20multiple%20options --}}
+        <label for="childrenAgesInput" id="ages">If so, how old are they? If you are a windows user and want to select multiple options, hold down on the Ctrl key, and if you are a Mac user, hold down on the Command key.</label>
+        <select id="childrenAgesInput" name="childrenAgesInput" multiple>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+        </select> <br>
+
+        <label for="timeAloneInput" id="timeAlone">How much time would the dog spend alone per day in hours?</label>
+        <input id="timeAloneInput" type="number" name = "timeAloneInput"> <br>   
+
+        <label for="animalsInput" id="animals">Do you have any other pets?</label>
+        <select id="animalsInput" name="animalsInput">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select> <br>
+
+        <label for="animalTypeInput" id="animalType">If so, what other pets do you have? If you are a windows user and want to select multiple options, hold down on the Ctrl key, and if you are a Mac user, hold down on the Command key.</label>
+        <select id="childrenAgesInput" name="childrenAgesInput" multiple>
+            <option value="dog">Dog</option>
+            <option value="cat">Cat</option>
+            <option value="other">Other</option>
+        </select> <br>
+
+        <label for="yardInput" id="yard">How would you describe your backyard? If you are a windows user and want to select multiple options, hold down on the Ctrl key, and if you are a Mac user, hold down on the Command key.</label>
+        <select id="yardInput" name="yardInput" multiple>
+            <option value="enclosed front yard">Enclosed Front Yard</option>
+            <option value="enclosed back yard">Enclosed Back Yard</option>
+            <option value="garage">Garage</option>
+            <option value="dog house">Dog House</option>
+            <option value="other">other</option>
+        </select> <br>
+
+        <label for="reasoningInput" id="reasoning">What other information would you like us to know about you?</label>
+        <input id="reasoningInput" type="text" name = "reasoningInput"> <br>  
+
+        <button id="appButton" type="submit">Submit</button>
+
+    </form>
+</section>
