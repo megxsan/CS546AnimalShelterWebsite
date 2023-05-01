@@ -1,4 +1,5 @@
 import { dogs } from "../config/mongoCollections.js";
+import { users } from "../config/mongoCollections.js";
 import { ObjectId } from 'mongodb';
 import validation from '../validation.js';
 
@@ -89,6 +90,22 @@ const exportedMethods = {
 			throw `Error: Deletion of dog with id ${id} was unsuccessful`;
 		};
 		return `${deletedDog.value.name} has been successfully deleted!`;
+	},
+
+	async getMyDogs(id){
+		id = validation.checkId(id, "User ID");
+		const userCollection = await users();
+		const dogCollection = await dogs();
+		const myUser = await userCollection.findOne({_id: new ObjectId(id)});
+		if (myUser === null) throw 'Error: No user with that ID';
+		let myDogIDs = myUser.dogs;
+		let myDogsArr = [];
+		for (let i = 0; i < myDogIDs.length; i++){
+			let curDogID = myDogIDs[i];
+			const curDog = await dogCollection.findOne({_id: new ObjectId(curDogID)});
+			myDogsArr.push(curDog);
+		}
+		return myDogsArr;
 	}
 }
 
