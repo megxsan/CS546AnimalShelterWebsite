@@ -35,9 +35,26 @@
             <option value="false">No</option>
         </select> <br>
 
-        {{!-- learned how to select multiple options from W3 schools: https://www.w3schools.com/tags/att_select_multiple.asp#:~:text=For%20windows%3A%20Hold%20down%20the,button%20to%20select%20multiple%20options --}}
-        <label for="childrenAgesInput" id="ages">How old is your youngest child?</label>
-        <select id="childrenAgesInput" name="childrenAgesInput">
+        <label for="childrenAgesInput" type="checkbox" id="ages">If so, How old are your children?</label>
+        <fieldset id="childrenInput">
+            <input id="0" value="0" type="checkbox">
+            <label for="0">0</label> <br>
+            <input id="1" value ="1" type="checkbox">
+            <label for="1">1</label> <br>
+            <input id="2" value="2" type="checkbox">
+            <label for="2">2</label> <br>
+            <input id="3" value ="3" type="checkbox">
+            <label for="3">3</label> <br>
+            <input id="4" value="4" type="checkbox">
+            <label for="4">4</label> <br>
+            <input id="5" value ="5" type="checkbox">
+            <label for="5">5</label> <br>
+            <input id="6" value="6" type="checkbox">
+            <label for="6">6</label> <br>
+            <input id="7" value ="7" type="checkbox">
+            <label for="7">7</label> <br>
+        </fieldset>
+        {{!-- <select id="childrenAgesInput" name="childrenAgesInput">
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -56,7 +73,7 @@
             <option value="15">15</option>
             <option value="16">16</option>
             <option value="17">17</option>
-        </select> <br>
+        </select> <br> --}}
 
         <label for="timeAloneInput" id="timeAlone">How much time would the dog spend alone per day in hours?</label>
         <input id="timeAloneInput" type="number" name = "timeAloneInput"> <br>   
@@ -65,17 +82,15 @@
         <select id="animalsInput" name="animalsInput">
             <option value="true">Yes</option>
             <option value="false">No</option>
-        </select> <br>
-
-        <label for="animalTypeInput" id="animalType">If so, what other pets do you have? If you are a windows user and want to select multiple options, hold down on the Ctrl key, and if you are a Mac user, hold down on the Command key.</label>
-        <select id="childrenAgesInput" name="childrenAgesInput" multiple>
+        </select> <br>If so, what other pets do you have?</label>
+        <select id="childrenAgesInput" type="checkbox" name="childrenAgesInput">
             <option value="dog">Dog</option>
             <option value="cat">Cat</option>
             <option value="other">Other</option>
         </select> <br>
 
-        <label for="yardInput" id="yard">How would you describe your backyard? If you are a windows user and want to select multiple options, hold down on the Ctrl key, and if you are a Mac user, hold down on the Command key.</label>
-        <select id="yardInput" name="yardInput" multiple>
+        <label for="yardInput" id="yard">How would you describe your backyard?</label>
+        <select id="yardInput" type="checkbox" name="yardInput">
             <option value="enclosed front yard">Enclosed Front Yard</option>
             <option value="enclosed back yard">Enclosed Back Yard</option>
             <option value="garage">Garage</option>

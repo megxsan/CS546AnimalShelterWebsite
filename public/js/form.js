@@ -376,17 +376,18 @@
                 error.hidden = false;
             }
             try{
-                age = parseInt(ageInput.value);
-                ageInput.value = checkAge(age, "Age");
+                age = parseInt(ageInput.value.trim());
+                age = checkAge(age, "Age");
             }catch(e){
                 ageInput.value = "";
                 event.preventDefault();
                 error.hidden = false;
             }
             try{
-                phoneInput.value = phoneInput.trim();
+                phoneInput.value = phoneInput.value.trim();
                 if(phoneInput.value === "") throw 'invalid phone number';
-                phoneInput.value.match("[0-9]{3}-[0-9]{2}-[0-9]{3}");
+
+                phoneInput.value.match("[0-9]{3}-[0-9]{3}-[0-9]{4}");
             }catch(e){
                 phoneInput.value = "";
                 event.preventDefault();
@@ -395,7 +396,7 @@
 
             // NEED TO DO LIVING ACCOMMODATIONS AND YARD INPUT
             try{
-                childrenInput.value = childrenInput.trim().toLowerCase();
+                childrenInput.value = childrenInput.value.trim().toLowerCase();
                 if(childrenInput.value != "true" && childrenInput.value!= "false") throw `invalid value for children`;
             }catch(e){
                 childrenInput.value = "";
@@ -412,7 +413,7 @@
                 error.hidden = false;
             }
             try{
-                timeAloneInput.value = timeAloneInput.trim();
+                timeAloneInput.value = timeAloneInput.value.trim();
                 let num = parseInt(timeAloneInput.value);
                 if(num < 0 || num > 24) throw  `invalit time to be alone`;
             }catch(e){
