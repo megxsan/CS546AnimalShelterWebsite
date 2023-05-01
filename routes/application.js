@@ -44,23 +44,25 @@ router
                 if(!app || Object.keys(app).length != 14){
                   return res
                     .status(400)
-                    .json({error: 'There are fields missing in the request body'});
+                //     .json({error: 'There are fields missing in the request body'});
                 }
                 let checked = {};
                 try{
                         checked = validation.checkAppInputs(app.userId,app.firstName,app.lastName,app.age,app.email,app.phone, app.livingAccommodations,
                                 app.children,app.childrenAges,app.timeAlone,app.animals,app.typeAnimals,app.yard,app.reasoningExperience)
                 }catch(e){
-                        res.render('error', {title: "Application Error", error:e});
+                        // res.render('error', {title: "Application Error", error:e});
                         //figure out what status goes here
+                        console.log(e)
                 }
                 try{
                         let application = await appData.updateApp(req.session.user._id,checked.firstName,checked.lastName,checked.age,checked.email,checked.phone,checked.livingAccommodations,
                                 checked.children,checked.childrenAges,checked.timeAlone,checked.animals,checked.typeAnimals,checked.yard,checked.reasoningExperience);
                         res.render('application', {title: "Application", app: application});
                 }catch(e){
-                        res.render('error', {title: "Application Error", error:e});
+                        // res.render('error', {title: "Application Error", error:e});
                         //figure out what status to put
+                        console.log(e);
                 }
     });
 

@@ -65,6 +65,7 @@
     const registrationForm = document.getElementById('registration-form');
     const loginForm = document.getElementById('login-form');
     const settingsForm = document.getElementById("settings-form");
+    const appForm = document.getElementById("application-form");
 
     if (registrationForm) {
   
@@ -335,4 +336,97 @@
 
         }  ); 
       }
+    if (appForm) {
+        appForm.addEventListener('submit', (event) => {
+            let firstNameInput = document.getElementById("firstNameInput");
+            let lastNameInput = document.getElementById("lastNameInput");
+            let emailInput = document.getElementById("emailInput");
+            let ageInput = document.getElementById("ageInput");
+            let age;
+            let phoneInput = document.getElementById("phoneInput");
+            let livingAccommodationsInput = document.getElementById("livingAccommodationsInput");
+            let childrenInput = document.getElementById("childrenInput");
+            let childrenAgesInput = document.getElementById("childrenAgesInput");
+            let timeAloneInput = document.getElementById("timeAloneInput");
+            let yardInput = document.getElementById("yardInput");
+            let reasoningInput = document.getElementById("reasoningInput");
+            let error = document.getElementById("error");
+            error.hidden = true;
+
+            try{
+                console.log(firstNameInput.value);
+                firstNameInput.value = checkName(firstNameInput.value, "First Name");
+            }catch(e){
+                firstNameInput.value = "";
+                event.preventDefault();
+                error.hidden = false;
+            }
+            try{
+                lastNameInput.value = checkName(lastNameInput.value, "Last Name");
+            }catch(e){
+                lastNameInput.value = "";
+                event.preventDefault();
+                error.hidden = false;
+            }
+            try{
+                emailInput.value = checkEmail(emailInput.value, "Email");
+            }catch(e){
+                emailInput.value = "";
+                event.preventDefault();
+                error.hidden = false;
+            }
+            try{
+                age = parseInt(ageInput.value);
+                ageInput.value = checkAge(age, "Age");
+            }catch(e){
+                ageInput.value = "";
+                event.preventDefault();
+                error.hidden = false;
+            }
+            try{
+                phoneInput.value = phoneInput.trim();
+                if(phoneInput.value === "") throw 'invalid phone number';
+                phoneInput.value.match("[0-9]{3}-[0-9]{2}-[0-9]{3}");
+            }catch(e){
+                phoneInput.value = "";
+                event.preventDefault();
+                error.hidden = false;
+            }
+
+            // NEED TO DO LIVING ACCOMMODATIONS AND YARD INPUT
+            try{
+                childrenInput.value = childrenInput.trim().toLowerCase();
+                if(childrenInput.value != "true" && childrenInput.value!= "false") throw `invalid value for children`;
+            }catch(e){
+                childrenInput.value = "";
+                event.preventDefault();
+                error.hidden = false;
+            }
+            try{
+                childrenAgesInput.value = childrenAgesInput.trim();
+                let num = parseInt(childrenAgesInput.value);
+                if(num < 0 || num > 17) throw `invalid value for children`;
+            }catch(e){
+                childrenAgesInput.value = "";
+                event.preventDefault();
+                error.hidden = false;
+            }
+            try{
+                timeAloneInput.value = timeAloneInput.trim();
+                let num = parseInt(timeAloneInput.value);
+                if(num < 0 || num > 24) throw  `invalit time to be alone`;
+            }catch(e){
+                timeAloneInput.value = "";
+                event.preventDefault();
+                error.hidden =false;
+            }
+            try{
+                reasoningInput.value = checkString(reasoningInput.value, "Reasoning");
+            }catch(e){
+                reasoningInput.value = "";
+                event.preventDefault();
+                error.hidden =false;
+            }
+        });
+    }
   })();

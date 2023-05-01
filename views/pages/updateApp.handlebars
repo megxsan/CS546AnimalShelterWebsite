@@ -2,6 +2,9 @@
     <h2>Fill Out Your Application!</h2>
     <h3>All form items must be completed to complete your application</h3>
 
+    <div id="error" hidden>
+        <p>Double check for correct input!</p>
+    </div>
     <form id="application-form" method="post">
         <label for="firstNameInput" id="first">First Name</label>
         <input id="firstNameInput" type="text" name = "firstNameInput"> <br>
@@ -16,7 +19,7 @@
         <input id="ageInput" type="number" name = "ageInput"> <br>
 
         <label for="phoneInput" id="phone">Phone Number</label>
-        <input id="phoneInput" type="tel" name = "phoneInput"> <br>   
+        <input id="phoneInput" type="tel" name = "phoneInput" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"> <br>   
 
         <label for="livingAccommodationsInput" id="accommodations">What best describes your living situation?</label>
         <select id="livingAccommodationsInput" name="livingAccommodationsInput">
@@ -33,8 +36,8 @@
         </select> <br>
 
         {{!-- learned how to select multiple options from W3 schools: https://www.w3schools.com/tags/att_select_multiple.asp#:~:text=For%20windows%3A%20Hold%20down%20the,button%20to%20select%20multiple%20options --}}
-        <label for="childrenAgesInput" id="ages">If so, how old are they? If you are a windows user and want to select multiple options, hold down on the Ctrl key, and if you are a Mac user, hold down on the Command key.</label>
-        <select id="childrenAgesInput" name="childrenAgesInput" multiple>
+        <label for="childrenAgesInput" id="ages">How old is your youngest child?</label>
+        <select id="childrenAgesInput" name="childrenAgesInput">
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
