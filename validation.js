@@ -179,23 +179,24 @@ const exportedMethods = {
 		phone,
 		livingAccommodations,
 		children,
-		childrenAges,
 		timeAlone,
 		animals,
-		typeAnimals,
 		yard,
 		reasoningExperience
 	) {
 		userId = this.checkId(userId, "User ID");
 		// Checking booleans
-		children = this.checkBool(children, "Children Boolean");
-		animals = this.checkBool(animals, "Animals Boolean");
+		// children = this.checkBool(children, "Children Boolean");
+		// animals = this.checkBool(animals, "Animals Boolean");
 
 		// Checking numbers
-		age = this.checkAge(age);
-		phone = this.checkNum(phone, "Phone Number");
-		timeAlone = this.checkNum(timeAlone, "Time Alone");
-		if (phone.toString().length != 10) throw `Error: Invalid phone number`;
+		// age = this.checkAge(age);
+		// phone = this.checkNum(phone, "Phone Number");
+		// let age2 = parseInt(age);
+		// age = this.checkAge(age2);
+		phone = this.checkString(phone, "Phone Number")
+		timeAlone = this.checkNum(parseInt(timeAlone), "Time Alone");
+		if (phone.toString().length != 12) throw `Error: Invalid phone number`;
 		if (timeAlone < 0 || timeAlone > 24)
 			throw `Error: Time alone must be between 0 and 24 hours`;
 
@@ -222,37 +223,16 @@ const exportedMethods = {
 		) {
 			throw `Error: Living accommodation isn't valid`;
 		}
+		//checking childrenInput, animalsInput and yard
+		// children = this.checkString(children, "Children");
+		// animals = this.checkString(animals, "Animals");
+		// yard = this.checkString(yard, "Yard");
 
-		// Checking arrays
-		childrenAges = this.checkNumArray(childrenAges, "Children Ages");
-		typeAnimals = this.checkStringArray(typeAnimals, "Types of Animals", 0);
-		yard = this.checkStringArray(yard, "Yard", 0);
-		for (let i = 0; i < childrenAges.length; i++) {
-			if (childrenAges[i] < 0 || childrenAges[i] > 18)
-				throw `Children age isn't valid`;
-		}
-		for (let i = 0; i < typeAnimals.length; i++) {
-			typeAnimals[i] = typeAnimals[i].toLowerCase();
-			if (
-				typeAnimals[i] != "dog" &&
-				typeAnimals[i] != "cat" &&
-				typeAnimals[i] != "other"
-			) {
-				throw `Animal types not valid`;
-			}
-		}
-		for (let i = 0; i < yard.length; i++) {
-			yard[i] = yard[i].toLowerCase();
-			if (
-				yard[i] != "enclosed front yard" &&
-				yard[i] != "enclosed back yard" &&
-				yard[i] != "garage" &&
-				yard[i] != "dog house" &&
-				yard[i] != "other"
-			) {
-				throw `yard types not valid`;
-			}
-		}
+		if (children != "0" && children != "1" && children != "2" && children != "3" && children != "4") throw `invalid value for children`;
+		// if (animals != "0" && animals != "1" && animals != "2" && animals != "3" && animals != "4") throw `invalid value for animals`;
+		if (yard != "true" && yard != "false") throw `invalid value for yard`;
+
+
 		let newApp = {
 			firstName,
 			lastName,
@@ -261,10 +241,8 @@ const exportedMethods = {
 			phone,
 			livingAccommodations,
 			children,
-			childrenAges,
 			timeAlone,
 			animals,
-			typeAnimals,
 			yard,
 			reasoningExperience,
 		};

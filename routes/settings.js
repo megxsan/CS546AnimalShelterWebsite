@@ -60,7 +60,6 @@ router
             try{
                 user = await userData.getUserById(req.session.user._id);
             }catch(e){
-                console.log("errored at get");
                 res.render('pages/updateSettings', {title: "Update Settings"})
 
             }

@@ -274,7 +274,6 @@
 				error5.hidden = true;
 				error6.hidden = true;
 			}
-			console.log(oldPassword.value);
 			if (!oldPassword.value) {
 				event.preventDefault();
 				error5.hidden = false;
@@ -423,7 +422,6 @@
 			error.hidden = true;
 
 			try {
-				console.log(firstNameInput.value);
 				firstNameInput.value = checkName(firstNameInput.value, "First Name");
 			} catch (e) {
 				firstNameInput.value = "";
@@ -447,6 +445,7 @@
 			try {
 				age = parseInt(ageInput.value.trim());
 				age = checkAge(age, "Age");
+
 			} catch (e) {
 				ageInput.value = "";
 				event.preventDefault();

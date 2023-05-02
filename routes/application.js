@@ -12,15 +12,18 @@ router
         //  Get - Seeing application form
                 let hasApp;
                 let noApp;
+                let app;
                 let application = await appData.getApp(req.session.user._id);
                 if(Object.keys(application).length === 0){
                         hasApp = false;
                         noApp = true;
+                        res.render('pages/app', {title: "Application", app: hasApp, noApp: noApp});
                 }else{
                         hasApp = true;
                         noApp = false;
+                        res.render('pages/app', {title: "Application", app: hasApp, noApp: noApp, first:application.firstName, last:application.lastName, age: application.age, email:application.email, phone:application.phone, livingAccommodations: application.livingAccommodations, children:application.children, timeAlone:application.timeAlone, animals:application.animals, yard:application.yard, reasoningExperience: application.reasoningInput});
+
                 }
-                res.render('pages/app', {title: "Application", app: hasApp, noApp: noApp});
                 // }catch(e){
                 //         res.render('error', {title: "Application Error", error:e});
                 //         //figure out what status to put
@@ -40,26 +43,21 @@ router
         /*  Patch 
                 -Recieving edit application form
         */
-                console.log(req.body);
                 const app = req.body;
-                if(!app || Object.keys(app).length != 14){
-                  return res
-                    .status(400)
-                //     .json({error: 'There are fields missing in the request body'});
-                }
                 let checked = {};
                 try{
-                        checked = validation.checkAppInputs(app.userId,app.firstName,app.lastName,app.age,app.email,app.phone, app.livingAccommodations,
-                                app.children,app.childrenAges,app.timeAlone,app.animals,app.typeAnimals,app.yard,app.reasoningExperience)
+                        // console.log(app);
+                        checked = validation.checkAppInputs(req.session.user._id, app.firstNameInput,app.lastNameInput,app.ageInput,app.emailInput,app.phoneInput, app.livingAccommodationsInput,
+                                app.childrenInput,app.timeAloneInput,app.animals,app.yardInput,app.reasoningInput)
                 }catch(e){
                         // res.render('error', {title: "Application Error", error:e});
                         //figure out what status goes here
                         console.log(e)
                 }
                 try{
-                        let application = await appData.updateApp(req.session.user._id,checked.firstName,checked.lastName,checked.age,checked.email,checked.phone,checked.livingAccommodations,
-                                checked.children,checked.childrenAges,checked.timeAlone,checked.animals,checked.typeAnimals,checked.yard,checked.reasoningExperience);
-                        res.render('application', {title: "Application", app: application});
+                        let application = await appData.addApp(req.session.user._id,checked.firstName,checked.lastName,checked.age,checked.email,checked.phone,checked.livingAccommodations,
+                                checked.children,checked.timeAlone,checked.animals,checked.yard,checked.reasoningExperience);
+                        res.render('pages/app', {title: "Application"});
                 }catch(e){
                         // res.render('error', {title: "Application Error", error:e});
                         //figure out what status to put

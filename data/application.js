@@ -15,10 +15,8 @@ const exportedMethods = {
 		phone,
 		livingAccommodations,
 		children,
-		childrenAges,
 		timeAlone,
 		animals,
-		typeAnimals,
 		yard,
 		reasoningExperience
 	) {
@@ -31,10 +29,8 @@ const exportedMethods = {
 			phone,
 			livingAccommodations,
 			children,
-			childrenAges,
 			timeAlone,
 			animals,
-			typeAnimals,
 			yard,
 			reasoningExperience);
 		newApp._id = new ObjectId();
