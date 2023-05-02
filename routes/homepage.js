@@ -35,6 +35,7 @@ router
 	})
 	.post(async (req, res) => {
 		let info = req.body;
+		req.body = {};
 		let signedOut = true;
 		let signedIn = false;
 		let loggedOut = false;
@@ -61,6 +62,10 @@ router
 			}
 			obj.breeds = { $in: breedsArray };
 		}
+		console.log(info);
+		info.weightinput[0] = Number(info.weightinput[0]);
+		info.weightinput[1] = Number(info.weightinput[1]);
+		obj.weight = { $gte: info.weightinput[0], $lte: info.weightinput[1] };
 		dogCollection = await dogCollection.find({ ...obj }).toArray();
 		res.render("pages/homepage", {
 			dogs: dogCollection,

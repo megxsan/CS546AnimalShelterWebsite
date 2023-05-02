@@ -2,7 +2,7 @@
 	<h2>Search for Dogs</h2>
 
 	<div id="error" hidden>
-		<p>Double check for correct input!</p>
+		<p>Minimum Weight must be less than Maximum Weight</p>
 	</div>
 	<form id="filter-form" method="post" action="/">
 		<fieldset id="sexinput">
@@ -45,6 +45,28 @@
 			{{else}}
 				<p>There are no breeds to select from</p>
 			{{/if}}
+		</fieldset>
+
+		<fieldset id="weightinput">
+			<legend>Filter Weight</legend>
+			<label for="minweight">Minimum Weight in Pounds</label>
+			<input
+				id="minweight"
+				type="number"
+				name="weightinput"
+				value="0"
+				min="0"
+				max="500"
+			/>
+			<br /><label for="maxweight">Maximum Weight in Pounds</label>
+			<input
+				id="maxweight"
+				type="number"
+				name="weightinput"
+				value="500"
+				min="0"
+				max="500"
+			/>
 		</fieldset>
 
 		<button id="filterButton" type="submit">Submit</button>
