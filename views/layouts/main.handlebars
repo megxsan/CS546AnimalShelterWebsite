@@ -13,18 +13,14 @@
 		<nav>
 			<a href="/">Main Page</a>
             <a href="/account/settings">My Account</a>
-			{{#if signedOut}}
-				<a href="/login">Login/SignUp</a>
-			{{/if}}
 			{{#if signedIn}}
-				<a href="/">Logout</a>
+				<a href="/logout">Logout</a>
+			{{else}}
+				<a href="/login">Login/SignUp</a>
 			{{/if}}
 		</nav>
 
 		<main>
-			{{#if loggedOut}}
-				<p>You have successfully logged out!</p>
-			{{/if}}
 			{{{body}}}
 		</main>
 		<script src="../../public/js/form.js"></script>
