@@ -148,6 +148,27 @@ const exportedMethods = {
 		return email;
 		*/
 	},
+	
+	checkPicArray(arr, minLength) {
+		if (!arr || !Array.isArray(arr))
+			throw `Error: You must provide an array of Pictures`;
+		if (arr.length < minLength)
+			throw `Error: Pictures must have at least ${minLength} element(s)`;
+		for (let i in arr) {
+			if (typeof arr[i] !== "object" || Array.isArray(arr[i]) || arr[i] === null) {
+				throw `Error: One or more elements in Pictures array is not an object`;
+			}
+			if (Object.keys(arr[i]).length !== 2 || !arr[i].hasOwnProperty("key") || !arr[i].hasOwnProperty("url")) {
+				throw `Error: One or more elements in Pictures array does have the correct properties`;
+			}
+			if (typeof arr[i].key !== "string" || arr[i].key.trim().length === 0 || typeof arr[i].url !== "string" || arr[i].url.trim().length === 0) {
+				throw `Error: One or more properties in Pictures array is not a string or is an empty string`;
+			}
+			arr[i].key = arr[i].key.trim();
+			arr[i].url = arr[i].url.trim();
+		}
+		return arr;
+	},
 
 	checkAppInputs(
 		userId,
