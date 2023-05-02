@@ -533,13 +533,16 @@
 			let activity = document.getElementById("activity");
 			let fam = document.getElementById("fam");
 			let dog = document.getElementById("dog");
-
+			let error = document.getElementById("error");
+			error.hidden = true;
+			console.log(space.value);
 			try{
 				space.value = space.value.toLowerCase().trim();
 				if(space.value != "apartment" && space.value != "houseN" && space.value != "houseB") throw `invalid space input`
 			}catch(e){
 				space.value = "";
 				event.preventDefault();
+				error.hidden = false;
 			}
 			try{
 				walks.value = walks.value.toLowerCase().trim();
@@ -547,13 +550,17 @@
 			}catch(e){
 				walks.value = "";
 				event.preventDefault();
+				error.hidden = false;
+
 			}
 			try{
 				outside.value = outside.value.toLowerCase().trim();
-				if(outside.value != "inside" && outside.value != "outside" && outside.value != "both") throw `invalid outside input`
+				if(outside.value != "inside" && outside.value != "out" && outside.value != "both") throw `invalid outside input`
 			}catch(e){
 				outside.value = "";
 				event.preventDefault();
+				error.hidden = false;
+
 			}		
 			try{
 				fur.value = fur.value.toLowerCase().trim();
@@ -561,7 +568,40 @@
 			}catch(e){
 				fur.value = "";
 				event.preventDefault();
+				error.hidden = false;
 			}	
+			try{
+				size.value = size.value.toLowerCase().trim();
+				if(size.value != "mini" && size.value != "small" && size.value != "medium" && size.value != "large" && size.value != "xlarge") throw `invalid size input`
+			}catch(e){
+				size.value = "";
+				event.preventDefault();
+				error.hidden = false;
+			}
+			try{
+				activity.value = activity.value.toLowerCase().trim();
+				if(activity.value != "lazy" && activity.value != "physical" && activity.value != "activityboth") throw `invalid activity input`
+			}catch(e){
+				size.value = "";
+				event.preventDefault();
+				error.hidden = false;
+			}
+			try{
+				fam.value = fam.value.toLowerCase().trim();
+				if(fam.value != "me" && fam.value != "nokid" && fam.value != "kid") throw `invalid family input`
+			}catch(e){
+				size.value = "";
+				event.preventDefault();
+				error.hidden = false;
+			}
+			try{
+				dog.value = dog.value.toLowerCase().trim();
+				if(dog.value != "working" && dog.value != "herding" && dog.value != "hound" && dog.value != "sporting" && dog.value != "nonsporting" && dog.value != "toy" && dog.value != "terrier") throw `invalid dog input`
+			}catch(e){
+				size.value = "";
+				event.preventDefault();
+				error.hidden = false;
+			}
 		});
 	}
 	if (filterForm) {
