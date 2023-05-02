@@ -1,34 +1,74 @@
 import { userData } from "../data/index.js";
 import { dogData } from "../data/index.js";
 import { appData } from "../data/index.js";
+import { dogs } from "../config/mongoCollections.js";
 import validation from "../validation.js";
 
 import { Router } from "express";
 const router = Router();
 
-router.route("/").get(async (req, res) => {
-	/*  Get 
+router
+	.route("/")
+	.get(async (req, res) => {
+		/*  Get 
 				-Seeing all the dogs
 				-Signing in button
 				-Signing up button 
 		*/
-	// if(req.session.user === undefined){
-	// Homepage for when signed out
-	// let allDogs = await dogData.getAllDogs();
-	// res.render('homepage', {dogs: allDogs});
-	// }
-	//Homepage for when signed in
-	let signedOut = true;
-	let signedIn = false;
-	let loggedOut = false;
-	let allDogs = await dogData.getAllDogs();
-	res.render("pages/homepage", {
-		dogs: allDogs,
-		signedOut: signedOut,
-		signedIn: signedIn,
-		loggedOut: loggedOut,
+		// if(req.session.user === undefined){
+		// Homepage for when signed out
+		// let allDogs = await dogData.getAllDogs();
+		// res.render('homepage', {dogs: allDogs});
+		// }
+		//Homepage for when signed in
+		let signedOut = true;
+		let signedIn = false;
+		let loggedOut = false;
+		let dogCollection = await dogs();
+		let allDogs = await dogCollection.find().toArray();
+		res.render("pages/homepage", {
+			dogs: allDogs,
+			signedOut: signedOut,
+			signedIn: signedIn,
+			loggedOut: loggedOut,
+		});
+	})
+	.post(async (req, res) => {
+		let info = req.body;
+		let signedOut = true;
+		let signedIn = false;
+		let loggedOut = false;
+		let dogCollection = await dogs();
+		let obj = {};
+		if (info.sexinput) {
+			obj.sex = info.sexinput;
+		}
+		if (info.colorinput) {
+			let colorsArray = [];
+			if (!Array.isArray(info.colorinput)) {
+				colorsArray.push(info.colorinput);
+			} else {
+				colorsArray = info.colorinput;
+			}
+			obj.color = { $in: colorsArray };
+		}
+		if (info.breedinput) {
+			let breedsArray = [];
+			if (!Array.isArray(info.breedinput)) {
+				breedsArray.push(info.breedinput);
+			} else {
+				breedsArray = info.breedinput;
+			}
+			obj.breeds = { $in: breedsArray };
+		}
+		dogCollection = await dogCollection.find({ ...obj }).toArray();
+		res.render("pages/homepage", {
+			dogs: dogCollection,
+			signedOut: signedOut,
+			signedIn: signedIn,
+			loggedOut: loggedOut,
+		});
 	});
-});
 
 router
 	.route("/login")
@@ -210,25 +250,30 @@ router.route("/logout").get(async (req, res) => {
 	res.redirect("/");
 });
 
-router.route("/filter").get(async (req, res) => {
-	// Code here for GET
-	let allDogs = await dogData.getAllDogs();
-	let allColors = [];
-	let allBreeds = [];
-	allDogs.forEach((dog) => {
-		if (dog.adopted === false) {
-			dog.color.forEach((col) => {
-				if (!allColors.includes(col)) {
-					allColors.push(col);
-				}
-			});
-			dog.breeds.forEach((breed) => {
-				if (!allBreeds.includes(breed)) {
-					allBreeds.push(breed);
-				}
-			});
-		}
+router
+	.route("/filter")
+	.get(async (req, res) => {
+		// Code here for GET
+		let allDogs = await dogData.getAllDogs();
+		let allColors = [];
+		let allBreeds = [];
+		allDogs.forEach((dog) => {
+			if (dog.adopted === false) {
+				dog.color.forEach((col) => {
+					if (!allColors.includes(col)) {
+						allColors.push(col);
+					}
+				});
+				dog.breeds.forEach((breed) => {
+					if (!allBreeds.includes(breed)) {
+						allBreeds.push(breed);
+					}
+				});
+			}
+		});
+		res.render("pages/filter", { colors: allColors, breeds: allBreeds });
+	})
+	.post(async (req, res) => {
+		console.log(req.body);
 	});
-	res.render("pages/filter", { colors: allColors, breeds: allBreeds });
-});
 export default router;
