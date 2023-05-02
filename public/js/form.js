@@ -88,6 +88,7 @@
 	const loginForm = document.getElementById("login-form");
 	const settingsForm = document.getElementById("settings-form");
 	const appForm = document.getElementById("application-form");
+	const quizForm = document.getElementById("quiz-form");
 	const filterForm = document.getElementById("filter-form");
 
 	if (registrationForm) {
@@ -520,6 +521,47 @@
 				event.preventDefault();
 				error.hidden = false;
 			}
+		});
+	}
+	if(quizForm){
+		quizForm.addEventListener("submit", (event) => {
+			let space = document.getElementById("space");
+			let walks = document.getElementById("walks");
+			let outside = document.getElementById("outside");
+			let fur = document.getElementById("fur");
+			let size = document.getElementById("size");
+			let activity = document.getElementById("activity");
+			let fam = document.getElementById("fam");
+			let dog = document.getElementById("dog");
+
+			try{
+				space.value = space.value.toLowerCase().trim();
+				if(space.value != "apartment" && space.value != "houseN" && space.value != "houseB") throw `invalid space input`
+			}catch(e){
+				space.value = "";
+				event.preventDefault();
+			}
+			try{
+				walks.value = walks.value.toLowerCase().trim();
+				if(walks.value != "none" && walks.value != "short" && walks.value != "long" && walks.value != "many") throw `invalid walks input`
+			}catch(e){
+				walks.value = "";
+				event.preventDefault();
+			}
+			try{
+				outside.value = outside.value.toLowerCase().trim();
+				if(outside.value != "inside" && outside.value != "outside" && outside.value != "both") throw `invalid outside input`
+			}catch(e){
+				outside.value = "";
+				event.preventDefault();
+			}		
+			try{
+				fur.value = fur.value.toLowerCase().trim();
+				if(fur.value != "noshed" && fur.value != "shed" && fur.value != "bothshed") throw `invalid shed input`
+			}catch(e){
+				fur.value = "";
+				event.preventDefault();
+			}	
 		});
 	}
 	if (filterForm) {
