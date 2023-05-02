@@ -2,6 +2,18 @@ import { dogs } from "../config/mongoCollections.js";
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from 'mongodb';
 import validation from '../validation.js';
+import formidable from 'formidable';
+import { Upload } from '@aws-sdk/lib-storage';
+import { DeleteObjectCommand, S3Client} from '@aws-sdk/client-s3';
+import { Transform } from 'stream';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const region = process.env.S3_REGION;
+const Bucket = process.env.S3_BUCKET;
 
 const exportedMethods = {
 	async addDog(
@@ -29,8 +41,13 @@ const exportedMethods = {
 		traits = validation.checkStringArray(traits, "Traits", 0);
 		medicalInfo = validation.checkStringArray(medicalInfo, "Medical Info", 0);
 		vaccines = validation.checkStringArray(vaccines, "Vaccines", 0);
-		pictures = validation.checkStringArray(pictures, "Pictures", 0); //NEEDS TO BE PROPERLY VALIDATED
+		pictures = validation.checkPicArray(pictures, 0);
 		userId = validation.checkId(userId, "User ID");
+
+		const userCollection = await users();
+        const myUser = await userCollection.findOne({_id: new ObjectId(userId)});
+        if (myUser === null) throw 'Error: No user with that ID';
+
 		let newDog = {
 			name: name,
 			sex: sex,
@@ -54,19 +71,179 @@ const exportedMethods = {
 		if (!insertInfo.acknowledged || !insertInfo.insertedId)  {
 			throw "Error: Could not add dog";
 		};
+
 		const newId = insertInfo.insertedId.toString();
-		const dog = await this.getDogById(newId);
+		myUser.dogs.push(newId);
+
+		const updatedUser = {
+            firstName: myUser.firstName,
+            lastName: myUser.lastName,
+            age: myUser.age,
+            email: myUser.email,
+            password: myUser.password,
+            dogs: myUser.dogs,
+            quizResult: myUser.quizResult,
+            application: myUser.application,
+            accepted: myUser.accepted,
+            pending: myUser.pending,
+            rejected: myUser.rejected,
+            liked: myUser.liked,
+            disliked: myUser.disliked
+        };
+		const updatedInfo = await userCollection.findOneAndReplace(
+            {_id: new ObjectId(userId)},
+            updatedUser,
+            {returnDocument: 'after'}
+        );
+        if (updatedInfo.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update post with id ${userId}`];
+
+		const myDog = await this.getDogById(newId);
+		myDog._id = myDog._id.toString();
+		return myDog;
+	},
+
+	async updateDog(
+		name,
+		sex,
+		age,
+		color,
+		breeds,
+		weight,
+		description,
+		traits,
+		medicalInfo,
+		vaccines,
+		pictures,
+		dogId
+	) {
+		name = validation.checkString(name, "Name");
+		name = validation.checkName(name, "Name");
+		sex = validation.checkSex(sex, "Sex");
+		age = validation.checkDogAge(age, "Age");
+		color = validation.checkStringArray(color, "Color", 1);
+		breeds = validation.checkStringArray(breeds, "Breeds", 1);
+		weight = validation.checkWeight(weight, "Weight");
+		description = validation.checkString(description, "Description");
+		traits = validation.checkStringArray(traits, "Traits", 0);
+		medicalInfo = validation.checkStringArray(medicalInfo, "Medical Info", 0);
+		vaccines = validation.checkStringArray(vaccines, "Vaccines", 0);
+		pictures = validation.checkPicArray(pictures, 0);
+		dogId = validation.checkId(dogId, "Dog ID");
+
+		const dogCollection = await dogs();
+		const myDog = await dogCollection.findOne({_id: new ObjectId(dogId)});
+		if(myDog === null) {
+			throw 'Error: No dog with that ID';
+		};
+
+		let updatedDog = {
+			name: name,
+			sex: sex,
+			age: age,
+			color: color,
+			breeds: breeds,
+			weight: weight,
+			description: description,
+			traits: traits,
+			medicalInfo: medicalInfo,
+			vaccines: vaccines,
+			pictures: pictures,
+			userId: myDog.userId,
+			interest: myDog.intrest,
+			adopted: myDog.adopted,
+			likes: myDog.likes,
+			comments: myDog.comments
+		};
+
+		const updatedInfo = await dogCollection.findOneAndReplace(
+            {_id: new ObjectId(dogId)},
+            updatedDog,
+            {returnDocument: 'after'}
+        );
+        if (updatedInfo.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update post with id ${dogId}`];
+		const dog = await this.getDogById(dogId);
+		dog._id = dog._id.toString();
 		return dog;
 	},
+
 	async getDogById(id) {
 		id = validation.checkId(id, "Dog ID");
 		const dogCollection = await dogs();
-		const MyDog = await dogCollection.findOne({_id: new ObjectId(id)});
-		if(MyDog === null) {
+		const myDog = await dogCollection.findOne({_id: new ObjectId(id)});
+		if(myDog === null) {
 			throw 'Error: No dog with that ID';
 		};
-		MyDog._id = MyDog._id.toString();
-		return MyDog;
+		myDog._id = myDog._id.toString();
+		return myDog;
+	},
+
+	async addLike(dogId, userId) {
+		dogId = validation.checkId(id, "Dog ID");
+		userId = validation.checkId(id, "User ID");
+		const dogCollection = await dogs();
+		const myDog = await dogCollection.findOne({_id: new ObjectId(dogId)});
+		if(myDog === null) {
+			throw 'Error: No dog with that ID';
+		};
+
+		const userCollection = await users();
+        const myUser = await userCollection.findOne({_id: new ObjectId(userId)});
+        if (myUser === null) throw 'Error: No user with that ID';
+		
+		for (i in myUser.liked) {
+			if (myUser.liked[i] === dogId) throw `Error: Cannot like the same dog twice`;
+		}
+
+		let updatedDog = {
+			name: myDog.name,
+			sex: myDog.sex,
+			age: myDog.age,
+			color: myDog.color,
+			breeds: myDog.breeds,
+			weight: myDog.weight,
+			description: myDog.description,
+			traits: myDog.traits,
+			medicalInfo: myDog.medicalInfo,
+			vaccines: myDog.vaccines,
+			pictures: myDog.pictures,
+			userId: myDog.userId,
+			interest: myDog.intrest,
+			adopted: myDog.adopted,
+			likes: myDog.likes + 1,
+			comments: myDog.comments
+		};
+
+		const updatedInfoDog = await dogCollection.findOneAndReplace(
+            {_id: new ObjectId(dogId)},
+            updatedDog,
+            {returnDocument: 'after'}
+        );
+        if (updatedInfoDog.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update post with id ${dogId}`];
+		myUser.liked.push(dogId);
+
+		const updatedUser = {
+            firstName: myUser.firstName,
+            lastName: myUser.lastName,
+            age: myUser.age,
+            email: myUser.email,
+            password: myUser.password,
+            dogs: myUser.dogs,
+            quizResult: myUser.quizResult,
+            application: myUser.application,
+            accepted: myUser.accepted,
+            pending: myUser.pending,
+            rejected: myUser.rejected,
+            liked: myUser.liked,
+            disliked: myUser.disliked
+        };
+		const updatedInfoUser = await userCollection.findOneAndReplace(
+            {_id: new ObjectId(userId)},
+            updatedUser,
+            {returnDocument: 'after'}
+        );
+        if (updatedInfoUser.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update post with id ${userId}`];
+
+		return `${myDog.name} has been successfully liked!`;;
 	},
 	
 	async getAllDogs() {
@@ -84,6 +261,40 @@ const exportedMethods = {
 
 	async removeDog(id) {
 		id = validation.checkId(id, "Dog ID");
+		const myDog = await this.getDogById(id);
+		myDog.pictures = validation.checkPicArray(myDog.pictures, 0);
+		for (let i in myDog.pictures) {
+			this.deletePhoto(myDog.pictures[i].key);
+		}
+
+		const userCollection = await users();
+        const myUser = await userCollection.findOne({_id: new ObjectId(myDog.userId)});
+        if (myUser === null) throw 'Error: No user with that ID';
+		let removeDogId = myUser.dogs.filter(e => e !== id);
+
+		const updatedUser = {
+            firstName: myUser.firstName,
+            lastName: myUser.lastName,
+            age: myUser.age,
+            email: myUser.email,
+            password: myUser.password,
+            dogs: removeDogId,
+            quizResult: myUser.quizResult,
+            application: myUser.application,
+            accepted: myUser.accepted,
+            pending: myUser.pending,
+            rejected: myUser.rejected,
+            liked: myUser.liked,
+            disliked: myUser.disliked
+        };
+		const updatedInfoUser = await userCollection.findOneAndReplace(
+            {_id: new ObjectId(myDog.userId)},
+            updatedUser,
+            {returnDocument: 'after'}
+        );
+        if (updatedInfoUser.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update post with id ${myDog.userId}`];
+
+
 		const dogCollection = await dogs();
 		const deletedDog = await dogCollection.findOneAndDelete({_id: new ObjectId(id)});
 		if(deletedDog.lastErrorObject.n === 0) {
@@ -106,6 +317,101 @@ const exportedMethods = {
 			myDogsArr.push(curDog);
 		}
 		return myDogsArr;
+	},
+
+	async deletePhoto(key) {
+		const client = new S3Client({redentials: {
+			accessKeyId,
+			secretAccessKey
+		},
+		region});
+
+		const command = new DeleteObjectCommand({
+			Bucket: Bucket,
+			Key: key,
+			});
+			try {
+				const response = await client.send(command);
+				return `${key} has been successfully deleted!`;
+			} catch (err) {
+				console.log(err);
+				return;
+			}
+	},
+
+
+	// Citation: https://www.freecodecamp.org/news/how-to-upload-files-to-aws-s3-with-node/
+	async uploadPhoto(req) {
+		return new Promise((resolve, reject) => {
+			let options = {
+				maxFileSize: 100 * 1024 * 1024,
+				allowEmptyFiles: false
+			}
+	
+			const form = formidable(options);
+			form.parse(req, (err, fields, files) => {
+			});
+	
+			form.on('error', error => {
+				reject(error.message)
+			})
+	
+			form.on('data', data => {
+				if (data.name === "complete") {
+					resolve(data.value);
+				}
+			})
+	
+			form.on('fileBegin', (formName, file) => {
+	
+				file.open = async function () {
+					this._writeStream = new Transform({
+						transform(chunk, encoding, callback) {
+							callback(null, chunk)
+						}
+					})
+	
+					this._writeStream.on('error', e => {
+						form.emit('error', e)
+					});
+	
+					// Upload to S3
+					new Upload({
+						client: new S3Client({
+							credentials: {
+								accessKeyId,
+								secretAccessKey
+							},
+							region
+						}),
+						params: {
+							ACL: 'public-read',
+							Bucket,
+							Key: `${Date.now().toString()}-${this.originalFilename}`,
+							Body: this._writeStream
+						},
+						tags: [], // Optional tags
+						queueSize: 4, // Optional concurrency configuration
+						partSize: 1024 * 1024 * 5, // Optional size of each part, in bytes, at least 5MB
+						leavePartsOnError: false, // Optional manually handle dropped parts
+					})
+						.done()
+						.then(data => {
+							form.emit('data', { name: "complete", value: data });
+						}).catch((err) => {
+							form.emit('error', err);
+						})
+				}
+	
+				file.end = function (cb) {
+					this._writeStream.on('finish', () => {
+						this.emit('end')
+						cb()
+					})
+					this._writeStream.end()
+				}
+			})
+		})
 	}
 }
 
