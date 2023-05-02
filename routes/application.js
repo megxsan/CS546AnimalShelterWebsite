@@ -12,7 +12,6 @@ router
         //  Get - Seeing application form
                 let hasApp;
                 let noApp;
-                let app;
                 let application = await appData.getApp(req.session.user._id);
                 if(Object.keys(application).length === 0){
                         hasApp = false;
@@ -31,15 +30,15 @@ router
     });
 
 router
-	.route("/edit")
+        .route("/edit")
 	.get(async (req, res) => {
         //  Get -Seeing edit application form
         if(!req.session.user._id){
                 res.render('error', {title: "Application Error", error: "Must be signed in to edit an application"});
         }
         res.render('pages/updateApp', {tite:"Editing Application Page", user: req.session.user._id});
-    })
-    .post(async (req, res) => {
+        })
+        .post(async (req, res) => {
         /*  Patch 
                 -Recieving edit application form
         */
@@ -56,7 +55,7 @@ router
                 try{
                         let application = await appData.addApp(req.session.user._id,checked.firstName,checked.lastName,checked.age,checked.email,checked.phone,checked.livingAccommodations,
                                 checked.children,checked.timeAlone,checked.animals,checked.yard,checked.reasoningExperience);
-                        res.render('pages/app', {title: "Application"});
+                        res.redirect("/account/application");
                 }catch(e){
                         // res.render('error', {title: "Application Error", error:e});
                         //figure out what status to put
