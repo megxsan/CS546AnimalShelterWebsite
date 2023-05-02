@@ -21,7 +21,7 @@ router
                 }else{
                         hasApp = true;
                         noApp = false;
-                        res.render('pages/app', {title: "Application", app: hasApp, noApp: noApp, first:application.firstName, last:application.lastName, age: application.age, email:application.email, phone:application.phone, livingAccommodations: application.livingAccommodations, children:application.children, timeAlone:application.timeAlone, animals:application.animals, yard:application.yard, reasoningExperience: application.reasoningInput});
+                        res.render('pages/app', {title: "Application", app: hasApp, noApp: noApp, first:application.firstName, last:application.lastName, age: application.age, email:application.email, phone:application.phone, livingAccommodations: application.livingAccommodations, children:application.children, timeAlone:application.timeAlone, animals:application.animals, yard:application.yard, reasoningExperience: application.reasoningExperience});
 
                 }
                 // }catch(e){
@@ -49,6 +49,7 @@ router
                         // console.log(app);
                         checked = validation.checkAppInputs(req.session.user._id, app.firstNameInput,app.lastNameInput,app.ageInput,app.emailInput,app.phoneInput, app.livingAccommodationsInput,
                                 app.childrenInput,app.timeAloneInput,app.animals,app.yardInput,app.reasoningInput)
+                        console.log(checked);
                 }catch(e){
                         // res.render('error', {title: "Application Error", error:e});
                         //figure out what status goes here

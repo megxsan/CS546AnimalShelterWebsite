@@ -228,9 +228,9 @@ const exportedMethods = {
 		// animals = this.checkString(animals, "Animals");
 		// yard = this.checkString(yard, "Yard");
 
-		if (children != "0" && children != "1" && children != "2" && children != "3" && children != "4") throw `invalid value for children`;
+		if (children != "0" && children != "1" && children != "2" && children != "3" && children != "more than 3") throw `invalid value for children`;
 		// if (animals != "0" && animals != "1" && animals != "2" && animals != "3" && animals != "4") throw `invalid value for animals`;
-		if (yard != "true" && yard != "false") throw `invalid value for yard`;
+		if (yard != "yes" && yard != "no") throw `invalid value for yard`;
 
 
 		let newApp = {

@@ -479,7 +479,7 @@
 			}
 			try {
 				childrenInput.value = childrenInput.value.trim().toLowerCase();
-				if (childrenInput.value != "0" && childrenInput.value != "1" && childrenInput.value != "2" && childrenInput.value != "3" && childrenInput.value != "4") throw `invalid value for children`;
+				if (childrenInput.value != "0" && childrenInput.value != "1" && childrenInput.value != "2" && childrenInput.value != "3" && childrenInput.value != "more than 3") throw `invalid value for children`;
 			} catch (e) {
 				childrenInput.value = "";
 				event.preventDefault();
@@ -497,7 +497,7 @@
 			}
 			try {
 				animalsInput.value = animalsInput.value.trim().toLowerCase();
-				if (animalsInput.value != "0" && animalsInput.value != "1" && animalsInput.value != "2" && animalsInput.value != "3" && animalsInput.value != "4") throw `invalid value for animals`;
+				if (animalsInput.value != "0" && animalsInput.value != "1" && animalsInput.value != "2" && animalsInput.value != "3" && animalsInput.value != "more than 3") throw `invalid value for animals`;
 
 			} catch (e) {
 				animalsInput.value = "";
@@ -507,7 +507,7 @@
 
 			try {
 				yardInput.value = yardInput.value.trim().toLowerCase();
-				if (yardInput.value != "true" && animalsInput.value != "false") throw `invalid value for yard`;
+				if (yardInput.value != "yes" && yardInput.value != "no") throw `invalid value for yard`;
 			} catch (e) {
 				yardInput.value = "";
 				event.preventDefault();
