@@ -415,10 +415,8 @@
 				"livingAccommodationsInput"
 			);
 			let childrenInput = document.getElementById("childrenInput");
-			let childrenAgesInput = document.getElementById("childrenAgesInput");
 			let timeAloneInput = document.getElementById("timeAloneInput");
 			let animalsInput = document.getElementById("animalsInput");
-			let otherPetInput = document.getElementById("otherPetInput");
 			let yardInput = document.getElementById("yardInput");
 			let reasoningInput = document.getElementById("reasoningInput");
 			let error = document.getElementById("error");
@@ -482,35 +480,7 @@
 			}
 			try {
 				childrenInput.value = childrenInput.value.trim().toLowerCase();
-				if (childrenInput.value != "true" && childrenInput.value != "false")
-					throw `invalid value for children`;
-				if (childrenInput.value === "true") {
-					try {
-						childrenAgesInput.value = checkStringArray(
-							childrenAgesInput.value,
-							"Children Ages Input",
-							1
-						);
-					} catch (e) {
-						childrenInput.value = "";
-						childrenAgesInput.value = "";
-						event.preventDefault();
-						error.hidden = false;
-					}
-				} else {
-					try {
-						childrenAgesInput.value = checkStringArray(
-							childrenAgesInput.value,
-							"Children Input",
-							0
-						);
-					} catch (e) {
-						childrenInput.value = "";
-						childrenAgesInput.value = "";
-						event.preventDefault();
-						error.hidden = false;
-					}
-				}
+				if (childrenInput.value != "0" && childrenInput.value != "1" && childrenInput.value != "2" && childrenInput.value != "3" && childrenInput.value != "4") throw `invalid value for children`;
 			} catch (e) {
 				childrenInput.value = "";
 				event.preventDefault();
@@ -528,42 +498,17 @@
 			}
 			try {
 				animalsInput.value = animalsInput.value.trim().toLowerCase();
-				if (animalsInput.value != "true" && animalsInput.value != "false")
-					throw `invalid value for children`;
+				if (animalsInput.value != "0" && animalsInput.value != "1" && animalsInput.value != "2" && animalsInput.value != "3" && animalsInput.value != "4") throw `invalid value for animals`;
 
-				//test the other animal input
-				if (animalsInput.value === "true") {
-					if (!otherPetInput.value) throw `If yes, you need input`;
-					// try{
-					//     otherPetInput.value = checkStringArray(otherPetInput.value, "Other Pet Input", 1);
-					// }catch(e){
-					//     animalsInput.value = "";
-					//     otherPetInput.value = "";
-					//     event.preventDefault();
-					//     error.hidden = false;
-					// }
-				} else if (animalsInput.value === "false") {
-					console.log("guoewgbie");
-					if (otherPetInput.value) throw `If no, you can't have input`;
-					// try{
-					//     otherPetInput.value = checkStringArray(otherPetInput.value, "Other Pet Input", 0);
-					// }catch(e){
-					//     animalsInput.value = "";
-					//     otherPetInput.value = "";
-					//     event.preventDefault();
-					//     error.hidden = false;
-					// }
-				}
 			} catch (e) {
-				console.log("feiowbgowi");
 				animalsInput.value = "";
-				otherPetInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
 			}
 
 			try {
-				yardInput.value = checkStringArray(yardInput.value, "Yard Input", 1);
+				yardInput.value = yardInput.value.trim().toLowerCase();
+				if (yardInput.value != "true" && animalsInput.value != "false") throw `invalid value for yard`;
 			} catch (e) {
 				yardInput.value = "";
 				event.preventDefault();

@@ -29,6 +29,15 @@
             <option value="other">Other</option>
         </select> <br>
 
+        <label for="childrenInput" id="children">How many children do you have?</label>
+        <select id="childrenInput" name="childrenInput">
+            <option value="0">None</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+            <option value="4">More than 3</option>
+        </select>
+{{!-- 
         <label for="childrenInput" id="children">Do you have any children?</label>
         <select id="childrenInput" name="childrenInput">
             <option value="true">Yes</option>
@@ -36,8 +45,8 @@
         </select> <br>
 
         <label for="childrenAgesInput" id="ages">If so, how old are your children?</label>
-        <fieldset id="childrenAgesInput">
-            <input id="0" value="0" type="checkbox" name="childrenAgesInput">
+        <fieldset id="childrenAgesInput"> --}}
+            {{!-- <input id="0" value="0" type="checkbox" name="childrenAgesInput">
             <label for="0">0</label> <br>
             <input id="1" value ="1" type="checkbox" name="childrenAgesInput">
             <label for="1">1</label> <br>
@@ -73,12 +82,21 @@
             <label for="16">16</label> <br>
             <input id="17" value ="17" type="checkbox" name="childrenAgesInput">
             <label for="17">17</label> <br>
-        </fieldset>
+        </fieldset> --}}
 
         <label for="timeAloneInput" id="timeAlone">How much time would the dog spend alone per day in hours?</label>
         <input id="timeAloneInput" type="number" name = "timeAloneInput"> <br>   
 
-        <label for="animalsInput" id="animals">Do you have any other pets?</label>
+        <label for="animalsInput" id="animals">How many pets do you already own?</label>
+        <select id="animalsInput" name="animalsInput">
+
+            <option value="0">None</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+            <option value="4">More than 3</option>
+        </select>
+        {{!-- <label for="animalsInput" id="animals">Do you have any other pets?</label>
         <select id="animalsInput" name="animalsInput">
             <option value="true">Yes</option>
             <option value="false">No</option>
@@ -92,10 +110,15 @@
             <label for="cat">cat</label> <br>
             <input id="other" value="other" type="checkbox" name="otherPetInput">
             <label for="other">other</label> <br>
-        </fieldset>
+        </fieldset> --}}
 
-        <label for="yardInput" id="yard">How would you describe your backyard?</label>
-        <fieldset id="yardInput">
+        <label for="yardInput" id="yard">Do you have a fenced in yard?</label>
+        <select id="yardInput" name="yardInput">
+
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+        {{!-- <fieldset id="yardInput">
             <input id="enclosed front yard" value="enclosed front yard" type="checkbox" name="yardInput">
             <label for="enclosed front yard">Enclosed Front Yard</label> <br>
             <input id="enclosed back yard" value ="enclosed back yard" type="checkbox" name="yardInput">
@@ -104,9 +127,9 @@
             <label for="garage">Garage</label> <br>
             <input id="dog house" value ="dog house" type="checkbox" name="yardInput">
             <label for="dog house">Dog House</label> <br>
-            <input id="other" value="other" type="checkbox" name="yardInput">
-            <label for="other">Other</label> <br>
-        </fieldset>
+            <input id="otherYard" value="other" type="checkbox" name="yardInput">
+            <label for="otherYard">Other</label> <br>
+        </fieldset> --}}
 
         <label for="reasoningInput" id="reasoning">What other information would you like us to know about you?</label>
         <input id="reasoningInput" type="text" name = "reasoningInput"> <br>  
