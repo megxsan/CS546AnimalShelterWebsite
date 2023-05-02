@@ -1,1 +1,75 @@
-<p> this leads to the quiz to see what dog breed is best for you</p>
+<section>
+    <h2>Quiz!</h2>
+    <h3>See what dog breeds are best for you!</h3>
+
+    <form id="quiz-form" method="post">
+		<fieldset id="space">
+			<legend>What best describes your living situation?</legend>
+			<input id="apartment" type="radio" name="space" value="apartment" />
+			<label for="apartment" id="apartment">Apartment</label><br />
+
+			<input id="houseB" type="radio" name="space" value="houseB" />
+			<label for="houseB" id="houseB">House with a Backyard</label> <br>
+
+            <input id="houseN" type="radio" name="space" value="houseN" />
+			<label for="houseN" id="houseN">House without a Backyard</label> <br>
+		</fieldset>
+
+        <fieldset id="walks">
+			<legend>How many walks could you give your dog a day?</legend>
+			<input id="none" type="radio" name="walks" value="none" />
+			<label for="none" id="none">I don't have time for walks!</label><br />
+
+			<input id="short" type="radio" name="walks" value="short" />
+			<label for="short" id="short">I could go for one short walk a day</label> <br>
+
+			<input id="long" type="radio" name="walks" value="long" />
+			<label for="long" id="long">I could go for one long walk a day</label> <br>
+
+            <input id="many" type="radio" name="many" value="many" />
+			<label for="many" id="many">I can go for multiple walks a day!</label> <br>
+		</fieldset>
+
+        <fieldset id="outside">
+			<legend>Do you like to spend time outside?</legend>
+			<input id="inside" type="radio" name="outside" value="inside" />
+			<label for="inside" id="inside">I would rather stay inside</label><br />
+
+			<input id="out" type="radio" name="outside" value="out" />
+			<label for="out" id="out">I love being outside</label> <br>
+
+			<input id="both" type="radio" name="outside" value="both" />
+			<label for="both" id="both">I like both!</label> <br>
+		</fieldset>
+
+        <fieldset id="fur">
+			<legend>Does shedding bother you?</legend>
+			<input id="noshed" type="radio" name="fur" value="noshed" />
+			<label for="noshed" id="noshed">I can't handle all that fur!</label><br />
+
+			<input id="shed" type="radio" name="fur" value="shed" />
+			<label for="shed" id="shed">Bring on the fur!</label><br />
+
+			<input id="bothshed" type="radio" name="fur" value="bothshed" />
+			<label for="bothshed" id="bothshed">Either way, it doesn't bother me!</label> <br>
+		</fieldset>
+
+        <fieldset id="size">
+			<legend>What size dog is ideal for you?</legend>
+			<input id="mini" type="radio" name="size" value="mini" />
+			<label for="mini" id="mini">Very Small (less than 10 pounds)</label><br />
+
+            <input id="small" type="radio" name="size" value="small" />
+			<label for="small" id="small">Small (10 to 20 pounds)</label><br />
+
+            <input id="medium" type="radio" name="size" value="medium" />
+			<label for="medium" id="medium">Medium (20 to 60 pounds)</label><br />
+
+            <input id="large" type="radio" name="size" value="large" />
+			<label for="large" id="large">Large (60 to 100 pounds)</label><br />
+            
+            <input id="xlarge" type="radio" name="size" value="xlarge" />
+			<label for="xlarge" id="xlarge">Very Large (more than 100 pounds)</label><br />
+		</fieldset>
+    </form>
+</section>
