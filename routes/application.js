@@ -40,6 +40,7 @@ router
         /*  Patch 
                 -Recieving edit application form
         */
+                console.log(req.body);
                 const app = req.body;
                 if(!app || Object.keys(app).length != 14){
                   return res

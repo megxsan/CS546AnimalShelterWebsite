@@ -61,6 +61,19 @@
 			throw "Error: You are too young or have provided a fake age";
 		return num;
 	}
+    function checkStringArray(arr, varName, minLength) {
+		if (!arr || !Array.isArray(arr))
+			throw `Error: You must provide an array of ${varName}`;
+		if (arr.length < minLength)
+			throw `Error: ${varName} must have at least ${minLength} element(s)`;
+		for (let i in arr) {
+			if (typeof arr[i] !== "string" || arr[i].trim().length === 0) {
+				throw `Error: One or more elements in ${varName} array is not a string or is an empty string`;
+			}
+			arr[i] = arr[i].trim();
+		}
+		return arr;
+	}
   
     const registrationForm = document.getElementById('registration-form');
     const loginForm = document.getElementById('login-form');
@@ -348,6 +361,8 @@
             let childrenInput = document.getElementById("childrenInput");
             let childrenAgesInput = document.getElementById("childrenAgesInput");
             let timeAloneInput = document.getElementById("timeAloneInput");
+            let animalsInput = document.getElementById("animalsInput");
+            let otherPetInput = document.getElementById("otherPetInput");
             let yardInput = document.getElementById("yardInput");
             let reasoningInput = document.getElementById("reasoningInput");
             let error = document.getElementById("error");
@@ -393,25 +408,42 @@
                 event.preventDefault();
                 error.hidden = false;
             }
-
-            // NEED TO DO LIVING ACCOMMODATIONS AND YARD INPUT
+            try{
+                livingAccommodationsInput.value = livingAccommodationsInput.value.trim().toLowerCase();
+                if(livingAccommodationsInput.value != "home" && livingAccommodationsInput.value != "apartment" && livingAccommodationsInput.value != "townhouse" && livingAccommodationsInput.value != "other") throw `Invalid living accomodation`;
+            }catch(e){
+                livingAccommodationsInput.value = "";
+                event.preventDefault();
+                error.hidden = false;
+            }
             try{
                 childrenInput.value = childrenInput.value.trim().toLowerCase();
                 if(childrenInput.value != "true" && childrenInput.value!= "false") throw `invalid value for children`;
+                if(childrenInput.value === "true"){
+                    try{
+                        childrenAgesInput.value = checkStringArray(childrenAgesInput.value, "Children Ages Input", 1);
+                    }catch(e){
+                        childrenInput.value = "";
+                        childrenAgesInput.value = "";
+                        event.preventDefault();
+                        error.hidden = false;
+                    }
+                }else{
+                    try{
+                        childrenAgesInput.value = checkStringArray(childrenAgesInput.value, "Children Input", 0);
+                    }catch(e){
+                        childrenInput.value = "";
+                        childrenAgesInput.value = "";
+                        event.preventDefault();
+                        error.hidden = false;
+                    }
+                }
             }catch(e){
                 childrenInput.value = "";
                 event.preventDefault();
                 error.hidden = false;
             }
-            try{
-                childrenAgesInput.value = childrenAgesInput.trim();
-                let num = parseInt(childrenAgesInput.value);
-                if(num < 0 || num > 17) throw `invalid value for children`;
-            }catch(e){
-                childrenAgesInput.value = "";
-                event.preventDefault();
-                error.hidden = false;
-            }
+
             try{
                 timeAloneInput.value = timeAloneInput.value.trim();
                 let num = parseInt(timeAloneInput.value);
@@ -421,6 +453,50 @@
                 event.preventDefault();
                 error.hidden =false;
             }
+            try{
+                animalsInput.value = animalsInput.value.trim().toLowerCase();
+                if(animalsInput.value != "true" && animalsInput.value!= "false") throw `invalid value for children`;
+
+                //test the other animal input
+                if(animalsInput.value === "true"){
+                    if(!otherPetInput.value) throw `If yes, you need input`
+                    // try{
+                    //     otherPetInput.value = checkStringArray(otherPetInput.value, "Other Pet Input", 1);
+                    // }catch(e){
+                    //     animalsInput.value = "";
+                    //     otherPetInput.value = "";
+                    //     event.preventDefault();
+                    //     error.hidden = false;
+                    // }
+                }else if(animalsInput.value === "false"){
+                    console.log("guoewgbie")
+                    if(otherPetInput.value) throw `If no, you can't have input`
+                    // try{
+                    //     otherPetInput.value = checkStringArray(otherPetInput.value, "Other Pet Input", 0);
+                    // }catch(e){
+                    //     animalsInput.value = "";
+                    //     otherPetInput.value = "";
+                    //     event.preventDefault();
+                    //     error.hidden = false;
+                    // }
+                }
+
+            }catch(e){
+                console.log("feiowbgowi")
+                animalsInput.value = "";
+                otherPetInput.value = "";
+                event.preventDefault();
+                error.hidden = false;
+            }
+
+            try{
+                yardInput.value = checkStringArray(yardInput.value, "Yard Input", 1);
+            }catch(e){
+                yardInput.value = "";
+                event.preventDefault();
+                error.hidden =false;
+            }
+
             try{
                 reasoningInput.value = checkString(reasoningInput.value, "Reasoning");
             }catch(e){
