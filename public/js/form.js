@@ -498,7 +498,6 @@
 			try {
 				animalsInput.value = animalsInput.value.trim().toLowerCase();
 				if (animalsInput.value != "0" && animalsInput.value != "1" && animalsInput.value != "2" && animalsInput.value != "3" && animalsInput.value != "more than 3") throw `invalid value for animals`;
-
 			} catch (e) {
 				animalsInput.value = "";
 				event.preventDefault();
