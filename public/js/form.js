@@ -539,7 +539,6 @@
 				space.value = space.value.trim();
 				if(space.value != "apartment" && space.value != "houseB" && space.value != "houseN") throw `invalid space input`
 			}catch(e){
-				console.log(space.value)
 				space.value = "";
 				event.preventDefault();
 				error.hidden = false;
@@ -548,7 +547,6 @@
 				walks.value = walks.value.toLowerCase().trim();
 				if(walks.value != "none" && walks.value != "short" && walks.value != "long" && walks.value != "many") throw `invalid walks input`
 			}catch(e){
-				console.log(walks.value)
 				walks.value = "";
 				event.preventDefault();
 				error.hidden = false;
@@ -557,7 +555,6 @@
 				outside.value = outside.value.toLowerCase().trim();
 				if(outside.value != "inside" && outside.value != "out" && outside.value != "both") throw `invalid outside input`
 			}catch(e){
-				console.log(outside.value)
 				outside.value = "";
 				event.preventDefault();
 				error.hidden = false;
@@ -566,7 +563,6 @@
 				fur.value = fur.value.toLowerCase().trim();
 				if(fur.value != "noshed" && fur.value != "shed" && fur.value != "bothshed") throw `invalid shed input`
 			}catch(e){
-				console.log(fur.value)
 				fur.value = "";
 				event.preventDefault();
 				error.hidden = false;
@@ -575,7 +571,6 @@
 				size.value = size.value.toLowerCase().trim();
 				if(size.value != "mini" && size.value != "small" && size.value != "medium" && size.value != "large" && size.value != "xlarge") throw `invalid size input`
 			}catch(e){
-				console.log(size.value)
 				size.value = "";
 				event.preventDefault();
 				error.hidden = false;
@@ -584,8 +579,6 @@
 				activity.value = activity.value.toLowerCase().trim();
 				if(activity.value != "lazy" && activity.value != "physical" && activity.value != "activityboth") throw `invalid activity input`
 			}catch(e){
-				console.log(activity.value)
-
 				size.value = "";
 				event.preventDefault();
 				error.hidden = false;
@@ -594,8 +587,6 @@
 				fam.value = fam.value.toLowerCase().trim();
 				if(fam.value != "me" && fam.value != "nokid" && fam.value != "kid") throw `invalid family input`
 			}catch(e){
-				console.log(fam.value)
-
 				size.value = "";
 				event.preventDefault();
 				error.hidden = false;
@@ -604,8 +595,6 @@
 				dog.value = dog.value.toLowerCase().trim();
 				if(dog.value != "working" && dog.value != "herding" && dog.value != "hound" && dog.value != "sporting" && dog.value != "nonsporting" && dog.value != "toy" && dog.value != "terrier") throw `invalid dog input`
 			}catch(e){
-				console.log(dog.value)
-
 				size.value = "";
 				event.preventDefault();
 				error.hidden = false;
