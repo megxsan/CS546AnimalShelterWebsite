@@ -3,6 +3,7 @@ import { dogData } from "../data/index.js";
 import { appData } from "../data/index.js";
 import { dogs } from "../config/mongoCollections.js";
 import validation from "../validation.js";
+import xss from 'xss';
 
 import { Router } from "express";
 const router = Router();
@@ -102,6 +103,7 @@ router
 				"Email"
 			);
 			data.emailAddressInput = validation.checkEmail(data.emailAddressInput);
+			data.emailAddressInput = xss(data.emailAddressInput);
 		} catch (e) {
 			errors.push(e);
 		}
@@ -111,6 +113,7 @@ router
 				"Password"
 			);
 			data.passwordInput = validation.checkPassword(data.passwordInput);
+			data.passwordInput = xss(data.passwordInput);
 		} catch (e) {
 			errors.push(e);
 		}
@@ -171,6 +174,7 @@ router
 				data.firstNameInput,
 				"First Name"
 			);
+			data.firstNameInput = xss(data.firstNameInput);
 		} catch (e) {
 			errors.push(e);
 		}
@@ -183,6 +187,7 @@ router
 				data.lastNameInput,
 				"Last Name"
 			);
+			data.lastNameInput = xss(data.lastNameInput);
 		} catch (e) {
 			errors.push(e);
 		}
@@ -193,6 +198,8 @@ router
 				"Email"
 			);
 			data.emailAddressInput = validation.checkEmail(data.emailAddressInput);
+			data.emailAddressInput = xss(data.emailAddressInput);
+
 		} catch (e) {
 			errors.push(e);
 		}
@@ -202,6 +209,7 @@ router
 				"Password"
 			);
 			data.passwordInput = validation.checkPassword(data.passwordInput);
+			data.passwordInput = xss(data.passwordInput);
 		} catch (e) {
 			errors.push(e);
 		}
@@ -210,6 +218,7 @@ router
 				data.confirmPasswordInput,
 				"Confirm Password"
 			);
+			data.confirmPasswordInput = xss(data.confirmPasswordInput);
 		} catch (e) {
 			errors.push(e);
 		}
@@ -220,7 +229,9 @@ router
 			errors.push(e);
 		}
 		try {
-			data.ageInput = validation.checkAge(parseInt(data.ageInput));
+			let age = parseInt(data.ageInput)
+			data.ageInput = validation.checkAge(age);
+			data.ageInput = xss(data.ageInput);
 		} catch (e) {
 			errors.push(e);
 		}

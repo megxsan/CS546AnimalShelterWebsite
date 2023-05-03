@@ -57,7 +57,7 @@
 
 	function checkAge(num) {
 		if (!num) throw "Error: You must supply an age";
-		if (typeof num !== "number") throw "Error: Age must be a number";
+		if (typeof num != "number") throw "Error: Age must be a number";
 		if (!Number.isInteger(num)) throw "Error: Age must be an integer";
 		if (num < 18 || num > 120)
 			throw "Error: You are too young or have provided a fake age";
@@ -155,8 +155,10 @@
 			}
 
 			try {
-				var ageInputValue = parseInt(ageInputElement.value);
-				ageInputValue = checkAge(ageInputValue);
+				// var ageInputValue = parseInt(ageInputElement.value);
+				let age = parseInt(ageInputElement.value);
+				age = checkAge(age);
+				//ageInputValue = checkAge(ageInputValue);
 			} catch (e) {
 				isError = true;
 				let li = document.createElement("li");
