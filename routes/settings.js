@@ -133,8 +133,7 @@ router
 
                 }
             }catch(e){
-                console.log(e);
-                res.render('pages/updateSettings', {title: "Update Settings"});
+                res.render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true});
             }
         }
     });
