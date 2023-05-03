@@ -420,7 +420,32 @@
 			let yardInput = document.getElementById("yardInput");
 			let reasoningInput = document.getElementById("reasoningInput");
 			let error = document.getElementById("error");
+
+			//ADDING THIS STUFF TO DRAW EYES TO ERROR
+			let firstErr = document.getElementById("first");
+			let lastErr = document.getElementById("last");
+			let emailErr = document.getElementById("email");
+			let ageErr = document.getElementById("age");
+			let phoneErr = document.getElementById("phone");
+			let accommodationsErr = document.getElementById("accommodations");
+			let childrenErr = document.getElementById("children");
+			let timeAloneErr = document.getElementById("timeAlone");
+			let animalsErr = document.getElementById("animals");
+			let yardErr = document.getElementById("yard");
+			let reasoningErr = document.getElementById("reasoning");
 			error.hidden = true;
+
+			firstErr.className = '';
+			lastErr.className = '';
+			emailErr.className = '';
+			ageErr.className = '';
+			phoneErr.className = '';
+			accommodationsErr.className = '';
+			childrenErr.className = '';
+			timeAloneErr.className = '';
+			animalsErr.className = '';
+			yardErr.className = '';
+			reasoningErr.className = '';
 
 			try {
 				firstNameInput.value = checkName(firstNameInput.value, "First Name");
@@ -428,6 +453,7 @@
 				firstNameInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				firstErr.className = 'error';
 			}
 			try {
 				lastNameInput.value = checkName(lastNameInput.value, "Last Name");
@@ -435,6 +461,7 @@
 				lastNameInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				lastErr.className = 'error';
 			}
 			try {
 				emailInput.value = checkEmail(emailInput.value, "Email");
@@ -442,6 +469,7 @@
 				emailInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				emailErr.className = 'error';
 			}
 			try {
 				age = parseInt(ageInput.value.trim());
@@ -451,6 +479,7 @@
 				ageInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				ageErr.className = 'error';
 			}
 			try {
 				phoneInput.value = phoneInput.value.trim();
@@ -461,6 +490,7 @@
 				phoneInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				phoneErr.className = 'error';
 			}
 			try {
 				livingAccommodationsInput.value = livingAccommodationsInput.value
@@ -477,6 +507,7 @@
 				livingAccommodationsInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				accommodationsErr.className = 'error';
 			}
 			try {
 				childrenInput.value = childrenInput.value.trim().toLowerCase();
@@ -485,16 +516,19 @@
 				childrenInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				childrenErr.className = 'error';
 			}
 
 			try {
 				timeAloneInput.value = timeAloneInput.value.trim();
+				if(!timeAloneInput.value) throw `cannot be empty`;
 				let num = parseInt(timeAloneInput.value);
-				if (num < 0 || num > 24) throw `invalit time to be alone`;
+				if (num < 0 || num > 24) throw `invalid time to be alone`;
 			} catch (e) {
 				timeAloneInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				timeAloneErr.className = 'error';
 			}
 			try {
 				animalsInput.value = animalsInput.value.trim().toLowerCase();
@@ -503,6 +537,7 @@
 				animalsInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				animalsErr.className = 'error';
 			}
 
 			try {
@@ -512,6 +547,7 @@
 				yardInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				yardErr.className = 'error';
 			}
 
 			try {
@@ -520,6 +556,7 @@
 				reasoningInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
+				reasoningErr.className = 'error';
 			}
 		});
 	}
