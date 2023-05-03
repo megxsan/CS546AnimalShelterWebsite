@@ -2,6 +2,7 @@ import { userData } from "../data/index.js";
 import { dogData } from "../data/index.js";
 import { appData } from "../data/index.js";
 import validation from "../validation.js";
+import xss from 'xss';
 
 import { Router } from "express";
 const router = Router();
@@ -46,7 +47,20 @@ router
                 let checked = {};
                 try{
                         checked = validation.checkAppInputs(req.session.user._id, app.firstNameInput,app.lastNameInput,app.ageInput,app.emailInput,app.phoneInput, app.livingAccommodationsInput,
-                                app.childrenInput,app.timeAloneInput,app.animalsInput,app.yardInput,app.reasoningInput)
+                                app.childrenInput,app.timeAloneInput,app.animalsInput,app.yardInput,app.reasoningInput);
+
+                        checked.firstName = xss(checked.firstName);
+                        checked.lastName = xss(checked.lastName);
+                        checked.age = xss(checked.age);
+                        checked.email = xss(checked.email);
+                        checked.phone = xss(checked.phone);
+                        checked.livingAccommodations = xss(checked.livingAccommodations);
+                        checked.children = xss(checked.children);
+                        checked.timeAlone = xss(checked.timeAlone);
+                        checked.animals = xss(checked.animals);
+                        checked.yard = xss(checked.yard);
+                        checked.reasoningExperience = xss(checked.reasoningExperience);
+
                 }catch(e){
                         // res.render('error', {title: "Application Error", error:e});
                         //figure out what status goes here
