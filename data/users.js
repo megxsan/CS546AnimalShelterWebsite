@@ -60,6 +60,7 @@ const exportedMethods = {
         lastName = validation.checkString(lastName, "Last Name");
         firstName = validation.checkName(firstName, "First Name");
         lastName = validation.checkName(lastName, "Last Name");
+        age = parseInt(age);
         age = validation.checkAge(age);
         email = validation.checkEmail(email);
         email = email.toLowerCase();
