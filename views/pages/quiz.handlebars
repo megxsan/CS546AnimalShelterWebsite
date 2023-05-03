@@ -7,122 +7,70 @@
     </div>
 
     <form id="quiz-form" method="post">
-		<fieldset id="space">
-			<legend>What best describes your living situation?</legend>
-			<input id="apartment" type="radio" name="space" value="apartment" />
-			<label for="apartment" id="apartment">Apartment</label><br>
+		<label for="space" id="spaceInput">What best describes your living situation?</label>
+        <select id="space" name="space">
+            <option value="apartment">Apartment</option>
+            <option value="houseB">House with a Backyard</option>
+            <option value="houseN">House without a Backyard</option>
 
-			<input id="houseB" type="radio" name="space" value="houseB" />
-			<label for="houseB" id="houseB">House with a Backyard</label> <br>
+        </select>
 
-            <input id="houseN" type="radio" name="space" value="houseN" />
-			<label for="houseN" id="houseN">House without a Backyard</label> <br>
-		</fieldset>
+		<label for="walks" id="walksInput">How many walks can you go on per day</label>
+        <select id="walks" name="walks">
+            <option value="none">I don't have time for walks!</option>
+            <option value="short">I could go for one short walk a day</option>
+            <option value="long">I could go for one long walk a day</option>
+			<option value="many">I can go for multiple walks a day!</option>
 
-        <fieldset id="walks">
-			<legend>How many walks could you give your dog a day?</legend>
-			<input id="none" type="radio" name="walks" value="none" />
-			<label for="none" id="none">I don't have time for walks!</label><br>
+        </select>
 
-			<input id="short" type="radio" name="walks" value="short" />
-			<label for="short" id="short">I could go for one short walk a day</label> <br>
+		<label for="outside" id="outsideInput">Do you like to spend time outside?</label>
+        <select id="outside" name="outside">
+            <option value="inside">I would rather stay inside</option>
+            <option value="out">I love being outside</option>
+            <option value="both">I like both</option>
+        </select>
 
-			<input id="long" type="radio" name="walks" value="long" />
-			<label for="long" id="long">I could go for one long walk a day</label> <br>
+		<label for="fur" id="furInput">Does shedding bother you?</label>
+        <select id="fur" name="fur">
+            <option value="noshed">I can't handle all that fur!</option>
+            <option value="shed">Bring on the fur!</option>
+            <option value="bothshed">Either way, it doesn't bother me!</option>
+        </select>
 
-            <input id="many" type="radio" name="many" value="many" />
-			<label for="many" id="many">I can go for multiple walks a day!</label> <br>
-		</fieldset>
+		<label for="size" id="sizeInput">What size dog is ideal for you?</label>
+        <select id="size" name="size">
+            <option value="mini">Very Small (less than 10 pounds)</option>
+            <option value="small">Small (10 to 20 pounds)</option>
+            <option value="medium">Medium (20 to 60 pounds)</option>
+			<option value="large">Large (60 to 100 pounds)</option>
+			<option value="xlarge">Very Large (more than 100 pounds)</option>
+        </select>
 
-        <fieldset id="outside">
-			<legend>Do you like to spend time outside?</legend>
-			<input id="inside" type="radio" name="outside" value="inside" />
-			<label for="inside" id="inside">I would rather stay inside</label><br>
+		<label for="activity" id="activityInput">Which best describes how you would spend your free time?</label>
+        <select id="activity" name="activity">
+            <option value="lazy">I like to relax (I can be a couch potato sometimes)</option>
+            <option value="physical">I like to be active, whether it be exercise or being busy</option>
+            <option value="activityboth">It depends on my mood. I like to be busy but also take time to relax</option>
+        </select>
 
-			<input id="out" type="radio" name="outside" value="out" />
-			<label for="out" id="out">I love being outside</label> <br>
+		<label for="fam" id="famInput">Which best describes how you would spend your free time?</label>
+        <select id="fam" name="fam">
+            <option value="me">Just me, I live at my own place!</option>
+            <option value="nokid">Me and my family, but everyone is grown up!</option>
+            <option value="kid">Me and my family, including kids!</option>
+        </select>	
 
-			<input id="both" type="radio" name="outside" value="both" />
-			<label for="both" id="both">I like both!</label> <br>
-		</fieldset>
-
-        <fieldset id="fur">
-			<legend>Does shedding bother you?</legend>
-			<input id="noshed" type="radio" name="fur" value="noshed" />
-			<label for="noshed" id="noshed">I can't handle all that fur!</label><br >
-
-			<input id="shed" type="radio" name="fur" value="shed" />
-			<label for="shed" id="shed">Bring on the fur!</label><br>
-
-			<input id="bothshed" type="radio" name="fur" value="bothshed" />
-			<label for="bothshed" id="bothshed">Either way, it doesn't bother me!</label> <br>
-		</fieldset>
-
-        <fieldset id="size">
-			<legend>What size dog is ideal for you?</legend>
-			<input id="mini" type="radio" name="size" value="mini" />
-			<label for="mini" id="mini">Very Small (less than 10 pounds)</label><br>
-
-            <input id="small" type="radio" name="size" value="small" />
-			<label for="small" id="small">Small (10 to 20 pounds)</label><br>
-
-            <input id="medium" type="radio" name="size" value="medium" />
-			<label for="medium" id="medium">Medium (20 to 60 pounds)</label><br>
-
-            <input id="large" type="radio" name="size" value="large" />
-			<label for="large" id="large">Large (60 to 100 pounds)</label><br>
-            
-            <input id="xlarge" type="radio" name="size" value="xlarge" />
-			<label for="xlarge" id="xlarge">Very Large (more than 100 pounds)</label><br>
-		</fieldset>
-
-        <fieldset id="activity">
-			<legend>Which best describes how you would spend your free time?</legend>
-			<input id="lazy" type="radio" name="activity" value="lazy" />
-			<label for="lazy" id="lazy">I like to relax (I can sometimes be a couch potato)</label><br>
-
-            <input id="physical" type="radio" name="activity" value="physical" />
-			<label for="physical" id="physical">I like to be active, whether it be exercise or being busy</label><br>
-
-			<input id="activityboth" type="radio" name="activity" value="activityboth" />
-			<label for="activityboth" id="activityboth">It depends on my mood. I like to be busy but also take time to relax</label><br>
-		</fieldset>
-
-		<fieldset id="fam">
-			<legend>If you had a dog, who would it be spending time with the most?</legend>
-			<input id="me" type="radio" name="fam" value="me" />
-			<label for="me" id="me">Just me! I live in my own place!</label><br>
-
-			<input id="nokid" type="radio" name="fam" value="nokid" />
-			<label for="nokid" id="nokid">Me and my family, but everyone is grown up!</label><br>
-
-			<input id="kid" type="radio" name="fam" value="kid" />
-			<label for="kid" id="kid">Me and my family, including kids!</label><br>
-		</fieldset>
-
-        <fieldset id="dog">
-            <legend>What main traits would you want most in a dog?</legend>
-            <input id="working" type="radio" name="dog" value="working" />
-			<label for="working" id="working">Intelligent and Loyal</label><br>
-
-            <input id="herding" type="radio" name="dog" value="herding" />
-			<label for="herding" id="herding">Smart and Energetic</label><br>
-
-            <input id="hound" type="radio" name="dog" value="hound" />
-			<label for="hound" id="hound">Affectionate and Strong-Willed</label><br>
-
-            <input id="sporting" type="radio" name="dog" value="sporting" />
-			<label for="sporting" id="sporting">High Energy and Active</label><br>
-
-            <input id="nonsporting" type="radio" name="dog" value="nonsporting" />
-			<label for="nonsporting" id="nonsporting">Versatile and Loving</label><br>
-
-            <input id="toy" type="radio" name="dog" value="toy" />
-			<label for="toy" id="toy">Smart and Affectionate</label><br>
-
-            <input id="terrier" type="radio" name="dog" value="terrier" />
-			<label for="terrier" id="terrier">Observant and Affectionate</label><br>
-        </field>
+		<label for="dog" id="dogInput">What main traits would you want most in a dog?</label>
+        <select id="dog" name="dog">
+            <option value="working">Intelligent and Loyal</option>
+            <option value="herding">Smart and Energetic</option>
+            <option value="hound">Affectionate and Strong-Willed</option>
+			<option value="sporting">High Energy and Active</option>
+			<option value="nonsporting">Versatile and Loving</option>
+			<option value="toy">Smart and Affectionate</option>
+			<option value="terrier">Observant and Affectionate</option>
+		</select>
 
 		<button id="quizButton" type="submit">Submit</button>
 
