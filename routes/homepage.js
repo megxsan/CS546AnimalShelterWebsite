@@ -267,6 +267,10 @@ router
 	.route("/filter")
 	.get(async (req, res) => {
 		// Code here for GET
+		let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
 		let allDogs = await dogData.getAllDogs();
 		let allColors = [];
 		let allBreeds = [];
@@ -284,7 +288,7 @@ router
 				});
 			}
 		});
-		res.render("pages/filter", { colors: allColors, breeds: allBreeds });
+		res.render("pages/filter", { colors: allColors, breeds: allBreeds, signedIn: signedIn });
 	})
 	.post(async (req, res) => {
 		console.log(req.body);
