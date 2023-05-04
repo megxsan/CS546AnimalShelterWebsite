@@ -10,17 +10,25 @@ const router = Router();
 router
 	.route("/")
 	.get(async (req, res) => {
+        let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
         /*  Get 
                 -Seeing status (accepted, rejected, pending) of all applications sent out
         */
         // if(!req.session.user){
         //         res.render('error', {title: "Seetings Error", error: "Must be signed in to access statuses"});
         // }
-        res.render('pages/myaccount', {title: "Status"});
+        res.render('pages/myaccount', {title: "Status", signedIn: signedIn});
         });
 router
 	.route("/get")
 	.get(async (req, res) => {
+        let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
 		/*  Get 
 				-Seeing status (accepted, rejected, pending) of all applications sent out
 		*/
@@ -30,38 +38,46 @@ router
 
 		// OLIVIA CODED THIS FOR TESTING PURPOSE (NEEDS TO BE MODIFIED FOR BETTER ERROR CHECKING)
 		if (!req.session.user) {
-			res.render('pages/settings', {title: "Status", taken:false});
+			res.render('pages/settings', {title: "Status", taken:false, signedIn: signedIn});
 		} else {
 			let data = await userData.getUserById(req.session.user._id);
-			res.render('pages/settings', {first: data.firstName, last: data.lastName, age: data.age, email: data.email, taken:false});
+			res.render('pages/settings', {first: data.firstName, last: data.lastName, age: data.age, email: data.email, taken:false, signedIn: signedIn});
 		}
 		});
 
 router
 	.route("/edit")
 	.get(async (req, res) => {
+        let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
 	/*  Get 
 			-Seeing edit settings form
 	*/
     // if(!req.sessions.user._id){
     //     res.render('error', {title: "Settings Error", error: "Must be signed in to change your settings"});
     // }
-        res.render('pages/updateSettings', {title: "Settings"});
+        res.render('pages/updateSettings', {title: "Settings", signedIn: signedIn});
     })
     .post(async (req, res) => {
+        let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
         /*  Post
                 -Recieving edit settings form
         */
         let taken;
         //update informaiton in the database using a user update function
         if(!req.body.firstNameInput && !req.body.lastNameInput && !req.body.emailInput && !req.body.ageInput){
-            res.status(400).render('pages/updateSettings', {title: "Update Settings"})
+            res.status(400).render('pages/updateSettings', {title: "Update Settings", signedIn: signedIn})
         }else{
             let user = {};
             try{
                 user = await userData.getUserById(req.session.user._id);
             }catch(e){
-                res.status(400).render('pages/updateSettings', {title: "Update Settings"})
+                res.status(400).render('pages/updateSettings', {title: "Update Settings", signedIn: signedIn})
 
             }
             try{
@@ -118,18 +134,18 @@ router
                     req.body.newPasswordInput = xss(req.body.newPasswordInput);
                 }
             }catch(e){
-                res.status(400).render('pages/updateSettings', {title: "Update Settings"})
+                res.status(400).render('pages/updateSettings', {title: "Update Settings", signedIn: signedIn})
             }       
             try{
                 if(taken){
-                    res.status(400).render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true})
+                    res.status(400).render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true, signedIn: signedIn})
                 }else{
                     let updated = await userData.updateUser(req.session.user._id, req.body.firstNameInput, req.body.lastNameInput, req.body.ageInput, req.body.emailInput, req.body.oldPasswordInput, req.body.newPasswordInput);
-                    res.status(400).render('pages/settings', {title: "Account", first: updated.firstName, last:updated.lastName, age:updated.age, email:updated.email, taken:false})
+                    res.status(400).render('pages/settings', {title: "Account", first: updated.firstName, last:updated.lastName, age:updated.age, email:updated.email, taken:false, signedIn: signedIn})
 
                 }
             }catch(e){
-                res.status(400).render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true});
+                res.status(400).render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true, signedIn: signedIn});
             }
         }
     });
