@@ -95,6 +95,7 @@ const exportedMethods = {
 		if (typeof weight !== "number") throw `Error: ${varName} must be a number!`;
 		if (weight < 0) throw `Error: ${varName} cannot be less than 0`;
 		weight = weight.toFixed(1);
+		weight = parseFloat(weight);
 		return weight;
 	},
 
@@ -136,8 +137,12 @@ const exportedMethods = {
 			emailEnd !== ".org"
 		)
 			throw "Error: You must provide a valid email";
-		
-		if(email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) === false){
+
+		if (
+			email.match(
+				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			) === false
+		) {
 			//we got this match comparison from https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
 			throw "Error: You must provide a valid email";
 		}
@@ -148,20 +153,33 @@ const exportedMethods = {
 		return email;
 		*/
 	},
-	
+
 	checkPicArray(arr, minLength) {
 		if (!arr || !Array.isArray(arr))
 			throw `Error: You must provide an array of Pictures`;
 		if (arr.length < minLength)
 			throw `Error: Pictures must have at least ${minLength} element(s)`;
 		for (let i in arr) {
-			if (typeof arr[i] !== "object" || Array.isArray(arr[i]) || arr[i] === null) {
+			if (
+				typeof arr[i] !== "object" ||
+				Array.isArray(arr[i]) ||
+				arr[i] === null
+			) {
 				throw `Error: One or more elements in Pictures array is not an object`;
 			}
-			if (Object.keys(arr[i]).length !== 2 || !arr[i].hasOwnProperty("key") || !arr[i].hasOwnProperty("url")) {
+			if (
+				Object.keys(arr[i]).length !== 2 ||
+				!arr[i].hasOwnProperty("key") ||
+				!arr[i].hasOwnProperty("url")
+			) {
 				throw `Error: One or more elements in Pictures array does have the correct properties`;
 			}
-			if (typeof arr[i].key !== "string" || arr[i].key.trim().length === 0 || typeof arr[i].url !== "string" || arr[i].url.trim().length === 0) {
+			if (
+				typeof arr[i].key !== "string" ||
+				arr[i].key.trim().length === 0 ||
+				typeof arr[i].url !== "string" ||
+				arr[i].url.trim().length === 0
+			) {
 				throw `Error: One or more properties in Pictures array is not a string or is an empty string`;
 			}
 			arr[i].key = arr[i].key.trim();
@@ -194,7 +212,7 @@ const exportedMethods = {
 		// phone = this.checkNum(phone, "Phone Number");
 		// let age2 = parseInt(age);
 		// age = this.checkAge(age2);
-		phone = this.checkString(phone, "Phone Number")
+		phone = this.checkString(phone, "Phone Number");
 		timeAlone = this.checkNum(parseInt(timeAlone), "Time Alone");
 		if (phone.toString().length != 12) throw `Error: Invalid phone number`;
 		if (timeAlone < 0 || timeAlone > 24)
@@ -228,10 +246,16 @@ const exportedMethods = {
 		// animals = this.checkString(animals, "Animals");
 		// yard = this.checkString(yard, "Yard");
 
-		if (children != "0" && children != "1" && children != "2" && children != "3" && children != "more than 3") throw `invalid value for children`;
+		if (
+			children != "0" &&
+			children != "1" &&
+			children != "2" &&
+			children != "3" &&
+			children != "more than 3"
+		)
+			throw `invalid value for children`;
 		// if (animals != "0" && animals != "1" && animals != "2" && animals != "3" && animals != "4") throw `invalid value for animals`;
 		if (yard != "yes" && yard != "no") throw `invalid value for yard`;
-
 
 		let newApp = {
 			firstName,
@@ -250,9 +274,10 @@ const exportedMethods = {
 	},
 
 	checkPassword(password) {
-		if((/\s/).test(password)) throw `Error: Invalid Password given`;
-        if(!(/(?=.*\d)(?=.*[A-Z])(?=.*\W)/).test(password)) throw `Error: Invalid Password given`;
-        if(password.length < 8) throw `Error: Invalid Password given`;		
+		if (/\s/.test(password)) throw `Error: Invalid Password given`;
+		if (!/(?=.*\d)(?=.*[A-Z])(?=.*\W)/.test(password))
+			throw `Error: Invalid Password given`;
+		if (password.length < 8) throw `Error: Invalid Password given`;
 		return password;
 	},
 };

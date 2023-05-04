@@ -3,7 +3,7 @@ import { dogData } from "../data/index.js";
 import { appData } from "../data/index.js";
 import { dogs } from "../config/mongoCollections.js";
 import validation from "../validation.js";
-import xss from 'xss';
+import xss from "xss";
 
 import { Router } from "express";
 const router = Router();
@@ -63,13 +63,12 @@ router
 			}
 			obj.breeds = { $in: breedsArray };
 		}
-		console.log(info);
-		info.weightinput[0] = Number(info.weightinput[0]);
-		info.weightinput[1] = Number(info.weightinput[1]);
-		obj.weight = { $gte: info.weightinput[0], $lte: info.weightinput[1] };
-		dogCollection = await dogCollection.find({ ...obj }).toArray();
+		let min = parseInt(info.weightinput[0]);
+		let max = parseInt(info.weightinput[1]);
+		obj.weight = { $gte: min, $lte: max };
+		let dogsArray = await dogCollection.find({ ...obj }).toArray();
 		res.render("pages/homepage", {
-			dogs: dogCollection,
+			dogs: dogsArray,
 			signedOut: signedOut,
 			signedIn: signedIn,
 			loggedOut: loggedOut,
@@ -199,7 +198,6 @@ router
 			);
 			data.emailAddressInput = validation.checkEmail(data.emailAddressInput);
 			data.emailAddressInput = xss(data.emailAddressInput);
-
 		} catch (e) {
 			errors.push(e);
 		}
@@ -229,7 +227,7 @@ router
 			errors.push(e);
 		}
 		try {
-			let age = parseInt(data.ageInput)
+			let age = parseInt(data.ageInput);
 			data.ageInput = validation.checkAge(age);
 			data.ageInput = xss(data.ageInput);
 		} catch (e) {
