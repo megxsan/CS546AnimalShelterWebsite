@@ -23,17 +23,20 @@ router
 		// }
 		//Homepage for when signed in
 		let signedIn = true;
-		if (!req.session.user){
+		if (!req.session.user) {
 			signedIn = false;
 		}
+		console.log(req.method);
+		//console.log("Hello");
 		let dogCollection = await dogs();
 		let allDogs = await dogCollection.find().toArray();
-		res.render("pages/homepage", {
+		return res.status(200).render("pages/homepage", {
 			dogs: allDogs,
 			signedIn: signedIn,
 		});
 	})
 	.post(async (req, res) => {
+		console.log(req.method);
 		let info = req.body;
 		req.body = {};
 		let signedOut = true;
@@ -62,11 +65,12 @@ router
 			}
 			obj.breeds = { $in: breedsArray };
 		}
+		//console.log(info);
 		let min = parseInt(info.weightinput[0]);
 		let max = parseInt(info.weightinput[1]);
 		obj.weight = { $gte: min, $lte: max };
 		let dogsArray = await dogCollection.find({ ...obj }).toArray();
-		res.render("pages/homepage", {
+		return res.status(200).render("pages/homepage", {
 			dogs: dogsArray,
 			signedOut: signedOut,
 			signedIn: signedIn,
