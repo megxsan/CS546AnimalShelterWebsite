@@ -114,6 +114,15 @@ const exportedMethods = {
         return myUser;
     },
 
+    async getUserByEmailSettings(email) {
+        email = validation.checkEmail(email, "Email");
+        const userCollection = await users();
+        const myUser = await userCollection.findOne({email: email});
+        if (myUser === null) return "no";
+        myUser._id = myUser._id.toString();
+        return myUser;
+    },
+
     async checkUser(email, password){
         password = validation.checkString(password, "Password");
         password = validation.checkPassword(password);

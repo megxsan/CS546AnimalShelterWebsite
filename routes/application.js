@@ -46,6 +46,7 @@ router
                 const app = req.body;
                 let checked = {};
                 try{
+                        app.emailInput = app.emailInput.toLowerCase();
                         checked = validation.checkAppInputs(req.session.user._id, app.firstNameInput,app.lastNameInput,app.ageInput,app.emailInput,app.phoneInput, app.livingAccommodationsInput,
                                 app.childrenInput,app.timeAloneInput,app.animalsInput,app.yardInput,app.reasoningInput);
 

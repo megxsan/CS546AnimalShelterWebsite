@@ -89,20 +89,17 @@ router
                 if(!req.body.emailInput){ 
                     req.body.emailInput = user.email
                 }else{
+                    req.body.emailInput = req.body.emailInput.toLowerCase();
                     req.body.emailInput = validation.checkEmail(req.body.emailInput, "Email");
                     if(user.email === req.body.emailInput) taken = true;//throw 'Cannot change to the same email';
                     req.body.emailInput = xss(req.body.emailInput);
                     inputEmail = true;
                 }
-                try{
-                    if(inputEmail){
-                        taken = userData.getUserByEmail(req.body.emailInput);
-                    }
-
-                }catch(e){
-                    //continue
-                    //if it were to go here, we would want to continue
+                let used = "";
+                if(inputEmail){
+                    used = userData.getUserByEmailSettings(req.body.emailInput)
                 }
+                if(used === "no"){taken = true};
 
                 if(!req.body.ageInput){ 
                     req.body.ageInput = user.age;
