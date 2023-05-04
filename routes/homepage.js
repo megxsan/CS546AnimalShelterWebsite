@@ -22,16 +22,15 @@ router
 		// res.render('homepage', {dogs: allDogs});
 		// }
 		//Homepage for when signed in
-		let signedOut = true;
-		let signedIn = false;
-		let loggedOut = false;
+		let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
 		let dogCollection = await dogs();
 		let allDogs = await dogCollection.find().toArray();
 		res.render("pages/homepage", {
 			dogs: allDogs,
-			signedOut: signedOut,
 			signedIn: signedIn,
-			loggedOut: loggedOut,
 		});
 	})
 	.post(async (req, res) => {

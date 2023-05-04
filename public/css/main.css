@@ -3,38 +3,44 @@ h1 {
 }
 
 h2 {
-	color: #E8A87C;
+	color: #ebad83;
 }
 
 body {
-	background-color: #128086;
+	background-color: #0e7075;
 }
 
 label {
-	color: #85DCBA;
+	color: #a6f2d4;
 	font-size: large;
 }
 
 .error {
-	color: #E27D60;
+	color: #f3a089;
 	font-size: large;
 	font-weight: bolder;
 }
 
 a:link {
-    color: #C7EBF0;
+    color: #e8fcff;
+    font-size: 20;
+
 }
   
 a:visited {
     color: #C38D9E;
+    font-size: 20;
+
 }
 
 a:hover {
     color: #BAA7B0;
+    font-size: 20;
 }
 
 a:active {
     color: #B2ABBF;
+    font-size: 20;
 }
 
 input[type=text], input[type=email], input[type=password], select {
@@ -70,4 +76,9 @@ input[type=text], select {
 
 button[type=submit]:hover {
     background-color: #BAA7B0;
+}
+
+p{
+    color:white;
+    font-size: 20;
 }
