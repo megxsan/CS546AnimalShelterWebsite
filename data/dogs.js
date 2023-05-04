@@ -246,6 +246,49 @@ const exportedMethods = {
 		return `${myDog.name} has been successfully liked!`;;
 	},
 	
+	async addComment(dogId, userId, newComment) {
+		dogId = validation.checkId(id, "Dog ID");
+		userId = validation.checkId(id, "User ID");
+		const dogCollection = await dogs();
+		const myDog = await dogCollection.findOne({_id: new ObjectId(dogId)});
+		if(myDog === null) {
+			throw 'Error: No dog with that ID';
+		};
+
+		const userCollection = await users();
+        const myUser = await userCollection.findOne({_id: new ObjectId(userId)});
+        if (myUser === null) throw 'Error: No user with that ID';
+		
+		newComment = validation.checkString(newComment, "Comment");
+
+		let updatedDog = {
+			name: myDog.name,
+			sex: myDog.sex,
+			age: myDog.age,
+			color: myDog.color,
+			breeds: myDog.breeds,
+			weight: myDog.weight,
+			description: myDog.description,
+			traits: myDog.traits,
+			medicalInfo: myDog.medicalInfo,
+			vaccines: myDog.vaccines,
+			pictures: myDog.pictures,
+			userId: myDog.userId,
+			interest: myDog.intrest,
+			adopted: myDog.adopted,
+			likes: myDog.likes,
+			comments: (myDog.comments).push(newComment)
+		};
+
+		const updatedInfoDog = await dogCollection.findOneAndReplace(
+            {_id: new ObjectId(dogId)},
+            updatedDog,
+            {returnDocument: 'after'}
+        );
+        if (updatedInfoDog.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update post with id ${dogId}`];
+		return `You have successfully commented on ${myDog.name}'s post!'`;;
+	},
+
 	async getAllDogs() {
 		const dogCollection = await dogs();
 		let dogList = await dogCollection.find({}).toArray();
