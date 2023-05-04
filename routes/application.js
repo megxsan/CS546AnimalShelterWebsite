@@ -24,10 +24,7 @@ router
                         res.render('pages/app', {title: "Application", app: hasApp, noApp: noApp, first:application.firstName, last:application.lastName, age: application.age, email:application.email, phone:application.phone, livingAccommodations: application.livingAccommodations, children:application.children, timeAlone:application.timeAlone, animals:application.animals, yard:application.yard, reasoningExperience: application.reasoningExperience});
 
                 }
-                // }catch(e){
-                //         res.render('error', {title: "Application Error", error:e});
-                //         //figure out what status to put
-                // }
+
     });
 
 router
@@ -65,7 +62,7 @@ router
                 }catch(e){
                         // res.render('error', {title: "Application Error", error:e});
                         //figure out what status goes here
-                        console.log(e)
+                        res.status(400).render("/account/application");
                 }
                 try{
                         let application = await appData.addApp(req.session.user._id,checked.firstName,checked.lastName,checked.age,checked.email,checked.phone,checked.livingAccommodations,
@@ -74,7 +71,7 @@ router
                 }catch(e){
                         // res.render('error', {title: "Application Error", error:e});
                         //figure out what status to put
-                        console.log(e);
+                        res.status(400).render("/account/application");;
                 }
     });
 
@@ -86,8 +83,9 @@ router
         */
                 if(!req.session.user._id){
                         res.render('error', {title: "Application Error", error: "Must be signed in to add an application"});
+                }else{
+                        res.render('pages/app', {title: "Application", user: req.session.user._id});
                 }
-                res.render('pages/app', {title: "Application", user: req.session.user._id});
     })
     .post(async (req, res) => {
         /*  Post 
@@ -104,7 +102,7 @@ router
                         checked = validation.checkAppInputs(app.userId,app.firstName,app.lastName,app.age,app.email,app.phone, app.livingAccommodations,
                                 app.children,app.childrenAges,app.timeAlone,app.animals,app.typeAnimals,app.yard,app.reasoningExperience)
                 }catch(e){
-                        res.render('error', {title: "Application Error", error:e});
+                        res.status(400).render('pages/app', {title: "Application"});
                         //figure out what status goes here
                 }
                 try{
@@ -112,7 +110,7 @@ router
                                 checked.children,checked.childrenAges,checked.timeAlone,checked.animals,checked.typeAnimals,checked.yard,checked.reasoningExperience);
                         res.render('pages/app', {title: "Application", app: application});
                 }catch(e){
-                        res.render('error', {title: "Application Error", error:e});
+                        res.status(400).render('pages/app', {title: "Application"});
                         //figure out what status to put
                 }
     });

@@ -55,13 +55,13 @@ router
         let taken;
         //update informaiton in the database using a user update function
         if(!req.body.firstNameInput && !req.body.lastNameInput && !req.body.emailInput && !req.body.ageInput){
-            res.render('pages/updateSettings', {title: "Update Settings"})
+            res.status(400).render('pages/updateSettings', {title: "Update Settings"})
         }else{
             let user = {};
             try{
                 user = await userData.getUserById(req.session.user._id);
             }catch(e){
-                res.render('pages/updateSettings', {title: "Update Settings"})
+                res.status(400).render('pages/updateSettings', {title: "Update Settings"})
 
             }
             try{
@@ -118,19 +118,18 @@ router
                     req.body.newPasswordInput = xss(req.body.newPasswordInput);
                 }
             }catch(e){
-                console.log(e)
+                res.status(400).render('pages/updateSettings', {title: "Update Settings"})
             }       
-            
             try{
                 if(taken){
-                    res.render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true})
+                    res.status(400).render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true})
                 }else{
                     let updated = await userData.updateUser(req.session.user._id, req.body.firstNameInput, req.body.lastNameInput, req.body.ageInput, req.body.emailInput, req.body.oldPasswordInput, req.body.newPasswordInput);
-                    res.render('pages/settings', {title: "Account", first: updated.firstName, last:updated.lastName, age:updated.age, email:updated.email, taken:false})
+                    res.status(400).render('pages/settings', {title: "Account", first: updated.firstName, last:updated.lastName, age:updated.age, email:updated.email, taken:false})
 
                 }
             }catch(e){
-                res.render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true});
+                res.status(400).render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true});
             }
         }
     });

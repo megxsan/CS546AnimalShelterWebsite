@@ -16,7 +16,7 @@ router
         //         res.render('error', {title: "Quiz Error", error: "Must be signed in to access the quiz"});
         // }
         //MEGAN PUT THIS TO GET TO THE PAGE WE NEED TO CHECK FOR LOGIN AND STUFF
-                res.render('pages/quiz', {title: "Quiz"});
+        res.render('pages/quiz', {title: "Quiz"});
 
         })
     .post(async (req, res) => {
@@ -51,7 +51,7 @@ router
                 if(quiz.dog != "working" && quiz.dog != "herding" && quiz.dog != "hound" && quiz.dog != "sporting" && quiz.dog != "nonsporting" && quiz.dog != "toy" && quiz.dog != "terrier") throw `invalid dog input`
 
         }catch(e){
-                res.render('pages/quiz', {title: "Quiz"})
+                res.status(400).render('pages/quiz', {title: "Quiz"})
         }
 
         //here are counters to keep track of the quiz results
