@@ -437,17 +437,17 @@
 			let reasoningErr = document.getElementById("reasoning");
 			error.hidden = true;
 
-			firstErr.className = '';
-			lastErr.className = '';
-			emailErr.className = '';
-			ageErr.className = '';
-			phoneErr.className = '';
-			accommodationsErr.className = '';
-			childrenErr.className = '';
-			timeAloneErr.className = '';
-			animalsErr.className = '';
-			yardErr.className = '';
-			reasoningErr.className = '';
+			firstErr.className = "";
+			lastErr.className = "";
+			emailErr.className = "";
+			ageErr.className = "";
+			phoneErr.className = "";
+			accommodationsErr.className = "";
+			childrenErr.className = "";
+			timeAloneErr.className = "";
+			animalsErr.className = "";
+			yardErr.className = "";
+			reasoningErr.className = "";
 
 			try {
 				firstNameInput.value = checkName(firstNameInput.value, "First Name");
@@ -455,7 +455,7 @@
 				firstNameInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				firstErr.className = 'error';
+				firstErr.className = "error";
 			}
 			try {
 				lastNameInput.value = checkName(lastNameInput.value, "Last Name");
@@ -463,7 +463,7 @@
 				lastNameInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				lastErr.className = 'error';
+				lastErr.className = "error";
 			}
 			try {
 				emailInput.value = checkEmail(emailInput.value, "Email");
@@ -471,17 +471,16 @@
 				emailInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				emailErr.className = 'error';
+				emailErr.className = "error";
 			}
 			try {
 				age = parseInt(ageInput.value.trim());
 				age = checkAge(age, "Age");
-
 			} catch (e) {
 				ageInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				ageErr.className = 'error';
+				ageErr.className = "error";
 			}
 			try {
 				phoneInput.value = phoneInput.value.trim();
@@ -492,7 +491,7 @@
 				phoneInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				phoneErr.className = 'error';
+				phoneErr.className = "error";
 			}
 			try {
 				livingAccommodationsInput.value = livingAccommodationsInput.value
@@ -509,47 +508,62 @@
 				livingAccommodationsInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				accommodationsErr.className = 'error';
+				accommodationsErr.className = "error";
 			}
 			try {
 				childrenInput.value = childrenInput.value.trim().toLowerCase();
-				if (childrenInput.value != "0" && childrenInput.value != "1" && childrenInput.value != "2" && childrenInput.value != "3" && childrenInput.value != "more than 3") throw `invalid value for children`;
+				if (
+					childrenInput.value != "0" &&
+					childrenInput.value != "1" &&
+					childrenInput.value != "2" &&
+					childrenInput.value != "3" &&
+					childrenInput.value != "more than 3"
+				)
+					throw `invalid value for children`;
 			} catch (e) {
 				childrenInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				childrenErr.className = 'error';
+				childrenErr.className = "error";
 			}
 
 			try {
 				timeAloneInput.value = timeAloneInput.value.trim();
-				if(!timeAloneInput.value) throw `cannot be empty`;
+				if (!timeAloneInput.value) throw `cannot be empty`;
 				let num = parseInt(timeAloneInput.value);
 				if (num < 0 || num > 24) throw `invalid time to be alone`;
 			} catch (e) {
 				timeAloneInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				timeAloneErr.className = 'error';
+				timeAloneErr.className = "error";
 			}
 			try {
 				animalsInput.value = animalsInput.value.trim().toLowerCase();
-				if (animalsInput.value != "0" && animalsInput.value != "1" && animalsInput.value != "2" && animalsInput.value != "3" && animalsInput.value != "more than 3") throw `invalid value for animals`;
+				if (
+					animalsInput.value != "0" &&
+					animalsInput.value != "1" &&
+					animalsInput.value != "2" &&
+					animalsInput.value != "3" &&
+					animalsInput.value != "more than 3"
+				)
+					throw `invalid value for animals`;
 			} catch (e) {
 				animalsInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				animalsErr.className = 'error';
+				animalsErr.className = "error";
 			}
 
 			try {
 				yardInput.value = yardInput.value.trim().toLowerCase();
-				if (yardInput.value != "yes" && yardInput.value != "no") throw `invalid value for yard`;
+				if (yardInput.value != "yes" && yardInput.value != "no")
+					throw `invalid value for yard`;
 			} catch (e) {
 				yardInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				yardErr.className = 'error';
+				yardErr.className = "error";
 			}
 
 			try {
@@ -558,11 +572,11 @@
 				reasoningInput.value = "";
 				event.preventDefault();
 				error.hidden = false;
-				reasoningErr.className = 'error';
+				reasoningErr.className = "error";
 			}
 		});
 	}
-	if(quizForm){
+	if (quizForm) {
 		quizForm.addEventListener("submit", (event) => {
 			let space = document.getElementById("space");
 			let walks = document.getElementById("walks");
@@ -574,66 +588,109 @@
 			let dog = document.getElementById("dog");
 			let error = document.getElementById("error");
 			error.hidden = true;
-			try{
+			try {
 				space.value = space.value.trim();
-				if(space.value != "apartment" && space.value != "houseB" && space.value != "houseN") throw `invalid space input`
-			}catch(e){
+				if (
+					space.value != "apartment" &&
+					space.value != "houseB" &&
+					space.value != "houseN"
+				)
+					throw `invalid space input`;
+			} catch (e) {
 				space.value = "";
 				event.preventDefault();
 				error.hidden = false;
 			}
-			try{
+			try {
 				walks.value = walks.value.toLowerCase().trim();
-				if(walks.value != "none" && walks.value != "short" && walks.value != "long" && walks.value != "many") throw `invalid walks input`
-			}catch(e){
+				if (
+					walks.value != "none" &&
+					walks.value != "short" &&
+					walks.value != "long" &&
+					walks.value != "many"
+				)
+					throw `invalid walks input`;
+			} catch (e) {
 				walks.value = "";
 				event.preventDefault();
 				error.hidden = false;
 			}
-			try{
+			try {
 				outside.value = outside.value.toLowerCase().trim();
-				if(outside.value != "inside" && outside.value != "out" && outside.value != "both") throw `invalid outside input`
-			}catch(e){
+				if (
+					outside.value != "inside" &&
+					outside.value != "out" &&
+					outside.value != "both"
+				)
+					throw `invalid outside input`;
+			} catch (e) {
 				outside.value = "";
 				event.preventDefault();
 				error.hidden = false;
-			}		
-			try{
+			}
+			try {
 				fur.value = fur.value.toLowerCase().trim();
-				if(fur.value != "noshed" && fur.value != "shed" && fur.value != "bothshed") throw `invalid shed input`
-			}catch(e){
+				if (
+					fur.value != "noshed" &&
+					fur.value != "shed" &&
+					fur.value != "bothshed"
+				)
+					throw `invalid shed input`;
+			} catch (e) {
 				fur.value = "";
 				event.preventDefault();
 				error.hidden = false;
-			}	
-			try{
+			}
+			try {
 				size.value = size.value.toLowerCase().trim();
-				if(size.value != "mini" && size.value != "small" && size.value != "medium" && size.value != "large" && size.value != "xlarge") throw `invalid size input`
-			}catch(e){
+				if (
+					size.value != "mini" &&
+					size.value != "small" &&
+					size.value != "medium" &&
+					size.value != "large" &&
+					size.value != "xlarge"
+				)
+					throw `invalid size input`;
+			} catch (e) {
 				size.value = "";
 				event.preventDefault();
 				error.hidden = false;
 			}
-			try{
+			try {
 				activity.value = activity.value.toLowerCase().trim();
-				if(activity.value != "lazy" && activity.value != "physical" && activity.value != "activityboth") throw `invalid activity input`
-			}catch(e){
+				if (
+					activity.value != "lazy" &&
+					activity.value != "physical" &&
+					activity.value != "activityboth"
+				)
+					throw `invalid activity input`;
+			} catch (e) {
 				size.value = "";
 				event.preventDefault();
 				error.hidden = false;
 			}
-			try{
+			try {
 				fam.value = fam.value.toLowerCase().trim();
-				if(fam.value != "me" && fam.value != "nokid" && fam.value != "kid") throw `invalid family input`
-			}catch(e){
+				if (fam.value != "me" && fam.value != "nokid" && fam.value != "kid")
+					throw `invalid family input`;
+			} catch (e) {
 				size.value = "";
 				event.preventDefault();
 				error.hidden = false;
 			}
-			try{
+			try {
 				dog.value = dog.value.toLowerCase().trim();
-				if(dog.value != "working" && dog.value != "herding" && dog.value != "hound" && dog.value != "sporting" && dog.value != "nonsporting" && dog.value != "toy" && dog.value != "terrier") throw `invalid dog input`
-			}catch(e){
+				if (
+					dog.value != "working" &&
+					dog.value != "herding" &&
+					dog.value != "hound" &&
+					dog.value != "sporting" &&
+					dog.value != "nonsporting" &&
+					dog.value != "toy" &&
+					dog.value != "terrier"
+				)
+					throw `invalid dog input`;
+			} catch (e) {
 				size.value = "";
 				event.preventDefault();
 				error.hidden = false;
@@ -650,7 +707,9 @@
 			let maxWeight = document.getElementById("maxweight");
 			let error = document.getElementById("error");
 			error.hidden = true;
-			if (minweight.value > maxweight.value) {
+			let min = parseInt(minWeight.value);
+			let max = parseInt(maxWeight.value);
+			if (min > max) {
 				event.preventDefault();
 				error.hidden = false;
 			}

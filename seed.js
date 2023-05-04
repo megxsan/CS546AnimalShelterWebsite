@@ -12,7 +12,7 @@ let kika = undefined;
 
 let person = undefined;
 let personID = undefined;
-
+/*
 try {
 	// Add User
 	person = await users.addUser(
@@ -48,7 +48,7 @@ try {
 } catch (e) {
 	console.log(e);
 }
-
+*/
 try {
 	//Test 1
 	tobi = await dogs.addDog(
@@ -63,7 +63,7 @@ try {
 		[],
 		["Rabies"],
 		[],
-		personID
+		"644d48215682eb84cd6c946b"
 	);
 } catch (e) {
 	console.log(e);
@@ -83,7 +83,7 @@ try {
 		["Diabetes"],
 		["Rabies"],
 		[],
-		personID
+		"644d48215682eb84cd6c946b"
 	);
 } catch (e) {
 	console.log(e);

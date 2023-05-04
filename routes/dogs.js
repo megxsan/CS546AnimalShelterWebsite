@@ -9,6 +9,10 @@ const router = Router();
 router
 	.route("/:dogId")
 	.get(async (req, res) => {
+		let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
 		/*  Get 
                 -Displaying all the data on the dog
                 -Seeing likes & comments
@@ -32,7 +36,7 @@ router
 		} catch (e) {
 			res.status(404).render("error", { title: "DogID Error", error: e });
 		}
-		res.status(200).render("pages/singledog", { dog: dog, user: user });
+		res.status(200).render("pages/singledog", { dog: dog, user: user, signedIn: signedIn});
 	})
 	.patch(async (req, res) => {
 		/*  Patch 

@@ -9,6 +9,10 @@ const router = Router();
 router
 	.route("/")
 	.get(async (req, res) => {
+                let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
         /*  Get 
                 -Seeing quiz form
         */
@@ -16,13 +20,17 @@ router
         //         res.render('error', {title: "Quiz Error", error: "Must be signed in to access the quiz"});
         // }
         //MEGAN PUT THIS TO GET TO THE PAGE WE NEED TO CHECK FOR LOGIN AND STUFF
-        res.render('pages/quiz', {title: "Quiz"});
+                res.render('pages/quiz', {title: "Quiz", signedIn: signedIn});
 
         })
     .post(async (req, res) => {
         /*  Post
                 -Recieving quiz form
         */
+        let signedIn = true;
+        if (!req.session.user){
+                signedIn = false;
+        }
         let quiz = req.body;
         try{
                 //error check all of the input
@@ -51,7 +59,7 @@ router
                 if(quiz.dog != "working" && quiz.dog != "herding" && quiz.dog != "hound" && quiz.dog != "sporting" && quiz.dog != "nonsporting" && quiz.dog != "toy" && quiz.dog != "terrier") throw `invalid dog input`
 
         }catch(e){
-                res.status(400).render('pages/quiz', {title: "Quiz"})
+                res.status(400).render('pages/quiz', {title: "Quiz", signedIn: signedIn})
         }
 
         //here are counters to keep track of the quiz results
@@ -205,7 +213,7 @@ router
                 result.push("Terrier Group (Jack Russell Terrier, Border Terrier, Bull Terrier, Irish Terrier, etc)");
         }
 
-        res.render('pages/quizResult', {title: "Quiz Result", result:result});
+        res.render('pages/quizResult', {title: "Quiz Result", result:result, signedIn: signedIn});
     });
 
  export default router;

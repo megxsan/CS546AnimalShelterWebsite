@@ -9,6 +9,10 @@ const router = Router();
 router
 	.route("/")
 	.get(async (req, res) => {
+                let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
         /*  Get 
                 -Seeing all your dogs
         */
@@ -17,7 +21,7 @@ router
                 // }
                 // try{
                         let dogs = await dogData.getMyDogs(req.session.user._id);
-                        res.render('pages/myDogs', {title: "MyDogs", dogs: dogs});
+                        res.render('pages/myDogs', {title: "MyDogs", dogs: dogs, signedIn: signedIn});
                 // }catch(e){
                 //         res.render('error', {title: "MyDogs Error", error:e});
                 //         //figure out what status to put
@@ -31,15 +35,23 @@ router
         /*  Get 
                 -Seeing add dog form
         */
+                let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
                 if(!req.sessions.user._id){
                         res.render('error', {title: "Dog Error", error: "Must be signed in to post your dog"});
                 }
-                res.render('adddog', {title: "Add Dog", user:req.sessions.user._id});
+                res.render('adddog', {title: "Add Dog", user:req.sessions.user._id, signedIn: signedIn});
         })
         .post(async (req, res) => {
                 /*  Post 
                         -Recieving add dog form form
                 */
+                let signedIn = true;
+                if (!req.session.user){
+                        signedIn = false;
+                }
                 if(!req.sessions.user._id){
                         res.render('error', {title: "Dog Error", error: "Must be signed in to post your dog"});
                 }
@@ -67,7 +79,7 @@ router
                         res.render('error', {title: "Post Dog Error", error: e})
                 }
                 let newDog = await dogData.addDog(dog.name,dog.sex,dog.age,dog.color,dog.breeds,dog.weight,dog.description,dog.traits,dog.medicalInfo,dog.vaccines,dog.pictures,dog.userId);
-                res.render('postdog', {title: "Posting Dog", dog: newDog});
+                res.render('postdog', {title: "Posting Dog", dog: newDog, signedIn: signedIn});
         });
 
 router
