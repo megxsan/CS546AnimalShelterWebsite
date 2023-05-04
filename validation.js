@@ -195,11 +195,11 @@ const exportedMethods = {
 		// let age2 = parseInt(age);
 		// age = this.checkAge(age2);
 		phone = this.checkString(phone, "Phone Number")
-		timeAlone = this.checkNum(parseInt(timeAlone), "Time Alone");
+
 		if (phone.toString().length != 12) throw `Error: Invalid phone number`;
 		if (timeAlone < 0 || timeAlone > 24)
 			throw `Error: Time alone must be between 0 and 24 hours`;
-
+		
 		// Checking strings
 		firstName = this.checkString(firstName, "First Name");
 		lastName = this.checkString(lastName, "Last Name");
