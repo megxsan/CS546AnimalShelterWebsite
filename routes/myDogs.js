@@ -63,6 +63,7 @@ router
 				res.status(500).render('error', {title: "Server Error", error: error});
 				return;
 			}
+			// TO DO: Delete photos if other parameters fails
 			let formData = data[0]
 			try {
 				formData.nameInput = validation.checkString(formData.nameInput, "Name");
@@ -105,13 +106,13 @@ router
 			try {
 				formData.weightInput = formData.weightInput.trim()
 				formData.weightInput = parseInt(formData.weightInput)
-				formData.weightInput = validation.checkDogAge(formData.weightInput, "Weight");
+				formData.weightInput = validation.checkWeight(formData.weightInput, "Weight");
 			} catch (error) {
 				res.status(400).render("error", { title: "Add Dog Error", error: error });
 				return;
 			}
 			try {
-				formData.descriptionInput = validation.checkString(formData.descriptionInput, "Sex");;
+				formData.descriptionInput = validation.checkString(formData.descriptionInput, "Description");;
 			} catch (error) {
 				res.status(400).render("error", { title: "Add Dog Error", error: error });
 				return;
