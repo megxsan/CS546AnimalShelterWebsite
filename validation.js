@@ -280,6 +280,29 @@ const exportedMethods = {
 		if (password.length < 8) throw `Error: Invalid Password given`;
 		return password;
 	},
+
+	checkArraysEqual(arr1, arr2){
+		if(arr1.length != arr2.length) return true;
+
+		let counter = 0;
+		//make everything lower case
+		for(let i = 0; i < arr1.length; i++){
+			arr1[i] = arr1[i].toLowerCase();
+			arr2[i] = arr2[i].toLowerCase();
+		}
+
+		//compare all the values within it
+		for(let i = 0; i < arr1.length; i++){
+			if(arr2.contains(arr1[i])){
+				counter++;
+			}
+		}
+		let result = false;
+		if(counter === arr1.length){
+			result = true;
+		}
+		return result;
+	}
 };
 
 export default exportedMethods;

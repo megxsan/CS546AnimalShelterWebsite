@@ -136,6 +136,17 @@ const exportedMethods = {
 			throw 'Error: No dog with that ID';
 		};
 
+		const allDogs = await this.getAllDogs();
+		for(let i = 0; i < allDogs.length; i++){
+			if(allDogs[i].name === name && allDogs[i].sex === sex && allDogs[i].age === age && allDogs[i].color === color 
+			&& allDogs[i].breeds === breeds && allDogs[i].weight === weight && allDogs[i].description === description
+			&& validation.checkArraysEqual(allDogs[i].traits, traits)
+			&& validation.checkArraysEqual(allDogs[i].medicalInfo, medicalInfo)
+			&& validation.checkArraysEqual(allDogs[i].vaccines, vaccines)){
+				throw `A dog like this already exists!`
+			}
+		}
+
 		let updatedDog = {
 			name: name,
 			sex: sex,
