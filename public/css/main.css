@@ -24,27 +24,30 @@ label {
 ul {
     list-style-type: none;
     overflow:hidden;
-    background-color: white;
+    background-color: #e6f8fa;
 }
 
 li a {
     float: left;
     display: block;
     padding: 15px 15px;
-    color:#0e7075;
+    /* color:#e6f8fa; */
     text-decoration: none;
 }
 
 li a:hover{
-    background-color: #e6f8fa;
+    background-color: #b4fbdf;
 }
 
 li a:visited{
-    color:#0e7075;
+    color:#307a82;
+}
+li a:link{
+    color:#307a82;
 }
 
 a:link {
-    color: #e8fcff;
+    color: #e6f8fa;
     font-size: 20;
 
 }
