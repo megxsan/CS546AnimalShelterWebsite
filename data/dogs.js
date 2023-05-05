@@ -403,6 +403,7 @@ const exportedMethods = {
 	async uploadPhoto(req) {
 		return new Promise((resolve, reject) => {
 			let photos = [];
+			let numPhotos = 0;
 			let options = {
 				maxFileSize: 100 * 1024 * 1024,
 				allowEmptyFiles: false
@@ -410,20 +411,8 @@ const exportedMethods = {
 	
 			const form = formidable(options);
 			form.parse(req, (err, fields, files) => {
-				/*
-				name = validation.checkString(name, "Name");
-				name = validation.checkName(name, "Name");
-				sex = validation.checkSex(sex, "Sex");
-				age = validation.checkDogAge(age, "Age");
-				color = validation.checkStringArray(color, "Color", 1);
-				breeds = validation.checkStringArray(breeds, "Breeds", 1);
-				weight = validation.checkWeight(weight, "Weight");
-				description = validation.checkString(description, "Description");
-				traits = validation.checkStringArray(traits, "Traits", 0);
-				medicalInfo = validation.checkStringArray(medicalInfo, "Medical Info", 0);
-				vaccines = validation.checkStringArray(vaccines, "Vaccines", 0);
-				*/
 				photos.push(fields);
+				numPhotos = parseInt(photos[0]["numPhotos"]);
 			});
 	
 			form.on('error', error => {
@@ -433,7 +422,10 @@ const exportedMethods = {
 			form.on('data', data => {
 				if (data.name === "complete") {
 					photos.push({url: data.value.Location, key: data.value.Key})
-                	resolve(photos);
+					numPhotos--
+					if (numPhotos === 0){
+						resolve(photos);
+					}
 				}
 			})
 	

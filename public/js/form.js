@@ -76,12 +76,36 @@
 		}
 		return arr;
 	}
+
 	function checkWeight(weight, varName) {
-		if (weight !== undefined) throw `Error: You must supply a ${varName}!`;
+		if (!weight) throw `Error: You must supply a ${varName}!`;
 		if (typeof weight !== "number") throw `Error: ${varName} must be a number!`;
 		if (weight < 0) throw `Error: ${varName} cannot be less than 0`;
 		weight = weight.toFixed(1);
+		weight = parseFloat(weight);
 		return weight;
+	}
+
+	function checkSex(sex, varName) {
+		if (!sex) throw `Error: You must supply a ${varName}!`;
+		if (typeof sex !== "string") throw `Error: ${varName} must be a string!`;
+		sex = sex.trim();
+		sex = sex.toLowerCase();
+		if (sex.length === 0)
+			throw `Error: ${varName} cannot be an empty string or string with just spaces`;
+		if (!isNaN(sex))
+			throw `Error: ${sex} is not a valid value for ${varName} as it only contains digits`;
+		if (sex !== "male" && sex !== "female")
+			throw `Error: ${varName} must be either \'male\' or \'female\'`;
+		return sex;
+	}
+
+	function checkDogAge(age, varName) {
+		if (!age) throw `Error: You must supply a ${varName}!`;
+		if (typeof age !== "number") throw `Error: ${varName} must be a number!`;
+		if (age < 0 || age > 30)
+			throw `Error: ${varName} cannot be less than 0 or greater than 30`;
+		return age;
 	}
 
 	const registrationForm = document.getElementById("registration-form");
@@ -90,6 +114,7 @@
 	const appForm = document.getElementById("application-form");
 	const quizForm = document.getElementById("quiz-form");
 	const filterForm = document.getElementById("filter-form");
+	const dogForm = document.getElementById("dog-form");
 
 	if (registrationForm) {
 		registrationForm.addEventListener("submit", (event) => {
@@ -713,6 +738,111 @@
 			if (min > max) {
 				event.preventDefault();
 				error.hidden = false;
+			}
+		});
+	}
+	if (dogForm) {
+		dogForm.addEventListener("submit", (event) => {
+			let name = document.getElementById("nameInput");
+			let sex = document.getElementById("sexInput");
+			let age = document.getElementById("ageInput");
+			let color = document.getElementById("colorInput");
+			let breed = document.getElementById("breedInput");
+			let weight = document.getElementById("weightInput");
+			let description = document.getElementById("descriptionInput");
+			let trait = document.getElementById("traitInput");
+			let medical = document.getElementById("medicalInput");
+			let vaccine = document.getElementById("vaccineInput");
+			let photo = document.getElementById("photoInput");
+			let numPhotos = document.getElementById("numPhotos");
+
+			let error1 = document.getElementById("error1");
+			let error2 = document.getElementById("error2");
+			let error3 = document.getElementById("error3");
+			let error4 = document.getElementById("error4");
+			let error5 = document.getElementById("error5");
+			let error6 = document.getElementById("error6");
+			let error7 = document.getElementById("error7");
+			let error8 = document.getElementById("error8");
+			let error9 = document.getElementById("error9");
+			let error10 = document.getElementById("error10");
+			let error11 = document.getElementById("error11");
+			let error12 = document.getElementById("error12");
+
+			error1.hidden = true;
+			error2.hidden = true;
+			error3.hidden = true;
+			error4.hidden = true;
+			error5.hidden = true;
+			error6.hidden = true;
+			error7.hidden = true;
+			error8.hidden = true;
+			error9.hidden = true;
+			error10.hidden = true;
+			error11.hidden = true;
+			error12.hidden = true;
+
+			try {
+				name.value = checkString(name.value, "Name");
+				name.value = checkName(name.value, "Name");
+			} catch (error) {
+				event.preventDefault();
+				error1.hidden = false;
+			}
+
+			try {
+				sex.value = checkString(sex.value, "Sex");
+				sex.value = checkSex(sex.value, "Sex");
+			} catch (error) {
+				event.preventDefault();
+				error2.hidden = false;
+			}
+
+			try {
+				age.value = age.value.trim();
+				let ageNum = parseInt(age.value);
+				ageNum = checkDogAge(ageNum, "Age");
+			} catch (error) {
+				event.preventDefault();
+				error3.hidden = false;
+			}
+
+			try {
+				color.value = checkString(color.value, "Color");
+			} catch (error) {
+				event.preventDefault();
+				error4.hidden = false;
+			}
+
+			try {
+				breed.value = checkString(breed.value, "Breed");
+			} catch (error) {
+				event.preventDefault();
+				error5.hidden = false;
+			}
+
+			try {
+				weight.value = weight.value.trim();
+				let weightNum = parseInt(weight.value);
+				weightNum = checkWeight(weightNum, "Weight");
+			} catch (error) {
+				event.preventDefault();
+				error6.hidden = false;
+			}
+
+			try {
+				if (photo.value === "") throw "Error: No photo uploaded"
+				numPhotos.value = photo.files.length.toString();;
+			} catch (error) {
+				event.preventDefault();
+				error11.hidden = false;
+			}
+			try {
+				if (photo.files.length > 3) throw "Error: Too many photos uploaded"
+				numPhotos.value = photo.files.length.toString();;
+			} catch (error) {
+				event.preventDefault();
+				error12.hidden = false;
 			}
 		});
 	}
