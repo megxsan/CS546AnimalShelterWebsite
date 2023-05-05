@@ -70,7 +70,7 @@ router
         */
         let taken;
         //update informaiton in the database using a user update function
-        if(!req.body.firstNameInput && !req.body.lastNameInput && !req.body.emailInput && !req.body.ageInput){
+        if(!req.body.firstNameInput && !req.body.lastNameInput && !req.body.emailInput && !req.body.ageInput && !req.body.newPasswordInput){
             res.status(400).render('pages/updateSettings', {title: "Update Settings", signedIn: signedIn})
         }else{
             let user = {};
@@ -134,7 +134,7 @@ router
                     req.body.newPasswordInput = xss(req.body.newPasswordInput);
                 }
             }catch(e){
-                res.status(400).render('pages/updateSettings', {title: "Update Settings", signedIn: signedIn})
+                res.status(400).render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true, signedIn: signedIn})
             }       
             try{
                 if(taken){

@@ -383,6 +383,7 @@
 			if (newPassword.value) {
 				try {
 					newPassword.value = checkPassword(newPassword.value, "New Password");
+					console.log(newPassword.value);
 					passErr = false;
 				} catch (e) {
 					newPassword.value = "";
@@ -400,7 +401,7 @@
 					}
 				}
 			}
-			if (first.value || last.value || email.value || age.value) {
+			if (first.value || last.value || email.value || age.value || newPassword.value) {
 				emptyError.hidden = true;
 			}
 		});

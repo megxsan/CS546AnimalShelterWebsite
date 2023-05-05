@@ -76,6 +76,10 @@ const exportedMethods = {
         if (myUser === null) throw 'Error: No user with that ID';
 
         let comparePassword = await bcrypt.compare(oldPassword, myUser.password);
+        if(myUser.firstName === firstName && myUser.lastName === lastName && myUser.age === age && myUser.email === email && myUser.oldPassword === newPassword){
+            throw `At least one input should be updated with this form`
+        }
+
         if (comparePassword == false) throw 'Password is invalid';
         const hash = await bcrypt.hash(newPassword, 10);
         
