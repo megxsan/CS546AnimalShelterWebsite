@@ -393,6 +393,11 @@ const exportedMethods = {
 			}
 	},
 
+	async caption(dogId){
+		dogId = validation.checkId(dogId, "Dog ID");
+		const dog = await getDogById(id);
+		return `A ${dog.color[0]} ${dog.breed[0]} named ${dog.name}`;
+	},
 
 	// Citation: https://www.freecodecamp.org/news/how-to-upload-files-to-aws-s3-with-node/
 	async uploadPhoto(req) {
