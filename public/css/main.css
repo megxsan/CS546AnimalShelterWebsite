@@ -21,6 +21,28 @@ label {
 	font-weight: bolder;
 }
 
+ul {
+    list-style-type: none;
+    overflow:hidden;
+    background-color: white;
+}
+
+li a {
+    float: left;
+    display: block;
+    padding: 15px 15px;
+    color:#0e7075;
+    text-decoration: none;
+}
+
+li a:hover{
+    background-color: #e6f8fa;
+}
+
+li a:visited{
+    color:#0e7075;
+}
+
 a:link {
     color: #e8fcff;
     font-size: 20;
