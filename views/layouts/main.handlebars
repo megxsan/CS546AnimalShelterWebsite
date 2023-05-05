@@ -11,8 +11,8 @@
 	<body>
 		<nav>
 			<a href="/">Main Page</a>
-            <a href="/account/settings">My Account</a>
 			{{#if signedIn}}
+			    <a href="/account/settings">My Account</a>
 				<a href="/logout">Logout</a>
 			{{else}}
 				<a href="/login">Login/SignUp</a>
