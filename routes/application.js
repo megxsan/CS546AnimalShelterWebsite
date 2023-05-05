@@ -84,7 +84,7 @@ router
                 }catch(e){
                         // res.render('error', {title: "Application Error", error:e});
                         //figure out what status to put
-                        return res.status(400).render('pages/updateApp', {title: "App", signedIn: signedIn});;
+                        return res.status(500).render('pages/updateApp', {title: "App", signedIn: signedIn});;
                 }
     });
 
