@@ -145,7 +145,7 @@ router
 
                 }
             }catch(e){
-                res.status(400).render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true, signedIn: signedIn});
+                res.status(500).render('pages/settings', {title: "Account", first: user.firstName, last:user.lastName, age:user.age, email:user.email, taken:true, signedIn: signedIn});
             }
         }
     });

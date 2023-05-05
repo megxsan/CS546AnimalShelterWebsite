@@ -10,13 +10,15 @@
 
 	<body>
 		<nav>
-			<a href="/">Main Page</a>
-            <a href="/account/settings">My Account</a>
-			{{#if signedIn}}
-				<a href="/logout">Logout</a>
-			{{else}}
-				<a href="/login">Login/SignUp</a>
-			{{/if}}
+			<ul>
+				<li><a href="/">Main Page</a></li>
+				{{#if signedIn}}
+			    	<li><a href="/account/settings">My Account</a></li>
+					<li><a href="/logout">Logout</a></li>
+				{{else}}
+					<li><a href="/login">Login/SignUp</a></li>
+				{{/if}}
+			</ul>
 		</nav>
 
 		<main>

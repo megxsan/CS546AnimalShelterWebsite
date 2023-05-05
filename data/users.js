@@ -3,6 +3,9 @@ import { ObjectId } from "mongodb";
 import validation from "../validation.js";
 import bcrypt from 'bcrypt';
 
+import * as app from './application.js';
+import { appData } from "./index.js";
+
 const exportedMethods = {
     async addUser(firstName, lastName, age, email, password) {
         firstName = validation.checkString(firstName, "First Name");
@@ -143,6 +146,62 @@ const exportedMethods = {
         
         myUser._id = myUser._id.toString();
         return myUser;
+    },
+
+    async sendStatus(appId, dogId, status){
+        status = validation.checkString(status, "Status");
+        if(status != "accepted" && status != "rejected") throw `invalid status`
+
+        appId = validation.checkId(appId, "Application ID");
+        dogId = validation.checkId(dogId, "Application ID");
+        const app = await app.getApp(appId);
+
+        let userId = app.userId;
+        let userCollection = await users();
+        let foundUser = this.getUserById(userId);
+
+        let user = {};
+        if(status === "accepted"){
+            user = {
+                firstName: foundUser.firstName,
+                lastName: foundUser.lastName,
+                age: foundUser.age,
+                email: foundUser.email,
+                password: foundUser.hash,
+                dogs: foundUser.dogs,
+                quizResult: foundUser.quizResult,
+                application: foundUser.application,
+                accepted: foundUser.accepted.push(dogId),
+                pending: foundUser.pending.filter(dogId),
+                rejected: foundUser.rejected,
+                liked: foundUser.liked,
+                disliked: foundUser.disliked
+            };
+        }else{
+            user = {
+                firstName: foundUser.firstName,
+                lastName: foundUser.lastName,
+                age: foundUser.age,
+                email: foundUser.email,
+                password: foundUser.hash,
+                dogs: foundUser.dogs,
+                quizResult: foundUser.quizResult,
+                application: foundUser.application,
+                accepted: foundUser.accepted,
+                pending: foundUser.pending.filter(dogId),
+                rejected: foundUser.rejected.push(dogId),
+                liked: foundUser.liked,
+                disliked: foundUser.disliked
+            };
+        }
+        const updatedUser = await userCollection.findOneAndReplace(
+            {_id: new ObjectId(userId)},
+            updatedUser,
+            {returnDocument: 'after'}
+        );
+        if (updatedUser.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update application status`];
+
+        return `Application for ${appId} has been ${status}.`
     }
 };
 
