@@ -41,7 +41,7 @@ const exportedMethods = {
 		traits = validation.checkStringArray(traits, "Traits", 0);
 		medicalInfo = validation.checkStringArray(medicalInfo, "Medical Info", 0);
 		vaccines = validation.checkStringArray(vaccines, "Vaccines", 0);
-		pictures = validation.checkPicArray(pictures, 0);
+		pictures = validation.checkPicArray(pictures, 1);
 		userId = validation.checkId(userId, "User ID");
 
 		const userCollection = await users();
@@ -127,7 +127,7 @@ const exportedMethods = {
 		traits = validation.checkStringArray(traits, "Traits", 0);
 		medicalInfo = validation.checkStringArray(medicalInfo, "Medical Info", 0);
 		vaccines = validation.checkStringArray(vaccines, "Vaccines", 0);
-		pictures = validation.checkPicArray(pictures, 0);
+		pictures = validation.checkPicArray(pictures, 1);
 		dogId = validation.checkId(dogId, "Dog ID");
 
 		const dogCollection = await dogs();
@@ -397,6 +397,7 @@ const exportedMethods = {
 	// Citation: https://www.freecodecamp.org/news/how-to-upload-files-to-aws-s3-with-node/
 	async uploadPhoto(req) {
 		return new Promise((resolve, reject) => {
+			let photos = [];
 			let options = {
 				maxFileSize: 100 * 1024 * 1024,
 				allowEmptyFiles: false
@@ -404,6 +405,20 @@ const exportedMethods = {
 	
 			const form = formidable(options);
 			form.parse(req, (err, fields, files) => {
+				/*
+				name = validation.checkString(name, "Name");
+				name = validation.checkName(name, "Name");
+				sex = validation.checkSex(sex, "Sex");
+				age = validation.checkDogAge(age, "Age");
+				color = validation.checkStringArray(color, "Color", 1);
+				breeds = validation.checkStringArray(breeds, "Breeds", 1);
+				weight = validation.checkWeight(weight, "Weight");
+				description = validation.checkString(description, "Description");
+				traits = validation.checkStringArray(traits, "Traits", 0);
+				medicalInfo = validation.checkStringArray(medicalInfo, "Medical Info", 0);
+				vaccines = validation.checkStringArray(vaccines, "Vaccines", 0);
+				*/
+				photos.push(fields);
 			});
 	
 			form.on('error', error => {
@@ -412,7 +427,8 @@ const exportedMethods = {
 	
 			form.on('data', data => {
 				if (data.name === "complete") {
-					resolve(data.value);
+					photos.push({url: data.value.Location, key: data.value.Key})
+                	resolve(photos);
 				}
 			})
 	
