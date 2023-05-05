@@ -1,0 +1,76 @@
+<section>
+    <h1>Create a Dog Post</h1>
+    <h2>All form items besides description, traits, medical info, and vaccines must be completed to complete your dog post</h2>
+    <form id="dog-form" method="post">
+        <label for="nameInput" id="first">Name:</label>
+        <input id="nameInput" type="text" name = "nameInput"> <br>
+        <div id="error1" class="error" hidden>
+            <p class="red">Error: Please enter a valid name! </p>
+        </div>
+        
+        <label for="sexInput" id="sexInput">Sex:</label>
+        <select name="sexInput" id="sexInput">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+        </select> <br>
+        <div id="error2" class="error" hidden>
+            <p class="red">Error: Please enter a valid sex! </p>
+        </div>
+
+        <label for="ageInput" id="ageInput">Age:</label>
+        <input id="ageInput" type="number" name = "ageInput"> <br>
+           <div id="error3" class="error" hidden>
+            <p class="red">Error: Please enter a valid age! </p>
+        </div>
+
+        <label for="colorInput" id="colorInput">Colors (separated by comma):</label> <br>
+        <textarea id="colorInput" name="colorInput" rows="5" cols="50"></textarea> <br>
+        <div id="error4" class="error" hidden>
+            <p class="red">Error: Please enter a valid color! </p>
+        </div>
+
+        <label for="breedInput" id="breedInput">Breeds (separated by comma):</label> <br>
+        <textarea id="breedInput" name="breedInput" rows="5" cols="50"></textarea> <br>
+        <div id="error5" class="error" hidden>
+            <p class="red">Error: Please enter a valid breed! </p>
+        </div>
+
+        <label for="weightInput" id="weightInput">Age:</label>
+        <input id="weightInput" type="number" name = "weightInput"> <br>
+           <div id="error6" class="error" hidden>
+            <p class="red">Error: Please enter a weight! </p>
+        </div>
+
+        <label for="descriptionInput" id="descriptionInput">Description:</label> <br>
+        <textarea id="descriptionInput" name="descriptionInput" rows="5" cols="50"></textarea> <br>
+        <div id="error7" class="error" hidden>
+            <p class="red">Error: Please enter a valid description!</p>
+        </div>
+
+        <label for="traitInput" id="traitInput">Traits (separated by comma):</label> <br>
+        <textarea id="traitInput" name="traitInput" rows="5" cols="50"></textarea> <br>
+        <div id="error8" class="error" hidden>
+            <p class="red">Error: Please enter a valid trait!</p>
+        </div>
+
+        <label for="medicalInput" id="medicalInput">Medical Info (separated by comma):</label> <br>
+        <textarea id="medicalInput" name="medicalInput" rows="5" cols="50"></textarea> <br>
+        <div id="error9" class="error" hidden>
+            <p class="red">Error: Please enter valid medical info!</p>
+        </div>
+
+        <label for="vaccineInput" id="vaccineInput">Vaccines (separated by comma):</label> <br>
+        <textarea id="vaccineInput" name="vaccineInput" rows="5" cols="50"></textarea> <br>
+        <div id="error10" class="error" hidden>
+            <p class="red">Error: Please enter a valid vaccine!</p>
+        </div>
+
+        <label for="photoInput" id="photoInput">Photo:</label> <br>
+        <input name="file" type="file" id="photoInput" accept="image/png, image/jpeg"/>
+        <div id="error11" class="error" hidden>
+            <p class="red">Error: Please enter a valid photo!</p>
+        </div>
+
+        <button type ="submit">Post</button>
+    </form>
+</section>
