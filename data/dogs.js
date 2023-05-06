@@ -189,8 +189,8 @@ const exportedMethods = {
 	},
 
 	async addLike(dogId, userId) {
-		dogId = validation.checkId(id, "Dog ID");
-		userId = validation.checkId(id, "User ID");
+		dogId = validation.checkId(dogId, "Dog ID");
+		userId = validation.checkId(userId, "User ID");
 		const dogCollection = await dogs();
 		const myDog = await dogCollection.findOne({_id: new ObjectId(dogId)});
 		if(myDog === null) {
@@ -201,10 +201,9 @@ const exportedMethods = {
         const myUser = await userCollection.findOne({_id: new ObjectId(userId)});
         if (myUser === null) throw 'Error: No user with that ID';
 		
-		for (i in myUser.liked) {
+		for (let i in myUser.liked) {
 			if (myUser.liked[i] === dogId) throw `Error: Cannot like the same dog twice`;
 		}
-
 		let updatedDog = {
 			name: myDog.name,
 			sex: myDog.sex,
@@ -223,7 +222,6 @@ const exportedMethods = {
 			likes: myDog.likes + 1,
 			comments: myDog.comments
 		};
-
 		const updatedInfoDog = await dogCollection.findOneAndReplace(
             {_id: new ObjectId(dogId)},
             updatedDog,
@@ -231,7 +229,6 @@ const exportedMethods = {
         );
         if (updatedInfoDog.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update post with id ${dogId}`];
 		myUser.liked.push(dogId);
-
 		const updatedUser = {
             firstName: myUser.firstName,
             lastName: myUser.lastName,

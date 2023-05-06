@@ -58,12 +58,16 @@
 	{{/if}}
 
 	<h3>Likes:</h3>
-	<p>{{dog.likes}}</p>	
+	<p id="numLikes">{{dog.likes}}</p>
+	<form id="like-form" method="post">
+		<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden>
+		<button type="submit" id="liked" value="liked">Like Post</button>
+	</form>	
 
 
-	{{#if error}}
+	{{!-- {{#if error}}
 		<p>You must be signed in to like or comment!</p>
-	{{/if}}
+	{{/if}} --}}
 	<form id="comment-form" method="post">
 		<label for="commentInput" id="comment">Post a comment here!</label>
 		<p id="popup" class="error" hidden>A comment cannot be empty!</p>
