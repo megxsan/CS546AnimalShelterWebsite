@@ -30,6 +30,7 @@
 		"express-session": "^1.17.3",
 		"formidable": "^2.1.1",
 		"jquery": "^3.6.4",
+		"handlebars": "^4.7.7",
 		"method-override": "^3.0.0",
 		"mongodb": "^5.2.0",
 		"xss": "^1.0.14"

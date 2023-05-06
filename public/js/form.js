@@ -10,7 +10,8 @@
 		if (!isNaN(strVal))
 			throw `Error: ${strVal} is not a valid value for ${varName} as it only contains digits`;
 		let regExp = /[a-zA-Z]/g;
-		if(!regExp.test(strVal)) `Error: ${strVal} is not a valid value for ${varName} as it does not contain letters`;
+		if (!regExp.test(strVal))
+			`Error: ${strVal} is not a valid value for ${varName} as it does not contain letters`;
 		return strVal;
 	}
 
@@ -124,9 +125,6 @@
 	if (ignoreForm) {
 		ignoreForm.addEventListener("submit", (event) => {
 			let dogId = document.getElementById("dogId");
-			//let userId = document.getElementById("userId");
-			console.log(dogId.value);
-			//console.log(userId.value);
 		});
 	}
 	if (registrationForm) {
@@ -909,26 +907,25 @@
 			}
 		});
 	}
-	if(commentForm){
+	if (commentForm) {
 		commentForm.addEventListener("submit", (event) => {
 			let comment = document.getElementById("commentInput");
-			let error = document.getElementById('comment');
-			let popup = document.getElementById('popup');
+			let error = document.getElementById("comment");
+			let popup = document.getElementById("popup");
 
 			popup.hidden = true;
-			if(!comment.value){
+			if (!comment.value) {
 				event.preventDefault();
-				error.className = 'error';
+				error.className = "error";
 				popup.hidden = false;
-
-			}else{
-				try{
+			} else {
+				try {
 					comment.value = comment.value.trim();
-					if(comment.value === "") throw `Comments cannot be empty`;
-				}catch(e){
+					if (comment.value === "") throw `Comments cannot be empty`;
+				} catch (e) {
 					event.preventDefault();
 					comment.value = "";
-					error.className = 'error';
+					error.className = "error";
 					popup.hidden = false;
 				}
 			}

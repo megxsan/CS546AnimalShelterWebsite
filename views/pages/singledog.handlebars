@@ -71,7 +71,8 @@
 	<form id="comment-form" method="post">
 		<label for="commentInput" id="comment">Post a comment here!</label>
 		<p id="popup" class="error" hidden>A comment cannot be empty!</p>
-		<input id="commentInput" type="text" name = "commentInput"> <br>
+		<input id="commentInput" type="text" name="commentInput" />
+		<br />
 		<button type="submit">Submit</button>
 	</form>
 
@@ -81,7 +82,8 @@
 	{{/each}}
 
 	{{#if applyErr}}
-		<p>You either are not signed in, do not have a filled out application, or have already applied to this dog.</p>
+		<p>You either are not signed in, do not have a filled out application, or
+			have already applied to this dog.</p>
 	{{/if}}
 	<h3>Apply for this dog:</h3>
 	<form id="apply-form" method="post" action="/dogs/{{dog._id}}/apply">
@@ -89,10 +91,18 @@
 	</form>
 
 	{{#if signedIn}}
-		<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
-			<input id="dogId" value={{dog._id}} name="dogId" hidden />
-			<!--<input id="userId" value={{user._id}} name="userId" hidden /> -->
-			<button id="ignorebutton" type="submit">Ignore Dog</button>
-		</form>
+		{{#if (includes currUser.disliked dog._id)}}
+			<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
+				<input id="dogId" value={{dog._id}} name="dogId" hidden />
+				<input id="isIgnored" value="true" name="isIgnored" hidden />
+				<button id="ignorebutton" type="submit">Unignore Dog</button>
+			</form>
+		{{else}}
+			<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
+				<input id="dogId" value={{dog._id}} name="dogId" hidden />
+				<input id="isIgnored" value="false" name="isIgnored" hidden />
+				<button id="ignorebutton" type="submit">Ignore Dog</button>
+			</form>
+		{{/if}}
 	{{/if}}
 </article>
