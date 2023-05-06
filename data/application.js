@@ -131,7 +131,7 @@ const exportedMethods = {
 		const userCollection = await users();
 		// const user = await userCollection.getUserById(userID);
 		for(let i = 0; i < currInterest.interest.length; i++){
-			if(currInterest.interest._id[i] === appID){
+			if(currInterest.interest[i]._id === appID){
 				throw `You already applied for this dog`
 			}
 		}
