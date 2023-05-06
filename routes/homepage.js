@@ -34,11 +34,13 @@ router
 		});
 	})
 	.post(async (req, res) => {
+		let signedIn = true;
+		if (!req.session.user) {
+			signedIn = false;
+		}
+		console.log(req.method);
 		let info = req.body;
 		req.body = {};
-		let signedOut = true;
-		let signedIn = false;
-		let loggedOut = false;
 		let dogCollection = await dogs();
 		let obj = {};
 		if (info.sexinput) {
@@ -69,9 +71,7 @@ router
 		let dogsArray = await dogCollection.find({ ...obj }).toArray();
 		return res.status(200).render("pages/homepage", {
 			dogs: dogsArray,
-			signedOut: signedOut,
 			signedIn: signedIn,
-			loggedOut: loggedOut,
 		});
 	});
 
