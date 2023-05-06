@@ -21,25 +21,28 @@ app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 Handlebars.registerHelper("includes", function (array, value) {
-	try {
-		array = validation.checkStringArray(array, "includes array", 0);
-	} catch (error) {
-		console.log(error);
-		return;
-	}
-	try {
-		value = validation.checkString(value.toString(), "includes value");
-	} catch (error) {
-		console.log(error);
-		return;
-	}
-	let i = false;
-	array.forEach((element) => {
-		if (element === value) {
-			i = true;
+	if (array && value) {
+		try {
+			array = validation.checkStringArray(array, "includes array", 0);
+		} catch (error) {
+			console.log(error);
+			return;
 		}
-	});
-	return i;
+		try {
+			value = validation.checkString(value.toString(), "includes value");
+		} catch (error) {
+			console.log(error);
+			return;
+		}
+		let i = false;
+		array.forEach((element) => {
+			if (element === value) {
+				i = true;
+			}
+		});
+		return i;
+	}
+	return;
 });
 
 const rewriteUnsupportedBrowserMethods = (req, res, next) => {
