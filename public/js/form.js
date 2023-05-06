@@ -934,14 +934,4 @@
 			}
 		});
 	}
-	if(applyForm){
-		apply.addEventListener("submit", (event) => {
-			let apply = document.getElementById("apply");
-			apply.value = apply.value.trim().toLowerCase();
-			console.log(apply.value)
-			if(apply.value != applying){
-				event.preventDefault();
-			}
-		});
-	}
 })();

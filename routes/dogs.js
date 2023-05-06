@@ -145,4 +145,40 @@ router
 
 	});
 
+router
+	.route("/:dogId/apply")
+	.post(async (req, res) => {
+
+		let dog = {};
+		let user = {};
+		if(!req.session.user){
+			try {
+				dog = await dogData.getDogById(req.params.dogId);
+				user = await userData.getUserById(dog.userId);
+			} catch (e) {
+				return res.status(404).render("error", { title: "DogID Error", error: e });
+			}
+			return res
+				.status(404)
+				.render("pages/singledog", { dog: dog, user: user, signedIn: false, applyErr: true});
+		}else{
+			let applicant = await userData.getUserById(req.session.user._id);
+			let dog = await dogData.getDogById(req.params.dogId)
+			let app = applicant.application;
+			if(app === {}){
+				return res
+				.status(404)
+				.render("pages/singledog", { dog: dog, user: user, signedIn: true, applyErr: true});
+			}else{
+				try{
+					await appData.sendApp(app._id.toString(), req.params.dogId, applicant._id);
+					return res.render('pages/applied', {title: "Applied", name: dog.name, signedIn: true})
+				}catch(e){
+					return res
+					.status(500)
+					.render("pages/singledog", { dog: dog, user: user, signedIn: true, applyErr: true});
+				}
+			}
+		}
+	});
 export default router;

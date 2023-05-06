@@ -117,18 +117,32 @@ const exportedMethods = {
 		return updatedUser.value;
 	},
 
-	async sendApp(appID, dogID) {
+	async sendApp(appID, dogID, userID) {
+
 		// This will send the application to the user
 		appID = validation.checkId(appID, "Application ID");
 		dogID = validation.checkId(dogID, "Dog ID");
-	
+		userID = validation.checkId(userID, "User ID")
+
 		const dogCollection = await dogs();
 		const currInterest = await dog.getDogById(dogID);
-		const app = await this.getApp(appID);
-	
-		if (currInterest.interest.contains(appID))
-			throw `Error: You already applied for this dog`;
-	
+		const app = await this.getApp(userID);
+
+		const userCollection = await users();
+		// const user = await userCollection.getUserById(userID);
+		for(let i = 0; i < currInterest.interest.length; i++){
+			if(currInterest.interest._id[i] === appID){
+				throw `You already applied for this dog`
+			}
+		}
+		// if (currInterest.interest.contains(app))
+		// 	throw `Error: You already applied for this dog`;
+		const updateUser = await userCollection.findOneAndUpdate(
+			{_id: new ObjectId(userID)},
+			{$push: {pending: dogID}},
+			{returnDocument: "after"}
+		);
+		if (updateUser.lastErrorObject.n === 0) throw `Error: User could not be updated`;
 		const updated = await dogCollection.findOneAndUpdate(
 			{ _id: new ObjectId(dogID) },
 			{ $push: { interest: app } },

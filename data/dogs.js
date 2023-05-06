@@ -160,7 +160,7 @@ const exportedMethods = {
 			vaccines: vaccines,
 			pictures: pictures,
 			userId: myDog.userId,
-			interest: myDog.intrest,
+			interest: myDog.interest,
 			adopted: myDog.adopted,
 			likes: myDog.likes,
 			comments: myDog.comments
@@ -218,7 +218,7 @@ const exportedMethods = {
 			vaccines: myDog.vaccines,
 			pictures: myDog.pictures,
 			userId: myDog.userId,
-			interest: myDog.intrest,
+			interest: myDog.interest,
 			adopted: myDog.adopted,
 			likes: myDog.likes + 1,
 			comments: myDog.comments
@@ -288,7 +288,7 @@ const exportedMethods = {
 			vaccines: myDog.vaccines,
 			pictures: myDog.pictures,
 			userId: myDog.userId,
-			interest: myDog.intrest,
+			interest: myDog.interest,
 			adopted: myDog.adopted,
 			likes: myDog.likes,
 			comments: myDog.comments
@@ -319,7 +319,7 @@ const exportedMethods = {
 	async removeDog(id) {
 		id = validation.checkId(id, "Dog ID");
 		const myDog = await this.getDogById(id);
-		myDog.pictures = validation.checkPicArray(myDog.pictures, 1);
+		myDog.pictures = validation.checkPicArray(myDog.pictures, 0);
 		for (let i in myDog.pictures) {
 			this.deletePhoto(myDog.pictures[i].key);
 		}
@@ -377,7 +377,7 @@ const exportedMethods = {
 	},
 
 	async deletePhoto(key) {
-		const client = new S3Client({credentials: {
+		const client = new S3Client({redentials: {
 			accessKeyId,
 			secretAccessKey
 		},
