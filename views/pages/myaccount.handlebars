@@ -1,25 +1,36 @@
 <section>
-    <h1>Your Resources</h1>
-    <h2>My Application Statuses</h2>
-    <p>
-        Pending: 
-        {{#each pending}}
-            <p>{{name}}</p>
-        {{/each}} <br>
-        Accepted: 
-        {{#each accepted}}
-            <p>{{name}}</p>
-        {{/each}} <br>
-        Rejected: 
-        {{#each rejected}}
-            <p>{{name}}</p>
-        {{/each}}
-    </p>
+	<h1>Your Resources</h1>
+	<h2>My Application Statuses</h2>
+	<p>
+		Pending:
+		{{#each pending}}
+			<p>{{name}}</p>
+		{{/each}}
+		<br />
+		Accepted:
+		{{#each accepted}}
+			<p>{{name}}</p>
+		{{/each}}
+		<br />
+		Rejected:
+		{{#each rejected}}
+			<p>{{name}}</p>
+		{{/each}}
+	</p>
 
-    <h2>Links & Forms</h2>
-    <a href="/account/settings/get">Click here to see your settings!</a> <br>
-    <a href="/account/quiz">Click here to access our quiz!</a> <br>
-    <a href="/account/dogs">Click here to see the dogs you posted!</a> <br>
-    <a href="/account/application">Click here to access your application!</a>  
+	<h2>Links & Forms</h2>
+	<a href="/account/settings/get">Click here to see your settings!</a>
+	<br />
+	<a href="/account/quiz">Click here to access our quiz!</a>
+	<br />
+	<a href="/account/dogs">Click here to see the dogs you posted!</a>
+	<br />
+	<a href="/account/application">Click here to access your application!</a>
+	<br />
+	<a href="/account/specificDogs/liked">Click here to see the dogs you liked!</a>
+	<br />
+	<a href="/account/specificDogs/ignored">Click here to see the dogs you
+		ignored!</a>
+	<br />
 
 </section>
