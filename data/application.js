@@ -173,11 +173,13 @@ const exportedMethods = {
 
 		const userCollection = await users();
 		// const user = await userCollection.getUserById(userID);
+
 		for (let i = 0; i < currInterest.interest.length; i++) {
 			if (currInterest.interest[i]._id === appID) {
 				throw `You already applied for this dog`;
 			}
 		}
+    
 		// if (currInterest.interest.contains(app))
 		// 	throw `Error: You already applied for this dog`;
 		const updateUser = await userCollection.findOneAndUpdate(

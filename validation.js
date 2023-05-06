@@ -306,6 +306,16 @@ const exportedMethods = {
 			result = true;
 		}
 		return result;
+	},
+	
+	checkNumString(strVal, varName) {
+		if (!strVal) throw `Error: You must supply a ${varName}!`;
+		if (typeof strVal !== "string") throw `Error: ${varName} must be a string!`;
+		if (strVal.length === 0)
+			throw `Error: ${varName} cannot be an empty string or string with just spaces`;
+		let regExp = /[a-zA-Z]/g;
+		if(regExp.test(strVal)) `Error: ${strVal} is not a valid value for ${varName} as it contains letters`;
+		return strVal;
 	}
 };
 

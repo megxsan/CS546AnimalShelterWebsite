@@ -318,7 +318,7 @@ const exportedMethods = {
 		const myDog = await this.getDogById(id);
 		myDog.pictures = validation.checkPicArray(myDog.pictures, 0);
 		for (let i in myDog.pictures) {
-			this.deletePhoto(myDog.pictures[i].key);
+			let deletedPhoto = await this.deletePhoto(myDog.pictures[i].key);
 		}
 
 		const userCollection = await users();
@@ -414,6 +414,9 @@ const exportedMethods = {
 			form.parse(req, (err, fields, files) => {
 				photos.push(fields);
 				numPhotos = parseInt(photos[0]["numPhotos"]);
+				if (!files) {
+					resolve(photos);
+				}
 			});
 	
 			form.on('error', error => {

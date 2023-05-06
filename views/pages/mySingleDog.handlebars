@@ -58,7 +58,8 @@
 
 	<a href="/account/dogs/{{dogId}}/edit">Click here to edit your dog post!</a> <br>
     <a href="/account/dogs/{{dogId}}/applications">Click here to see your dog's applications </a><br>
-	<form method="POST" action="/account/dogs/{{dogId}}/delete">
+
+	<form method="post" action="/account/dogs/{{dogId}}/delete?_method=DELETE">
   		<input type="hidden" name="_method" value="DELETE">
   		<button type="submit">Click here to delete your dog post!</button>
 	</form>

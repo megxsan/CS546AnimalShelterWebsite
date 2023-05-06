@@ -4,17 +4,17 @@
 	<p>
 		Pending:
 		{{#each pending}}
-			<p>{{name}}</p>
+			<p><a href="/dogs/{{_id}}">{{name}}</a></p>
 		{{/each}}
 		<br />
 		Accepted:
 		{{#each accepted}}
-			<p>{{name}}</p>
+			<p><a href="/dogs/{{_id}}">{{name}}</a></p>
 		{{/each}}
 		<br />
 		Rejected:
 		{{#each rejected}}
-			<p>{{name}}</p>
+			<p><a href="/dogs/{{_id}}">{{name}}</a></p>
 		{{/each}}
 	</p>
 
