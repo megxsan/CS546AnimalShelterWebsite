@@ -393,6 +393,7 @@ const exportedMethods = {
 			}
 	},
 
+
 	async caption(dogId){
 		dogId = validation.checkId(dogId, "Dog ID");
 		const dog = await getDogById(id);
