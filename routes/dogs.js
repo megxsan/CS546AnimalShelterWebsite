@@ -113,6 +113,7 @@ router
 					.render("pages/singledog", { dog: dog, user: user, signedIn: true });
 			}
 		}else{
+			console.log(req.body)
 			if (!req.session.user) {
 				res.render("error", {
 					title: "DogID Error",

@@ -70,11 +70,16 @@
 		<input id="commentInput" type="text" name = "commentInput"> <br>
 		<button type="submit">Submit</button>
 	</form>
-	
+
 	<h3>Comments:</h3>
 	{{#each dog.comments}}
 		<p>{{this}}</p>
 	{{/each}}
+
+	<h3>Apply for this dog:</h3>
+	<form id="apply-form" method="post">
+		<button type="submit" id="apply" value="applying">Apply Now!</button>
+	</form>
 
 	{{#if signedIn}}
 		<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">

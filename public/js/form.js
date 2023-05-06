@@ -119,6 +119,7 @@
 	const dogForm = document.getElementById("dog-form");
 	const ignoreForm = document.getElementById("ignore-form");
 	const commentForm = document.getElementById("comment-form");
+	const applyForm = document.getElementById("apply-form");
 
 	if (ignoreForm) {
 		ignoreForm.addEventListener("submit", (event) => {
@@ -932,6 +933,16 @@
 					error.className = 'error';
 					popup.hidden = false;
 				}
+			}
+		});
+	}
+	if(applyForm){
+		apply.addEventListener("submit", (event) => {
+			let apply = document.getElementById("apply");
+			apply.value = apply.value.trim().toLowerCase();
+			console.log(apply.value)
+			if(apply.value != applying){
+				event.preventDefault();
 			}
 		});
 	}
