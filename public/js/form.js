@@ -118,6 +118,7 @@
 	const filterForm = document.getElementById("filter-form");
 	const dogForm = document.getElementById("dog-form");
 	const ignoreForm = document.getElementById("ignore-form");
+	const commentForm = document.getElementById("comment-form");
 
 	if (ignoreForm) {
 		ignoreForm.addEventListener("submit", (event) => {
@@ -906,6 +907,31 @@
 			} catch (error) {
 				event.preventDefault();
 				error12.hidden = false;
+			}
+		});
+	}
+	if(commentForm){
+		commentForm.addEventListener("submit", (event) => {
+			let comment = document.getElementById("commentInput");
+			let error = document.getElementById('comment');
+			let popup = document.getElementById('popup');
+
+			popup.hidden = true;
+			if(!comment.value){
+				event.preventDefault();
+				error.className = 'error';
+				popup.hidden = false;
+
+			}else{
+				try{
+					comment.value = comment.value.trim();
+					if(comment.value === "") throw `Comments cannot be empty`;
+				}catch(e){
+					event.preventDefault();
+					comment.value = "";
+					error.className = 'error';
+					popup.hidden = false;
+				}
 			}
 		});
 	}

@@ -58,7 +58,18 @@
 	{{/if}}
 
 	<h3>Likes:</h3>
-	<p>{{dog.likes}}</p>
+	<p>{{dog.likes}}</p>	
+
+	<h3>Comments:</h3>
+		{{#each dog.comment}}
+			<p>{{this}}</p>
+		{{/each}}
+	<form id="comment-form" method="post">
+		<label for="commentInput" id="comment">Post a comment here!</label>
+		<p id="popup" class="error" hidden>A comment cannot be empty!</p>
+		<input id="commentInput" type="text" name = "commentInput"> <br>
+		<button type="submit">Submit</button>
+	</form>
 
 	{{#if signedIn}}
 		<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
