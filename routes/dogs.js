@@ -145,22 +145,20 @@ router
 				return res
 					.status(404)
 					.render("pages/singledog", { dog: dog, user: user, signedIn: false, error:true });
-			}
-			comment = comment.trim();
-			if (comment != "") {
+			}else{
 				let dog = await dogData.getDogById(req.params.dogId);
 				let user = await userData.getUserById(dog.userId);
-				try {
-					let posting = await dogData.addComment(req.params.dogId, req.session.user._id, comment);
-				} catch (e) {
-					return res.status(500).render("pages/singledog", {
-						dog: dog,
-						user: user,
-						signedIn: true,
-					});
-				}
-			}
+				try{
+					let added = await dogData.addLike(req.params.dogId, req.session.user._id);
+					dog = await dogData.getDogById(req.params.dogId);
+					user = await userData.getUserById(dog.userId);
+					res.render("pages/singledog", { dog: dog, user: user, signedIn: true});
+				}catch(e){
+					res.status(500).render("pages/singledog", { dog: dog, user: user, signedIn: true, error:true });
 
+				}
+
+			}
 		}else{
 			console.log(req.body)
 			if (!req.session.user) {
