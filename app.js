@@ -7,6 +7,7 @@ import { dirname } from "path";
 import exphbs from "express-handlebars";
 import Handlebars from "handlebars";
 import methodOverride from "method-override";
+import validation from "./validation.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,6 +21,16 @@ app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 Handlebars.registerHelper("includes", function (array, value) {
+	try {
+		array = validation.checkStringArray(array, "includes array", 0);
+	} catch (error) {
+		return;
+	}
+	try {
+		value = validation.checkString(value, "includes value");
+	} catch (error) {
+		return;
+	}
 	let i = false;
 	array.forEach((element) => {
 		if (element === value.toString()) {
