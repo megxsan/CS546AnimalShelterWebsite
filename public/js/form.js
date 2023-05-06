@@ -115,7 +115,16 @@
 	const quizForm = document.getElementById("quiz-form");
 	const filterForm = document.getElementById("filter-form");
 	const dogForm = document.getElementById("dog-form");
+	const ignoreForm = document.getElementById("ignore-form");
 
+	if (ignoreForm) {
+		ignoreForm.addEventListener("submit", (event) => {
+			let dogId = document.getElementById("dogId");
+			//let userId = document.getElementById("userId");
+			console.log(dogId.value);
+			//console.log(userId.value);
+		});
+	}
 	if (registrationForm) {
 		registrationForm.addEventListener("submit", (event) => {
 			const firstNameInputElement = document.getElementById("firstNameInput");
@@ -426,7 +435,13 @@
 					}
 				}
 			}
-			if (first.value || last.value || email.value || age.value || newPassword.value) {
+			if (
+				first.value ||
+				last.value ||
+				email.value ||
+				age.value ||
+				newPassword.value
+			) {
 				emptyError.hidden = true;
 			}
 		});
@@ -831,15 +846,15 @@
 			}
 
 			try {
-				if (photo.value === "") throw "Error: No photo uploaded"
-				numPhotos.value = photo.files.length.toString();;
+				if (photo.value === "") throw "Error: No photo uploaded";
+				numPhotos.value = photo.files.length.toString();
 			} catch (error) {
 				event.preventDefault();
 				error11.hidden = false;
 			}
 			try {
-				if (photo.files.length > 3) throw "Error: Too many photos uploaded"
-				numPhotos.value = photo.files.length.toString();;
+				if (photo.files.length > 3) throw "Error: Too many photos uploaded";
+				numPhotos.value = photo.files.length.toString();
 			} catch (error) {
 				event.preventDefault();
 				error12.hidden = false;

@@ -28,9 +28,14 @@ router
 		}
 		let dogCollection = await dogs();
 		let allDogs = await dogCollection.find().toArray();
+		let user = null;
+		if (signedIn) {
+			user = await userData.getUserById(req.session.user._id);
+		}
 		return res.status(200).render("pages/homepage", {
 			dogs: allDogs,
 			signedIn: signedIn,
+			user: user,
 		});
 	})
 	.post(async (req, res) => {
