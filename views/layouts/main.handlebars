@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-
 <html lang="en">
 
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" />
 		<title>My Site</title>
-		<link rel="stylesheet" href="/public/css/main.css">
+		<link rel="stylesheet" href="/public/css/main.css" />
 	</head>
 
 	<body>
@@ -13,7 +11,7 @@
 			<ul class="nav">
 				<li class="navlist"><a href="/">Main Page</a></li>
 				{{#if signedIn}}
-			    	<li class="navlist"><a href="/account/settings">My Account</a></li>
+					<li class="navlist"><a href="/account/settings">My Account</a></li>
 					<li class="navlist"><a href="/logout">Logout</a></li>
 				{{else}}
 					<li class="navlist"><a href="/login">Login/SignUp</a></li>

@@ -271,8 +271,67 @@ const exportedMethods = {
 				`Error: Update failed! Could not update post with id ${userId}`,
 			];
 
-		console.log(`${myDog.name} has been successfully ignored!`);
 		return `${myDog.name} has been successfully ignored!`;
+	},
+	async removeIgnoredDog(dogId, userId) {
+		dogId = validation.checkId(dogId, "Dog ID");
+		userId = validation.checkId(userId, "User ID");
+		const dogCollection = await dogs();
+		const myDog = await dogCollection.findOne({ _id: new ObjectId(dogId) });
+		if (myDog === null) {
+			throw "Error: No dog with that ID";
+		}
+
+		const userCollection = await users();
+		const myUser = await userCollection.findOne({ _id: new ObjectId(userId) });
+		if (myUser === null) {
+			throw "Error: No user with that ID";
+		}
+
+		let flag = false;
+		myUser.disliked.forEach((element) => {
+			if (element === dogId) {
+				flag = true;
+			}
+		});
+		if (flag === false) {
+			throw "Error: Cannot unignore a dog that has not been ignored";
+		}
+
+		let dislikedArr = [];
+		myUser.disliked.forEach((element) => {
+			if (element !== dogId) {
+				dislikedArr.push(element);
+			}
+		});
+
+		const updatedUser = {
+			firstName: myUser.firstName,
+			lastName: myUser.lastName,
+			age: myUser.age,
+			email: myUser.email,
+			password: myUser.password,
+			dogs: myUser.dogs,
+			quizResult: myUser.quizResult,
+			application: myUser.application,
+			accepted: myUser.accepted,
+			pending: myUser.pending,
+			rejected: myUser.rejected,
+			liked: myUser.liked,
+			disliked: dislikedArr,
+		};
+		const updatedInfoUser = await userCollection.findOneAndReplace(
+			{ _id: new ObjectId(userId) },
+			updatedUser,
+			{ returnDocument: "after" }
+		);
+		if (updatedInfoUser.lastErrorObject.n === 0)
+			throw [
+				404,
+				`Error: Update failed! Could not update post with id ${userId}`,
+			];
+
+		return `${myDog.name} has been successfully unignored!`;
 	},
 };
 
