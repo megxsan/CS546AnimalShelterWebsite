@@ -5,7 +5,6 @@ import dog from "./dogs.js";
 import validation from "../validation.js";
 
 const exportedMethods = {
-
 	async addApp(
 		userId,
 		firstName,
@@ -20,8 +19,8 @@ const exportedMethods = {
 		yard,
 		reasoningExperience
 	) {
-		
-		let newApp = validation.checkAppInputs(userId,
+		let newApp = validation.checkAppInputs(
+			userId,
 			firstName,
 			lastName,
 			age,
@@ -32,7 +31,8 @@ const exportedMethods = {
 			timeAlone,
 			animals,
 			yard,
-			reasoningExperience);
+			reasoningExperience
+		);
 		newApp._id = new ObjectId();
 
 		let userCollection = await users();
@@ -52,13 +52,14 @@ const exportedMethods = {
 			liked: result.liked,
 			disliked: result.disliked,
 		};
-	
+
 		const updated = await userCollection.findOneAndUpdate(
 			{ _id: new ObjectId(userId) },
 			{ $set: userWithApp },
 			{ returnDocument: "after" }
 		);
-		if (updated.lastErrorObject.n === 0) throw `Error: Application could not be updated`;
+		if (updated.lastErrorObject.n === 0)
+			throw `Error: Application could not be updated`;
 		return newApp;
 	},
 
@@ -76,53 +77,95 @@ const exportedMethods = {
 		return app;
 	},
 
-	async updateApp(userId,firstName,lastName,age,email,phone, livingAccommodations,
-		children,childrenAges,timeAlone,animals,typeAnimals,yard,reasoningExperience){
+	async updateApp(
+		userId,
+		firstName,
+		lastName,
+		age,
+		email,
+		phone,
+		livingAccommodations,
+		children,
+		childrenAges,
+		timeAlone,
+		animals,
+		typeAnimals,
+		yard,
+		reasoningExperience
+	) {
+		let checked = validation.checkAppInputs(
+			userId,
+			firstName,
+			lastName,
+			age,
+			email,
+			phone,
+			livingAccommodations,
+			children,
+			childrenAges,
+			timeAlone,
+			animals,
+			typeAnimals,
+			yard,
+			reasoningExperience
+		);
 
-		let checked = validation.checkAppInputs(userId,firstName,lastName,age,email,phone, livingAccommodations,
-			children,childrenAges,timeAlone,animals,typeAnimals,yard,reasoningExperience);
-			
-		
 		let result = await get(userId);
 		//at least 1 thing needs to be updated, else throw an error
-		if(result.firstName === checked.firstName && result.lastName === checked.lastName
-			&& result.age === checked.age && result.email === checked.email && result.phone === checked.phone && result.livingAccommodations === checked.livingAccommodations
-			&& result.children === checked.children && result.childrenAges === checked.childrenAges && result.timeAlone === checked.timeAlone &&
-			result.animals === checked.animals && result.typeAnimals === checked.typeAnimals && result.yard === checked.yard && result.reasoningExperience === checked.reasoningExperience){
-		  throw `At least 1 input needs to be different than the original band when you update`;
+		if (
+			result.firstName === checked.firstName &&
+			result.lastName === checked.lastName &&
+			result.age === checked.age &&
+			result.email === checked.email &&
+			result.phone === checked.phone &&
+			result.livingAccommodations === checked.livingAccommodations &&
+			result.children === checked.children &&
+			result.childrenAges === checked.childrenAges &&
+			result.timeAlone === checked.timeAlone &&
+			result.animals === checked.animals &&
+			result.typeAnimals === checked.typeAnimals &&
+			result.yard === checked.yard &&
+			result.reasoningExperience === checked.reasoningExperience
+		) {
+			throw `At least 1 input needs to be different than the original band when you update`;
 		}
 		const update = {
 			userId,
-			firstName:checked.firstName,
-			lastName:checked.lastName,
-			age:checked.age,
-			email:checked.email,
-			phone:checked.phone,
-			livingAccommodations:checked.livingAccommodations,
-			children:checked.children,
-			childrenAges:checked.childrenAges,
-			timeAlone:checked.timeAlone,
-			animals:checked,animals,
-			typeAnimals:checked.typeAnimals,
-			yard:checked.yard,
-			reasoningExperience:checked.reasoningExperience
-		}
+			firstName: checked.firstName,
+			lastName: checked.lastName,
+			age: checked.age,
+			email: checked.email,
+			phone: checked.phone,
+			livingAccommodations: checked.livingAccommodations,
+			children: checked.children,
+			childrenAges: checked.childrenAges,
+			timeAlone: checked.timeAlone,
+			animals: checked,
+			animals,
+			typeAnimals: checked.typeAnimals,
+			yard: checked.yard,
+			reasoningExperience: checked.reasoningExperience,
+		};
 		//find the user and update it; throw error if this doesn't happen
 		const userCollection = await users();
-		const updatedUser = await userCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: update}, {returnDocument: "after"});
-		if(updatedUser.lastErrorObject.n === 0) throw `Application could not be updated`;
+		const updatedUser = await userCollection.findOneAndUpdate(
+			{ _id: new ObjectId(id) },
+			{ $set: update },
+			{ returnDocument: "after" }
+		);
+		if (updatedUser.lastErrorObject.n === 0)
+			throw `Application could not be updated`;
 		updatedUser.value._id = updatedUser.value._id.toString();
-	  
+
 		//returns the updated user
 		return updatedUser.value;
 	},
 
 	async sendApp(appID, dogID, userID) {
-
 		// This will send the application to the user
 		appID = validation.checkId(appID, "Application ID");
 		dogID = validation.checkId(dogID, "Dog ID");
-		userID = validation.checkId(userID, "User ID")
+		userID = validation.checkId(userID, "User ID");
 
 		const dogCollection = await dogs();
 		const currInterest = await dog.getDogById(dogID);
@@ -130,34 +173,37 @@ const exportedMethods = {
 
 		const userCollection = await users();
 		// const user = await userCollection.getUserById(userID);
-		for(let i = 0; i < currInterest.interest.length; i++){
-			if(currInterest.interest._id[i] === appID){
-				throw `You already applied for this dog`
+		for (let i = 0; i < currInterest.interest.length; i++) {
+			if (currInterest.interest[i]._id === appID) {
+				throw `You already applied for this dog`;
 			}
 		}
 		// if (currInterest.interest.contains(app))
 		// 	throw `Error: You already applied for this dog`;
 		const updateUser = await userCollection.findOneAndUpdate(
-			{_id: new ObjectId(userID)},
-			{$push: {pending: dogID}},
-			{returnDocument: "after"}
+			{ _id: new ObjectId(userID) },
+			{ $push: { pending: dogID } },
+			{ returnDocument: "after" }
 		);
-		if (updateUser.lastErrorObject.n === 0) throw `Error: User could not be updated`;
+		if (updateUser.lastErrorObject.n === 0)
+			throw `Error: User could not be updated`;
 		const updated = await dogCollection.findOneAndUpdate(
 			{ _id: new ObjectId(dogID) },
 			{ $push: { interest: app } },
 			{ returnDocument: "after" }
 		);
-		if (updated.lastErrorObject.n === 0) throw `Error: Application could not be updated`;
+		if (updated.lastErrorObject.n === 0)
+			throw `Error: Application could not be updated`;
 		return `${appID} is now interested`;
 	},
-	async appStatus(appID, dogID, status){
+	async appStatus(appID, dogID, status) {
 		//error checking
 		appID = validation.checkId(appID, "Application ID");
 		dogID = validation.checkId(dogID, "Dog ID");
 		status = validation.checkString(status, "Application Status");
 		status = status.toLowerCase();
-		if(status != "rejected" && status != "pending" && status != "accepted") throw `Status can only be rejected, pending, or accepted.`;
+		if (status != "rejected" && status != "pending" && status != "accepted")
+			throw `Status can only be rejected, pending, or accepted.`;
 
 		let application = await getApp(ID);
 		let user = application.userId;
@@ -166,49 +212,52 @@ const exportedMethods = {
 		const userCollection = await users();
 		let updated = {};
 
-		if(status === userInfo.pending){
+		if (status === userInfo.pending) {
 			// await userData.updatedUser(userInfo.id, userInfo.firstName, userInfo.lastName, userInfo.age, userInfo.email, userInfo.password);
 			updated = await userCollection.findOneAndUpdate(
 				{ _id: new ObjectId(user) },
 				{ $push: { pending: dogID } },
 				{ returnDocument: "after" }
 			);
-			if (updated.lastErrorObject.n === 0) throw `Error: Pending could not be updated`;
-		}else if(status === userInfo.accepted){
+			if (updated.lastErrorObject.n === 0)
+				throw `Error: Pending could not be updated`;
+		} else if (status === userInfo.accepted) {
 			let index = 0;
-			for(let i = 0; i < userInfo.pending.length; i++){
-				if(userInfo.pending[i] === dogID){
+			for (let i = 0; i < userInfo.pending.length; i++) {
+				if (userInfo.pending[i] === dogID) {
 					index = i;
 					break;
 				}
 			}
-			let updatedPending = userInfo.pending.splice(index,1);
+			let updatedPending = userInfo.pending.splice(index, 1);
 			updated = await userCollection.findOneAndUpdate(
 				{ _id: new ObjectId(user) },
 				{ $push: { accepted: dogID } },
-				{ $set: {pending: updatedPending}},
+				{ $set: { pending: updatedPending } },
 				{ returnDocument: "after" }
 			);
-			if (updated.lastErrorObject.n === 0) throw `Error: Pending could not be updated`;
-		}else{
+			if (updated.lastErrorObject.n === 0)
+				throw `Error: Pending could not be updated`;
+		} else {
 			let index = 0;
-			for(let i = 0; i < userInfo.pending.length; i++){
-				if(userInfo.pending[i] === dogID){
+			for (let i = 0; i < userInfo.pending.length; i++) {
+				if (userInfo.pending[i] === dogID) {
 					index = i;
 					break;
 				}
 			}
-			let updatedPending = userInfo.pending.splice(index,1);
+			let updatedPending = userInfo.pending.splice(index, 1);
 			updated = await userCollection.findOneAndUpdate(
 				{ _id: new ObjectId(user) },
 				{ $push: { rejected: dogID } },
-				{ $set: {pending: updatedPending}},
+				{ $set: { pending: updatedPending } },
 				{ returnDocument: "after" }
 			);
-			if (updated.lastErrorObject.n === 0) throw `Error: Pending could not be updated`;
+			if (updated.lastErrorObject.n === 0)
+				throw `Error: Pending could not be updated`;
 		}
 		return updated;
-	}
-}
+	},
+};
 
 export default exportedMethods;
