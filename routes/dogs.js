@@ -35,9 +35,11 @@ router
 		try {
 			dog = await dogData.getDogById(req.params.dogId);
 			user = await userData.getUserById(dog.userId);
-			currUser = await userData.getUserById(req.session.user._id);
+			if(signedIn){
+				currUser = await userData.getUserById(req.session.user._id);
+			}
 		} catch (e) {
-			res.status(404).render("pages/homepage", { title: "DogID Error", signedIn: false});
+			return res.status(404).render("pages/homepage", { title: "DogID Error", signedIn: false});
 		}
 		res.status(200).render("pages/singledog", {
 			dog: dog,
