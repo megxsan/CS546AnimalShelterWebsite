@@ -374,7 +374,7 @@ const exportedMethods = {
 	},
 
 	async deletePhoto(key) {
-		const client = new S3Client({redentials: {
+		const client = new S3Client({credentials: {
 			accessKeyId,
 			secretAccessKey
 		},
