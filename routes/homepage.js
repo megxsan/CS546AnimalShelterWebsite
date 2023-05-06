@@ -26,8 +26,6 @@ router
 		if (!req.session.user) {
 			signedIn = false;
 		}
-		console.log(req.method);
-		//console.log("Hello");
 		let dogCollection = await dogs();
 		let allDogs = await dogCollection.find().toArray();
 		return res.status(200).render("pages/homepage", {
@@ -36,7 +34,6 @@ router
 		});
 	})
 	.post(async (req, res) => {
-		console.log(req.method);
 		let info = req.body;
 		req.body = {};
 		let signedOut = true;
@@ -272,7 +269,7 @@ router
 	.get(async (req, res) => {
 		// Code here for GET
 		let signedIn = true;
-		if (!req.session.user){
+		if (!req.session.user) {
 			signedIn = false;
 		}
 		let allDogs = await dogData.getAllDogs();
@@ -292,7 +289,11 @@ router
 				});
 			}
 		});
-		res.render("pages/filter", { colors: allColors, breeds: allBreeds, signedIn: signedIn });
+		res.render("pages/filter", {
+			colors: allColors,
+			breeds: allBreeds,
+			signedIn: signedIn,
+		});
 	})
 	.post(async (req, res) => {
 		console.log(req.body);
