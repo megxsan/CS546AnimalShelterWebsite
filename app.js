@@ -24,16 +24,18 @@ Handlebars.registerHelper("includes", function (array, value) {
 	try {
 		array = validation.checkStringArray(array, "includes array", 0);
 	} catch (error) {
+		console.log(error);
 		return;
 	}
 	try {
-		value = validation.checkString(value, "includes value");
+		value = validation.checkString(value.toString(), "includes value");
 	} catch (error) {
+		console.log(error);
 		return;
 	}
 	let i = false;
 	array.forEach((element) => {
-		if (element === value.toString()) {
+		if (element === value) {
 			i = true;
 		}
 	});
