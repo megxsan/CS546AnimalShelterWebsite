@@ -2,6 +2,8 @@ import { userData } from "../data/index.js";
 import { dogData } from "../data/index.js";
 import { appData } from "../data/index.js";
 import validation from "../validation.js";
+import { dogs } from "../config/mongoCollections.js";
+
 
 import { Router } from "express";
 const router = Router();
@@ -80,32 +82,66 @@ router
 		}
 	})
 	.post(async (req, res) => {
-		if (!req.session.user) {
-			res.render("error", {
-				title: "DogID Error",
-				error: "Must be signed in to change your settings",
-			});
+		if(req.body.commentInput){
+			let comment = req.body.commentInput;
+			if(!req.session.user){
+				let dog = {};
+				let user = {};
+				try {
+					dog = await dogData.getDogById(req.params.dogId);
+					user = await userData.getUserById(dog.userId);
+				} catch (e) {
+					return res.status(404).render("error", { title: "DogID Error", error: e });
+				}
+				return res
+					.status(404)
+					.render("pages/singledog", { dog: dog, user: user, signedIn: false, error:true });
+			}
+			comment = comment.trim();
+			if(comment != ""){
+				let dog = await dogData.getDogById(req.params.dogId);
+				let user = await userData.getUserById(dog.userId);
+				try {
+					let posting = await dogData.addComment(req.params.dogId, req.session.user._id, comment);
+				} catch (e) {
+					return res.status(500).render("pages/singledog", { dog: dog, user: user, signedIn: true});				
+				}
+				dog = await dogData.getDogById(req.params.dogId);
+
+				res
+					.status(200)
+					.render("pages/singledog", { dog: dog, user: user, signedIn: true });
+			}
+		}else{
+			if (!req.session.user) {
+				res.render("error", {
+					title: "DogID Error",
+					error: "Must be signed in to change your settings",
+				});
+			}
+			let info = req.body;
+			let foundDog = {};
+			try {
+				foundDog = await dogData.getDogById(info.dogId);
+			} catch (e) {
+				res.render("error", { title: "DogID Error", error: e }).status(404);
+			}
+			let foundUser = {};
+			try {
+				foundUser = await userData.getUserById(req.session.user._id);
+			} catch (e) {
+				res.render("error", { title: "UserID Error", error: e }).status(404);
+			}
+			try {
+				await userData.addIgnoredDog(info.dogId, req.session.user._id);
+			} catch (e) {
+				console.log(e);
+				//res.status(404).render("error", { title: "Ignore Error", error: e });
+			}
+			res.status(200).redirect("/");
 		}
-		let info = req.body;
-		let foundDog = {};
-		try {
-			foundDog = await dogData.getDogById(info.dogId);
-		} catch (e) {
-			res.render("error", { title: "DogID Error", error: e }).status(404);
-		}
-		let foundUser = {};
-		try {
-			foundUser = await userData.getUserById(req.session.user._id);
-		} catch (e) {
-			res.render("error", { title: "UserID Error", error: e }).status(404);
-		}
-		try {
-			await userData.addIgnoredDog(info.dogId, req.session.user._id);
-		} catch (e) {
-			console.log(e);
-			//res.status(404).render("error", { title: "Ignore Error", error: e });
-		}
-		res.status(200).redirect("/");
+
+
 	});
 
 export default router;

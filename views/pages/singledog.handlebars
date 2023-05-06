@@ -60,16 +60,21 @@
 	<h3>Likes:</h3>
 	<p>{{dog.likes}}</p>	
 
-	<h3>Comments:</h3>
-		{{#each dog.comment}}
-			<p>{{this}}</p>
-		{{/each}}
+
+	{{#if error}}
+		<p>You must be signed in to like or comment!</p>
+	{{/if}}
 	<form id="comment-form" method="post">
 		<label for="commentInput" id="comment">Post a comment here!</label>
 		<p id="popup" class="error" hidden>A comment cannot be empty!</p>
 		<input id="commentInput" type="text" name = "commentInput"> <br>
 		<button type="submit">Submit</button>
 	</form>
+	
+	<h3>Comments:</h3>
+	{{#each dog.comments}}
+		<p>{{this}}</p>
+	{{/each}}
 
 	{{#if signedIn}}
 		<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">

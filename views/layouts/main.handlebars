@@ -22,6 +22,10 @@
 		</nav>
 
 		<main>
+			{{#if error}}
+				<p> You must be signed in to comment on posts</p>
+			{{/if}}
+
 			{{{body}}}
 		</main>
 		<script src="../../public/js/form.js"></script>
