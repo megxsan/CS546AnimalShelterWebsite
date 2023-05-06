@@ -2,9 +2,18 @@
     <h1>Your Resources</h1>
     <h2>My Application Statuses</h2>
     <p>
-        Pending: {{{pending}}} <br>
-        Accepted: {{{accepted}}} <br>
-        Rejected: {{{rejected}}} <br>
+        Pending: 
+        {{#each pending}}
+            <p>{{name}}</p>
+        {{/each}} <br>
+        Accepted: 
+        {{#each accepted}}
+            <p>{{name}}</p>
+        {{/each}} <br>
+        Rejected: 
+        {{#each rejected}}
+            <p>{{name}}</p>
+        {{/each}}
     </p>
 
     <h2>Links & Forms</h2>
