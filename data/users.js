@@ -273,6 +273,16 @@ const exportedMethods = {
 
 		return `${myDog.name} has been successfully ignored!`;
 	},
+
+	async getAllUsers() {
+		const userCollection = await users();
+		let userList = await userCollection.find().toArray();
+		if(userList === undefined){
+			throw "Error: Could not get all dogs"
+		}
+		return userList
+	},
+	
 	async removeIgnoredDog(dogId, userId) {
 		dogId = validation.checkId(dogId, "Dog ID");
 		userId = validation.checkId(userId, "User ID");
