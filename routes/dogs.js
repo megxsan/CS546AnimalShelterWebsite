@@ -35,11 +35,13 @@ router
 		try {
 			dog = await dogData.getDogById(req.params.dogId);
 			user = await userData.getUserById(dog.userId);
-			if(signedIn){
+			if (signedIn) {
 				currUser = await userData.getUserById(req.session.user._id);
 			}
 		} catch (e) {
-			return res.status(404).render("pages/homepage", { title: "DogID Error", signedIn: false});
+			return res
+				.status(404)
+				.render("pages/homepage", { title: "DogID Error", signedIn: false });
 		}
 		res.status(200).render("pages/singledog", {
 			dog: dog,
@@ -131,36 +133,51 @@ router
 					.status(200)
 					.render("pages/singledog", { dog: dog, user: user, signedIn: true });
 			}
-		}else if(req.body.likeValue){
+		} else if (req.body.likeValue) {
 			let likes = req.body.likeValue;
-			if(!req.session.user){
+			if (!req.session.user) {
 				let dog = {};
 				let user = {};
 				try {
 					dog = await dogData.getDogById(req.params.dogId);
 					user = await userData.getUserById(dog.userId);
 				} catch (e) {
-					return res.status(404).render("error", { title: "DogID Error", error: e });
+					return res
+						.status(404)
+						.render("error", { title: "DogID Error", error: e });
 				}
-				return res
-					.status(404)
-					.render("pages/singledog", { dog: dog, user: user, signedIn: false, error:true });
-			}else{
+				return res.status(404).render("pages/singledog", {
+					dog: dog,
+					user: user,
+					signedIn: false,
+					error: true,
+				});
+			} else {
 				let dog = await dogData.getDogById(req.params.dogId);
 				let user = await userData.getUserById(dog.userId);
-				try{
-					let added = await dogData.addLike(req.params.dogId, req.session.user._id);
+				try {
+					let added = await dogData.addLike(
+						req.params.dogId,
+						req.session.user._id
+					);
 					dog = await dogData.getDogById(req.params.dogId);
 					user = await userData.getUserById(dog.userId);
-					res.render("pages/singledog", { dog: dog, user: user, signedIn: true});
-				}catch(e){
-					res.status(500).render("pages/singledog", { dog: dog, user: user, signedIn: true, error:true });
-
+					res.render("pages/singledog", {
+						dog: dog,
+						user: user,
+						signedIn: true,
+					});
+				} catch (e) {
+					res.status(500).render("pages/singledog", {
+						dog: dog,
+						user: user,
+						signedIn: true,
+						error: true,
+					});
 				}
-
 			}
-		}else{
-			console.log(req.body)
+		} else {
+			console.log(req.body);
 			if (!req.session.user) {
 				res.render("error", {
 					title: "DogID Error",
@@ -243,6 +260,7 @@ router.route("/:dogId/apply").post(async (req, res) => {
 					signedIn: true,
 				});
 			} catch (e) {
+				console.log(e);
 				return res.status(500).render("pages/singledog", {
 					dog: dog,
 					user: user,
