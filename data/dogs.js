@@ -319,7 +319,7 @@ const exportedMethods = {
 	async removeDog(id) {
 		id = validation.checkId(id, "Dog ID");
 		const myDog = await this.getDogById(id);
-		myDog.pictures = validation.checkPicArray(myDog.pictures, 0);
+		myDog.pictures = validation.checkPicArray(myDog.pictures, 1);
 		for (let i in myDog.pictures) {
 			this.deletePhoto(myDog.pictures[i].key);
 		}
@@ -377,7 +377,7 @@ const exportedMethods = {
 	},
 
 	async deletePhoto(key) {
-		const client = new S3Client({redentials: {
+		const client = new S3Client({credentials: {
 			accessKeyId,
 			secretAccessKey
 		},

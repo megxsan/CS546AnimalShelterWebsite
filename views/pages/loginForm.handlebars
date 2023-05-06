@@ -7,10 +7,10 @@
         <button type="submit">Submit</button>
     </form>
     <div id="error" class="error" hidden></div>
-    <ul class="error">
+    <div class="error">
     {{#each errors}}
-        <li>{{this}}</li>
+        <p class="error">{{this}}</p>
     {{/each}}
-    </ul>
+    </div>
     <a href="/register">Click here to register!</a>
 </Section>
