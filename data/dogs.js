@@ -189,8 +189,8 @@ const exportedMethods = {
 	},
 
 	async addLike(dogId, userId) {
-		dogId = validation.checkId(id, "Dog ID");
-		userId = validation.checkId(id, "User ID");
+		dogId = validation.checkId(dogId, "Dog ID");
+		userId = validation.checkId(userId, "User ID");
 		const dogCollection = await dogs();
 		const myDog = await dogCollection.findOne({_id: new ObjectId(dogId)});
 		if(myDog === null) {
@@ -201,10 +201,9 @@ const exportedMethods = {
         const myUser = await userCollection.findOne({_id: new ObjectId(userId)});
         if (myUser === null) throw 'Error: No user with that ID';
 		
-		for (i in myUser.liked) {
+		for (let i in myUser.liked) {
 			if (myUser.liked[i] === dogId) throw `Error: Cannot like the same dog twice`;
 		}
-
 		let updatedDog = {
 			name: myDog.name,
 			sex: myDog.sex,
@@ -223,7 +222,6 @@ const exportedMethods = {
 			likes: myDog.likes + 1,
 			comments: myDog.comments
 		};
-
 		const updatedInfoDog = await dogCollection.findOneAndReplace(
             {_id: new ObjectId(dogId)},
             updatedDog,
@@ -231,7 +229,6 @@ const exportedMethods = {
         );
         if (updatedInfoDog.lastErrorObject.n === 0) throw [404, `Error: Update failed! Could not update post with id ${dogId}`];
 		myUser.liked.push(dogId);
-
 		const updatedUser = {
             firstName: myUser.firstName,
             lastName: myUser.lastName,
@@ -319,7 +316,7 @@ const exportedMethods = {
 	async removeDog(id) {
 		id = validation.checkId(id, "Dog ID");
 		const myDog = await this.getDogById(id);
-		myDog.pictures = validation.checkPicArray(myDog.pictures, 1);
+		myDog.pictures = validation.checkPicArray(myDog.pictures, 0);
 		for (let i in myDog.pictures) {
 			let deletedPhoto = await this.deletePhoto(myDog.pictures[i].key);
 		}
@@ -377,7 +374,7 @@ const exportedMethods = {
 	},
 
 	async deletePhoto(key) {
-		const client = new S3Client({credentials: {
+		const client = new S3Client({redentials: {
 			accessKeyId,
 			secretAccessKey
 		},
@@ -395,6 +392,7 @@ const exportedMethods = {
 				return;
 			}
 	},
+
 
 	async caption(dogId){
 		dogId = validation.checkId(dogId, "Dog ID");
