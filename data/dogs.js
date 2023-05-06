@@ -160,7 +160,7 @@ const exportedMethods = {
 			vaccines: vaccines,
 			pictures: pictures,
 			userId: myDog.userId,
-			interest: myDog.intrest,
+			interest: myDog.interest,
 			adopted: myDog.adopted,
 			likes: myDog.likes,
 			comments: myDog.comments
@@ -218,7 +218,7 @@ const exportedMethods = {
 			vaccines: myDog.vaccines,
 			pictures: myDog.pictures,
 			userId: myDog.userId,
-			interest: myDog.intrest,
+			interest: myDog.interest,
 			adopted: myDog.adopted,
 			likes: myDog.likes + 1,
 			comments: myDog.comments
@@ -288,7 +288,7 @@ const exportedMethods = {
 			vaccines: myDog.vaccines,
 			pictures: myDog.pictures,
 			userId: myDog.userId,
-			interest: myDog.intrest,
+			interest: myDog.interest,
 			adopted: myDog.adopted,
 			likes: myDog.likes,
 			comments: myDog.comments
@@ -321,7 +321,7 @@ const exportedMethods = {
 		const myDog = await this.getDogById(id);
 		myDog.pictures = validation.checkPicArray(myDog.pictures, 1);
 		for (let i in myDog.pictures) {
-			this.deletePhoto(myDog.pictures[i].key);
+			let deletedPhoto = await this.deletePhoto(myDog.pictures[i].key);
 		}
 
 		const userCollection = await users();
@@ -416,6 +416,9 @@ const exportedMethods = {
 			form.parse(req, (err, fields, files) => {
 				photos.push(fields);
 				numPhotos = parseInt(photos[0]["numPhotos"]);
+				if (!files) {
+					resolve(photos);
+				}
 			});
 	
 			form.on('error', error => {

@@ -14,6 +14,16 @@
 		return strVal;
 	}
 
+	function checkNumString(strVal, varName) {
+		if (!strVal) throw `Error: You must supply a ${varName}!`;
+		if (typeof strVal !== "string") throw `Error: ${varName} must be a string!`;
+		if (strVal.length === 0)
+			throw `Error: ${varName} cannot be an empty string or string with just spaces`;
+		let regExp = /^\d+$/;
+		if(!regExp.test(strVal)) `Error: ${strVal} is not a valid value for ${varName} as it contains letters`;
+		return strVal;
+	}
+
 	function checkName(name, varName) {
 		var regName = /^[a-z'-]+$/i;
 		if (!regName.test(name)) throw `Error: Invalid ${varName} given`;
@@ -120,6 +130,203 @@
 	const ignoreForm = document.getElementById("ignore-form");
 	const commentForm = document.getElementById("comment-form");
 	const applyForm = document.getElementById("apply-form");
+	const editDogForm = document.getElementById("edit-dog-form"); 
+
+	if (editDogForm) {
+		editDogForm.addEventListener("submit", (event) => {
+			alert("CLIENT SIDE EDIT DOG FORM");
+
+			let name = document.getElementById("nameInput");
+			let sex = document.getElementById("sexInput");
+			let age = document.getElementById("ageInput");
+			let color = document.getElementById("colorInput");
+			let breed = document.getElementById("breedInput");
+			let weight = document.getElementById("weightInput");
+			let description = document.getElementById("descriptionInput");
+			let trait = document.getElementById("traitInput");
+			let medical = document.getElementById("medicalInput");
+			let vaccine = document.getElementById("vaccineInput");
+			let photo = document.getElementById("photoInput");
+			let numPhotos = document.getElementById("numPhotos");
+			let deletePhotos = document.getElementById("deletePhotoInput");
+			let currentNumPhotos = document.getElementById("currentNumPhotos");
+
+			let error1 = document.getElementById("error1");
+			let error2 = document.getElementById("error2");
+			let error3 = document.getElementById("error3");
+			let error4 = document.getElementById("error4");
+			let error5 = document.getElementById("error5");
+			let error6 = document.getElementById("error6");
+			let error7 = document.getElementById("error7");
+			let error8 = document.getElementById("error8");
+			let error9 = document.getElementById("error9");
+			let error10 = document.getElementById("error10");
+			let error11 = document.getElementById("error11");
+			let error12 = document.getElementById("error12");
+			let error13 = document.getElementById("error13");
+			let emptyError = document.getElementById("emptyError");
+
+			error1.hidden = true;
+			error2.hidden = true;
+			error3.hidden = true;
+			error4.hidden = true;
+			error5.hidden = true;
+			error6.hidden = true;
+			error7.hidden = true;
+			error8.hidden = true;
+			error9.hidden = true;
+			error10.hidden = true;
+			error11.hidden = true;
+			error12.hidden = true;
+			error13.hidden = true;
+			emptyError.hidden = true;
+
+			if (name.value.trim() === "" && 
+				sex.value.trim() === "" && 
+				age.value.trim() === "" && 
+				color.value.trim() === "" && 
+				breed.value.trim() === "" &&
+				weight.value.trim() === "" && 
+				description.value.trim() === "" && 
+				trait.value.trim() === "" && 
+				medical.value.trim() === "" && 
+				vaccine.value.trim() === "" && 
+				photo.value.trim() === "" && 
+				deletePhotos.value.trim() === "") {
+					event.preventDefault();
+					emptyError.hidden = false;
+			}
+			if (name.value.trim() !== "") {
+				try {
+					name.value = checkString(name.value, "Name");
+					name.value = checkName(name.value, "Name");
+				} catch (error) {
+					event.preventDefault();
+					error1.hidden = false;
+				}
+			}
+			if (sex.value.trim() !== "") {
+				try {
+					sex.value = checkString(sex.value, "Sex");
+					sex.value = checkSex(sex.value, "Sex");
+				} catch (error) {
+					event.preventDefault();
+					error2.hidden = false;
+				}
+			}
+
+			if (age.value.trim() !== "") {
+				try {
+					age.value = age.value.trim();
+					let ageNum = parseInt(age.value);
+					ageNum = checkDogAge(ageNum, "Age");
+				} catch (error) {
+					event.preventDefault();
+					error3.hidden = false;
+				}
+			}
+
+			if (color.value.trim() !== "") {
+				try {
+					color.value = checkString(color.value, "Color");
+					let colorArr = color.value.split(",");
+					colorArr = checkStringArray(colorArr, "Color", 1);
+				} catch (error) {
+					event.preventDefault();
+					error4.hidden = false;
+				}
+			}
+
+			if (breed.value.trim() !== "") {
+				try {
+					breed.value = checkString(breed.value, "Breed");
+					let breedArr = breed.value.split(",");
+					breedArr = checkStringArray(breedArr, "Breed", 1);
+				} catch (error) {
+					event.preventDefault();
+					error5.hidden = false;
+				}
+			}
+
+			if (weight.value.trim() !== "") {
+				try {
+					weight.value = weight.value.trim();
+					let weightNum = parseInt(weight.value);
+					weightNum = checkWeight(weightNum, "Weight");
+				} catch (error) {
+					event.preventDefault();
+					error6.hidden = false;
+				}
+			}
+
+			if (description.value.trim() !== "") {
+				try {
+					description.value = checkString(description.value, "Description");
+				} catch (error) {
+					event.preventDefault();
+					error7.hidden = false;
+				}
+			}
+
+			if (trait.value.trim() !== "") {
+				try {
+					trait.value = checkString(trait.value, "Traits");
+					let traitArr = trait.value.split(",");
+					traitArr = checkStringArray(traitArr, "Traits", 0);
+				} catch (error) {
+					event.preventDefault();
+					error8.hidden = false;
+				}
+			}
+
+			if (medical.value.trim() !== "") {
+				try {
+					medical.value = checkString(medical.value, "Medical Info");
+					let medicalArr = medical.value.split(",");
+					medicalArr = checkStringArray(medicalArr, "Medical Info", 0);
+				} catch (error) {
+					event.preventDefault();
+					error9.hidden = false;
+				}
+			}
+
+			if (vaccine.value.trim() !== "") {
+				try {
+					vaccine.value = checkString(vaccine.value, "Vaccines");
+					let vaccineArr = vaccine.value.split(",");
+					vaccineArr = checkStringArray(vaccineArr, "Vaccines", 0);
+				} catch (error) {
+					event.preventDefault();
+					error10.hidden = false;
+				}
+			}
+			if (photo.value !== "") {
+				numPhotos.value = photo.files.length.toString();
+			}
+
+			if (deletePhotos.value.trim() !== "") {
+				try {
+					deletePhotos.value = deletePhotos.value.trim()
+					var deletePhotosArr = deletePhotos.value.split(",");
+					for (let i in deletePhotosArr) {
+						checkNumString(deletePhotosArr[i]);
+						let photoNum = parseInt(deletePhotosArr[i]);
+						if (photoNum > photo.files.length && photoNum <= 0) throw 'Error: Not a valid photo to delete';
+					}
+				} catch (error) {
+					event.preventDefault();
+					error13.hidden = false;
+				}
+			}
+
+			try {
+				if (photo.files.length + parseInt(currentNumPhotos.value) - deletePhotosArr.length > 3) throw "Error: Too many photos uploaded";
+			} catch (error) {
+				event.preventDefault();
+				error12.hidden = false;
+			}
+		});
+	}
 
 	if (ignoreForm) {
 		ignoreForm.addEventListener("submit", (event) => {
@@ -129,6 +336,7 @@
 			//console.log(userId.value);
 		});
 	}
+
 	if (registrationForm) {
 		registrationForm.addEventListener("submit", (event) => {
 			const firstNameInputElement = document.getElementById("firstNameInput");
@@ -909,6 +1117,7 @@
 			}
 		});
 	}
+
 	if(commentForm){
 		commentForm.addEventListener("submit", (event) => {
 			let comment = document.getElementById("commentInput");
@@ -934,11 +1143,11 @@
 			}
 		});
 	}
+
 	if(applyForm){
 		apply.addEventListener("submit", (event) => {
 			let apply = document.getElementById("apply");
 			apply.value = apply.value.trim().toLowerCase();
-			console.log(apply.value)
 			if(apply.value != applying){
 				event.preventDefault();
 			}
