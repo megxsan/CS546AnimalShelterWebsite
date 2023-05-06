@@ -9,6 +9,8 @@
 			throw `Error: ${varName} cannot be an empty string or string with just spaces`;
 		if (!isNaN(strVal))
 			throw `Error: ${strVal} is not a valid value for ${varName} as it only contains digits`;
+		let regExp = /[a-zA-Z]/g;
+		if(!regExp.test(strVal)) `Error: ${strVal} is not a valid value for ${varName} as it does not contain letters`;
 		return strVal;
 	}
 
@@ -824,6 +826,8 @@
 
 			try {
 				color.value = checkString(color.value, "Color");
+				let colorArr = color.value.split(",");
+				colorArr = checkStringArray(colorArr, "Color", 1);
 			} catch (error) {
 				event.preventDefault();
 				error4.hidden = false;
@@ -831,6 +835,8 @@
 
 			try {
 				breed.value = checkString(breed.value, "Breed");
+				let breedArr = breed.value.split(",");
+				breedArr = checkStringArray(breedArr, "Breed", 1);
 			} catch (error) {
 				event.preventDefault();
 				error5.hidden = false;
@@ -843,6 +849,48 @@
 			} catch (error) {
 				event.preventDefault();
 				error6.hidden = false;
+			}
+
+			if (description.value.trim() !== "") {
+				try {
+					description.value = checkString(description.value, "Description");
+				} catch (error) {
+					event.preventDefault();
+					error7.hidden = false;
+				}
+			}
+
+			if (trait.value.trim() !== "") {
+				try {
+					trait.value = checkString(trait.value, "Traits");
+					let traitArr = trait.value.split(",");
+					traitArr = checkStringArray(traitArr, "Traits", 0);
+				} catch (error) {
+					event.preventDefault();
+					error8.hidden = false;
+				}
+			}
+
+			if (medical.value.trim() !== "") {
+				try {
+					medical.value = checkString(medical.value, "Medical Info");
+					let medicalArr = medical.value.split(",");
+					medicalArr = checkStringArray(medicalArr, "Medical Info", 0);
+				} catch (error) {
+					event.preventDefault();
+					error9.hidden = false;
+				}
+			}
+
+			if (vaccine.value.trim() !== "") {
+				try {
+					vaccine.value = checkString(vaccine.value, "Vaccines");
+					let vaccineArr = vaccine.value.split(",");
+					vaccineArr = checkStringArray(vaccineArr, "Vaccines", 0);
+				} catch (error) {
+					event.preventDefault();
+					error10.hidden = false;
+				}
 			}
 
 			try {
