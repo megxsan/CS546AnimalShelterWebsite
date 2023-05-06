@@ -17,16 +17,15 @@ router
         /*  Get 
                 -Seeing all your dogs
         */
-                // if(!req.sessions.user._id){
-                //         res.render('error', {title: "Dog Error", error: "Must be signed in to access your dogs"});
-                // }
-                // try{
-                        let dogs = await dogData.getMyDogs(req.session.user._id);
-                        res.render('pages/myDogs', {title: "MyDogs", dogs: dogs, signedIn: signedIn});
-                // }catch(e){
-                //         res.render('error', {title: "MyDogs Error", error:e});
-                //         //figure out what status to put
-                // }
+        if(!req.session.user._id){
+            res.render('error', {title: "Dog Error", error: "Must be signed in to access your dogs"});
+        }
+        try{
+            let dogs = await dogData.getMyDogs(req.session.user._id);
+            res.render('pages/myDogs', {title: "MyDogs", dogs: dogs, signedIn: signedIn});
+        } catch(e){
+            res.status(500).render('error', {title: "MyDogs Error", error:e});
+    	}
 
     });
 
@@ -43,7 +42,11 @@ router
         if(!req.session.user._id){
 			res.render('error', {title: "Dog Error", error: "Must be signed in to post your dog"});
 		}
-        res.render('pages/addDog', {title: "Add Dog", signedIn: signedIn});
+		try {
+			res.render('pages/addDog', {title: "Add Dog", signedIn: signedIn});
+		} catch (error) {
+			res.status(500).render('error', {title: "Add Dog Error", error:e});
+		}
         })
 	.post(async (req, res) => {
 			/*  Post 
@@ -175,7 +178,32 @@ router
 	});
 
 router
-	.route("/:dogID/edit")
+	.route("/:dogId")
+	.get(async (req, res) => {
+        let signedIn = true;
+		if (!req.session.user){
+			signedIn = false;
+		}
+		try {
+			req.params.dogId = validation.checkId(req.params.dogId, "Dog ID");
+		} catch (e) {
+			res.status(400).render("error", { title: "DogID Error", error: e });
+		}
+		let dog = {};
+		let user = {};
+		try {
+			dog = await dogData.getDogById(req.params.dogId);
+			user = await userData.getUserById(dog.userId);
+		} catch (e) {
+			res.status(404).render("error", { title: "DogID Error", error: e });
+		}
+		res
+			.status(200)
+			.render("pages/mySingleDog", { dog: dog, user: user, signedIn: signedIn, dogId: req.params.dogId });
+    });
+	
+router
+	.route("/:dogId/edit")
 	.get(async (req, res) => {
 	/*  Get 
 			-Seeing edit dog form
@@ -188,11 +216,29 @@ router
         */
 
     })
+
+router
+	.route("/:dogId/delete")
     .delete(async (req, res) => {
         /*  Delete
                 -Delete dog
         */
-
+		let signedIn = true;
+		if (!req.session.user){
+				signedIn = false;
+		}
+		if(!req.session.user._id){
+				res.render('error', {title: "Dog Delete Error", error: "Must be signed in to delete your dog"});
+				return;
+		}
+		try {
+			let deletedDog = await dogData.removeDog(req.params.dogId);
+		} catch (error) {
+			res.status(404).render("error", { title: "Dog Delete Error", error: e });
+			return;
+		}
+		res.redirect("/account/dogs");
+		return;
     });
 
  export default router;

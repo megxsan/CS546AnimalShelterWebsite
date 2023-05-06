@@ -853,13 +853,11 @@
 				error6.hidden = false;
 			}
 
-			if (description.value.trim() !== "") {
-				try {
-					description.value = checkString(description.value, "Description");
-				} catch (error) {
-					event.preventDefault();
-					error7.hidden = false;
-				}
+			try {
+				description.value = checkString(description.value, "Description");
+			} catch (error) {
+				event.preventDefault();
+				error7.hidden = false;
 			}
 
 			if (trait.value.trim() !== "") {

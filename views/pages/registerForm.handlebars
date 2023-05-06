@@ -15,10 +15,9 @@
         <button type="submit">Submit</button>
     </form>
     <div id="error" class="error" hidden></div>
-    <ul class="error">
+    <div class="error">
     {{#each errors}}
-        <li>{{this}}</li>
+        <p class="error">{{this}}</p>
     {{/each}}
-    </ul>
     <a href="/login">Already have an account? Click here to log-in</a>
 </section>
