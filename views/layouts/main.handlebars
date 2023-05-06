@@ -21,11 +21,13 @@
 
 		<main>
 			{{#if error}}
-				<p> You must be signed in to comment on posts</p>
+				<p class = 'error'> You must be signed in to like or comment, and you can only like a post once!</p>
 			{{/if}}
 
 			{{{body}}}
 		</main>
 		<script src="../../public/js/form.js"></script>
+		<script src="../../public/js/likes.js"></script>
+
 	</body>
 </html>

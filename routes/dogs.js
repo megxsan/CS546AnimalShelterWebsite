@@ -39,7 +39,7 @@ router
 				currUser = await userData.getUserById(req.session.user._id);
 			}
 		} catch (e) {
-			res.status(404).render("error", { title: "DogID Error", error: e });
+			res.status(404).render("pages/homepage", { title: "DogID Error", signedIn: false});
 		}
 		res.status(200).render("pages/singledog", {
 			dog: dog,
@@ -131,7 +131,38 @@ router
 					.status(200)
 					.render("pages/singledog", { dog: dog, user: user, signedIn: true });
 			}
-		} else {
+		}else if(req.body.likeValue){
+			let likes = req.body.likeValue;
+			if(!req.session.user){
+				let dog = {};
+				let user = {};
+				try {
+					dog = await dogData.getDogById(req.params.dogId);
+					user = await userData.getUserById(dog.userId);
+				} catch (e) {
+					return res.status(404).render("error", { title: "DogID Error", error: e });
+				}
+				return res
+					.status(404)
+					.render("pages/singledog", { dog: dog, user: user, signedIn: false, error:true });
+			}
+			comment = comment.trim();
+			if (comment != "") {
+				let dog = await dogData.getDogById(req.params.dogId);
+				let user = await userData.getUserById(dog.userId);
+				try {
+					let posting = await dogData.addComment(req.params.dogId, req.session.user._id, comment);
+				} catch (e) {
+					return res.status(500).render("pages/singledog", {
+						dog: dog,
+						user: user,
+						signedIn: true,
+					});
+				}
+			}
+
+		}else{
+			console.log(req.body)
 			if (!req.session.user) {
 				res.render("error", {
 					title: "DogID Error",
