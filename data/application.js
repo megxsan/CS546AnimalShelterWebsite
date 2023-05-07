@@ -33,6 +33,7 @@ const exportedMethods = {
 			yard,
 			reasoningExperience
 		);
+		// newApp["accepted"] = false;
 		newApp._id = new ObjectId();
 
 		let userCollection = await users();
@@ -86,12 +87,11 @@ const exportedMethods = {
 		phone,
 		livingAccommodations,
 		children,
-		childrenAges,
 		timeAlone,
 		animals,
-		typeAnimals,
 		yard,
-		reasoningExperience
+		reasoningExperience,
+		// accepted
 	) {
 		let checked = validation.checkAppInputs(
 			userId,
@@ -102,15 +102,13 @@ const exportedMethods = {
 			phone,
 			livingAccommodations,
 			children,
-			childrenAges,
 			timeAlone,
 			animals,
-			typeAnimals,
 			yard,
 			reasoningExperience
 		);
 
-		let result = await get(userId);
+		let result = await this.getApp(userId);
 		//at least 1 thing needs to be updated, else throw an error
 		if (
 			result.firstName === checked.firstName &&
@@ -120,13 +118,12 @@ const exportedMethods = {
 			result.phone === checked.phone &&
 			result.livingAccommodations === checked.livingAccommodations &&
 			result.children === checked.children &&
-			result.childrenAges === checked.childrenAges &&
 			result.timeAlone === checked.timeAlone &&
 			result.animals === checked.animals &&
-			result.typeAnimals === checked.typeAnimals &&
 			result.yard === checked.yard &&
-			result.reasoningExperience === checked.reasoningExperience
-		) {
+			result.reasoningExperience === checked.reasoningExperience 
+			// &&  result.accepted === accepted
+			) {
 			throw `At least 1 input needs to be different than the original band when you update`;
 		}
 		const update = {
@@ -138,19 +135,18 @@ const exportedMethods = {
 			phone: checked.phone,
 			livingAccommodations: checked.livingAccommodations,
 			children: checked.children,
-			childrenAges: checked.childrenAges,
+			// childrenAges: checked.childrenAges,
 			timeAlone: checked.timeAlone,
-			animals: checked,
-			animals,
-			typeAnimals: checked.typeAnimals,
+			animals: checked.animals,
 			yard: checked.yard,
-			reasoningExperience: checked.reasoningExperience,
+			reasoningExperience: checked.reasoningExperience
+			// accepted: true
 		};
 		//find the user and update it; throw error if this doesn't happen
 		const userCollection = await users();
 		const updatedUser = await userCollection.findOneAndUpdate(
-			{ _id: new ObjectId(id) },
-			{ $set: update },
+			{ _id: new ObjectId(userId) },
+			{ $set: {application: update} },
 			{ returnDocument: "after" }
 		);
 		if (updatedUser.lastErrorObject.n === 0)
@@ -241,6 +237,27 @@ const exportedMethods = {
 			);
 			if (updated.lastErrorObject.n === 0)
 				throw `Error: Pending could not be updated`;
+
+			let dogInfo = await dog.getDogById(dogID);
+			let updatedInterest = (dogInfo.interest).filter(e => e._id.toString() != appID);
+
+			let updatedDog = await dogCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogID) },
+				{ $set: { interest: updatedInterest } },
+				{ returnDocument: "after" }
+			);
+			if(updatedDog.lastErrorObject.n === 0) throw `interest cannot be updated`
+
+			//now I need to update the dog array for the user that posted the dog
+			let userWithDog = await user.getUserById(dogInfo.userId);
+			let updatedDogArray = (userWithDog.dogs).filter(e => e != dogID);
+			updatedDogArray.push(updatedDog._id);
+			let updatedUserWithDog = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogInfo.userId) },
+				{ $set: { dog: updatedDogArray } },
+				{ returnDocument: "after" }
+			);
+			if(updatedUserWithDog.lastErrorObject.n === 0) throw `dog array cannot be updated`
 		} else {
 			let updatedPending = (userInfo.pending).filter(e => e != dogID);
 

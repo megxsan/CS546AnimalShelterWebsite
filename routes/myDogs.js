@@ -323,7 +323,7 @@ router
 			return res.render('pages/homepage', {title: "Home", signedIn: false});
 		}else{
 			try{
-				let info = await dogData.getDogById(req.params.dogId);				
+				let info = await dogData.getDogById(req.params.dogId);		
 				return res.render('pages/applicants', {title: "Applicants", dog: info, signedIn: true})
 			}catch(e){
 				return res.status(500).render('pages/homepage', {title: "Home", signedIn: true});
@@ -341,7 +341,8 @@ router
 			if(req.body.accept){
 				try{
 					let accepted = await appData.appStatus(user.application._id.toString(), req.params.dogId, req.body.userId, "accepted")
-					return res.render('pages/applicants', {title: "Applicants", dog: dog, signedIn: true})
+					dog = await dogData.getDogById(req.params.dogId)
+					return res.render('pages/applicants', {title: "Applicants", dog: dog, signedIn: true});
 				}catch(e){
 					console.log(e)
 				}
@@ -352,7 +353,6 @@ router
 					return res.render('pages/applicants', {title: "Applicants", dog: dog, signedIn: true})
 
 				}catch(e){
-					console.log(e)
 					return res.render('pages/applicants', {title: "Applicants", dog: dog, signedIn: true})
 				}			
 			}
