@@ -36,7 +36,7 @@ router
         }
 
         for(let i = 0; i < user.rejected.length; i++){
-            let dog = await dogData.getDogById(rejected.pending[i]);
+            let dog = await dogData.getDogById(user.rejected[i]);
             rejected.push(dog);
         }
         res.render('pages/myaccount', {title: "Status", signedIn: signedIn, pending: pending, accepted: accepted, rejected: rejected});

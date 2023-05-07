@@ -211,6 +211,7 @@ const exportedMethods = {
 		let userId = application.userId;
 		let userInfo = await user.getUserById(userId);
 
+		let dogCollection = await dogs();
 		const userCollection = await users();
 		let updated = {};
 
@@ -258,6 +259,29 @@ const exportedMethods = {
 			);
 			if (updated.lastErrorObject.n === 0)
 				throw `Error: Pending could not be updated`;
+
+			let dogInfo = await dog.getDogById(dogID);
+
+			let updatedInterest = (dogInfo.interest).filter(e => e._id.toString() != appID);
+
+			let updatedDog = await dogCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogID) },
+				{ $set: { interest: updatedInterest } },
+				{ returnDocument: "after" }
+			);
+			if(updatedDog.lastErrorObject.n === 0) throw `interest cannot be updated`
+
+			//now I need to update the dog array for the user that posted the dog
+			let userWithDog = await user.getUserById(dogInfo.userId);
+			let updatedDogArray = (userWithDog.dogs).filter(e => e != dogID);
+			updatedDogArray.push(updatedDog._id);
+			let updatedUserWithDog = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogInfo.userId) },
+				{ $set: { dog: updatedDogArray } },
+				{ returnDocument: "after" }
+			);
+			if(updatedUserWithDog.lastErrorObject.n === 0) throw `dog array cannot be updated`
+
 		}
 		return updated;
 	},

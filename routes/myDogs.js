@@ -348,11 +348,12 @@ router
 			}else if(req.body.reject){
 				try{
 					let rejected = await appData.appStatus(user.application._id.toString(), req.params.dogId, req.body.userId,"rejected")
+					dog = await dogData.getDogById(req.params.dogId)
 					return res.render('pages/applicants', {title: "Applicants", dog: dog, signedIn: true})
 
 				}catch(e){
 					console.log(e)
-
+					return res.render('pages/applicants', {title: "Applicants", dog: dog, signedIn: true})
 				}			
 			}
 		}
