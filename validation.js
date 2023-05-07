@@ -262,6 +262,7 @@ const exportedMethods = {
 		if (yard != "yes" && yard != "no") throw `invalid value for yard`;
 
 		let newApp = {
+			userId,
 			firstName,
 			lastName,
 			age,

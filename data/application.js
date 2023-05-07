@@ -198,7 +198,7 @@ const exportedMethods = {
 			throw `Error: Application could not be updated`;
 		return `${appID} is now interested`;
 	},
-	async appStatus(appID, dogID, status) {
+	async appStatus(appID, dogID, userID, status) {
 		//error checking
 		appID = validation.checkId(appID, "Application ID");
 		dogID = validation.checkId(dogID, "Dog ID");
@@ -207,51 +207,52 @@ const exportedMethods = {
 		if (status != "rejected" && status != "pending" && status != "accepted")
 			throw `Status can only be rejected, pending, or accepted.`;
 
-		let application = await getApp(ID);
-		let user = application.userId;
-		let userInfo = await userData.getUserById(user);
+		let application = await this.getApp(userID);
+		let userId = application.userId;
+		let userInfo = await user.getUserById(userId);
 
 		const userCollection = await users();
 		let updated = {};
 
-		if (status === userInfo.pending) {
+		if (status === "pending") {
 			// await userData.updatedUser(userInfo.id, userInfo.firstName, userInfo.lastName, userInfo.age, userInfo.email, userInfo.password);
 			updated = await userCollection.findOneAndUpdate(
-				{ _id: new ObjectId(user) },
+				{ _id: new ObjectId(userId) },
 				{ $push: { pending: dogID } },
 				{ returnDocument: "after" }
 			);
 			if (updated.lastErrorObject.n === 0)
 				throw `Error: Pending could not be updated`;
-		} else if (status === userInfo.accepted) {
-			let index = 0;
-			for (let i = 0; i < userInfo.pending.length; i++) {
-				if (userInfo.pending[i] === dogID) {
-					index = i;
-					break;
-				}
-			}
-			let updatedPending = userInfo.pending.splice(index, 1);
+		} else if (status === "accepted") {
+
+			let updatedPending = (userInfo.pending).filter(e => e != dogID);
 			updated = await userCollection.findOneAndUpdate(
-				{ _id: new ObjectId(user) },
+				{ _id: new ObjectId(userId) },
 				{ $push: { accepted: dogID } },
+				{ returnDocument: "after" }
+			);
+			if (updated.lastErrorObject.n === 0)
+				throw `Error: Pending could not be updated`;
+			updated = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(userId) },
 				{ $set: { pending: updatedPending } },
 				{ returnDocument: "after" }
 			);
 			if (updated.lastErrorObject.n === 0)
 				throw `Error: Pending could not be updated`;
 		} else {
-			let index = 0;
-			for (let i = 0; i < userInfo.pending.length; i++) {
-				if (userInfo.pending[i] === dogID) {
-					index = i;
-					break;
-				}
-			}
-			let updatedPending = userInfo.pending.splice(index, 1);
+			let updatedPending = (userInfo.pending).filter(e => e != dogID);
+
 			updated = await userCollection.findOneAndUpdate(
-				{ _id: new ObjectId(user) },
+				{ _id: new ObjectId(userId) },
 				{ $push: { rejected: dogID } },
+				{ returnDocument: "after" }
+			);
+			if (updated.lastErrorObject.n === 0)
+				throw `Error: Pending could not be updated`;
+
+			updated = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(userId) },
 				{ $set: { pending: updatedPending } },
 				{ returnDocument: "after" }
 			);

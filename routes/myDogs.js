@@ -322,11 +322,11 @@ router
 	.route("/:dogId/applications")
 	.get(async (req, res) => {
 		if(!req.session.user){
-			return res.render('pages/homepage', {title: "Home"});
+			return res.render('pages/homepage', {title: "Home", signedIn: false});
 		}else{
 			try{
-				let info = await dogData.getDogById(req.params.dogId);
-				return res.render('pages/applicants', {title: "Applicants", dog: info})
+				let info = await dogData.getDogById(req.params.dogId);				
+				return res.render('pages/applicants', {title: "Applicants", dog: info, signedIn: true})
 			}catch(e){
 				return res.status(500).render('pages/homepage', {title: "Home", signedIn: true});
 			}
@@ -337,6 +337,26 @@ router
 			return res.render('pages/homepage', {title: "Home", signedIn: true});
 		}else{
 			//this is where we accept/reject the application
+			let user = await userData.getUserById(req.body.userId);
+			let dog = await dogData.getDogById(req.params.dogId)
+
+			if(req.body.accept){
+				try{
+					let accepted = await appData.appStatus(user.application._id.toString(), req.params.dogId, req.body.userId, "accepted")
+					return res.render('pages/applicants', {title: "Applicants", dog: dog, signedIn: true})
+				}catch(e){
+					console.log(e)
+				}
+			}else if(req.body.reject){
+				try{
+					let rejected = await appData.appStatus(user.application._id.toString(), req.params.dogId, req.body.userId,"rejected")
+					return res.render('pages/applicants', {title: "Applicants", dog: dog, signedIn: true})
+
+				}catch(e){
+					console.log(e)
+
+				}			
+			}
 		}
 });
 
