@@ -308,8 +308,9 @@ router
 		}
 		try {
 			let deletedDog = await dogData.removeDog(req.params.dogId);
-		} catch (error) {
-			res.status(404).render("error", { title: "Dog Delete Error", error: e });
+		} catch (e) {
+			console.log(e)
+			// res.status(404).render("error", { title: "Dog Delete Error", error: e });
 			return;
 		}
 		res.redirect("/account/dogs");
