@@ -239,16 +239,14 @@ router.route("/:dogId")
 			res.status(400).render("error", { title: "DogID Error", error: e });
 		}
 		let dog = {};
-		let user = {};
 		try {
 			dog = await dogData.getDogById(req.params.dogId);
-			user = await userData.getUserById(dog.userId);
 		} catch (e) {
 			res.status(404).render("error", { title: "DogID Error", error: e });
 		}
+		// TO DO: Check if user is owner of dog
 		res.status(200).render("pages/mySingleDog", {
 			dog: dog,
-			user: user,
 			signedIn: signedIn,
 			dogId: req.params.dogId,
 		});
@@ -288,7 +286,7 @@ router
         /*  Patch
                 -Recieving edit dog form form
         */
-	   	console.log("DOG EDIT PATCH")
+	   	console.log("DOG EDIT PATCH");
     })
 
 router

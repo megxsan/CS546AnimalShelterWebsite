@@ -131,8 +131,6 @@
 	const ignoreForm = document.getElementById("ignore-form");
 	const commentForm = document.getElementById("comment-form");
 	const applyForm = document.getElementById("apply-form");
-
-	/*
 	const editDogForm = document.getElementById("edit-dog-form"); 
 
 	if (editDogForm) {
@@ -330,7 +328,6 @@
 			}
 		});
 	}
-	*/
 
 	if (ignoreForm) {
 		ignoreForm.addEventListener("submit", (event) => {
