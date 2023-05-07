@@ -43,6 +43,8 @@ router
 				.status(404)
 				.render("pages/homepage", { title: "DogID Error", signedIn: false });
 		}
+		dog = await dogData.getDogById(req.params.dogId);
+		user = await userData.getUserById(dog.userId);
 		res.status(200).render("pages/singledog", {
 			dog: dog,
 			user: user,
@@ -239,8 +241,9 @@ router.route("/:dogId/apply").post(async (req, res) => {
 	} else {
 		let applicant = await userData.getUserById(req.session.user._id);
 		let dog = await dogData.getDogById(req.params.dogId);
+		let user = await userData.getUserById(dog.userId);
 		let app = applicant.application;
-		if (app === {}) {
+		if (Object.keys(app).length === 0) {
 			return res.status(404).render("pages/singledog", {
 				dog: dog,
 				user: user,
