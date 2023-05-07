@@ -82,8 +82,8 @@
 	{{/each}}
 
 	{{#if applyErr}}
-		<p>You either are not signed in, do not have a filled out application, or
-			have already applied to this dog.</p>
+		<p>You either are not signed in, do not have a filled out application,
+			you have already applied to this dog, or you own this dog.</p>
 	{{/if}}
 	<h3>Apply for this dog:</h3>
 	<form id="apply-form" method="post" action="/dogs/{{dog._id}}/apply">
