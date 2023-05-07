@@ -297,7 +297,7 @@ const exportedMethods = {
 
 		//compare all the values within it
 		for(let i = 0; i < arr1.length; i++){
-			if(arr2.contains(arr1[i])){
+			if(arr2.includes(arr1[i])){
 				counter++;
 			}
 		}
@@ -314,7 +314,7 @@ const exportedMethods = {
 		if (strVal.length === 0)
 			throw `Error: ${varName} cannot be an empty string or string with just spaces`;
 		let regExp = /[a-zA-Z]/g;
-		if(regExp.test(strVal)) `Error: ${strVal} is not a valid value for ${varName} as it contains letters`;
+		if(regExp.test(strVal)) throw `Error: ${strVal} is not a valid value for ${varName} as it contains letters`;
 		return strVal;
 	}
 };

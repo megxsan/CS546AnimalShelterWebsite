@@ -464,13 +464,13 @@ const exportedMethods = {
 			form.parse(req, (err, fields, files) => {
 				photos.push(fields);
 				numPhotos = parseInt(photos[0]["numPhotos"]);
-				if (!files) {
+				if (numPhotos === 0) {
 					resolve(photos);
 				}
-			});
+			})
 	
 			form.on('error', error => {
-				reject(error.message)
+				reject(error.message);
 			})
 	
 			form.on('data', data => {

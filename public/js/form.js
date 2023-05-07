@@ -21,7 +21,7 @@
 		if (strVal.length === 0)
 			throw `Error: ${varName} cannot be an empty string or string with just spaces`;
 		let regExp = /^\d+$/;
-		if(!regExp.test(strVal)) `Error: ${strVal} is not a valid value for ${varName} as it contains letters`;
+		if(!regExp.test(strVal)) throw `Error: ${strVal} is not a valid value for ${varName} as it contains letters`;
 		return strVal;
 	}
 
@@ -135,8 +135,6 @@
 
 	if (editDogForm) {
 		editDogForm.addEventListener("submit", (event) => {
-			alert("CLIENT SIDE EDIT DOG FORM");
-
 			let name = document.getElementById("nameInput");
 			let sex = document.getElementById("sexInput");
 			let age = document.getElementById("ageInput");
@@ -203,6 +201,7 @@
 					name.value = checkName(name.value, "Name");
 				} catch (error) {
 					event.preventDefault();
+					error2.innerHTML = error;
 					error1.hidden = false;
 				}
 			}
@@ -212,6 +211,7 @@
 					sex.value = checkSex(sex.value, "Sex");
 				} catch (error) {
 					event.preventDefault();
+					error2.innerHTML = error;
 					error2.hidden = false;
 				}
 			}
@@ -223,6 +223,7 @@
 					ageNum = checkDogAge(ageNum, "Age");
 				} catch (error) {
 					event.preventDefault();
+					error3.innerHTML = error;
 					error3.hidden = false;
 				}
 			}
@@ -234,6 +235,7 @@
 					colorArr = checkStringArray(colorArr, "Color", 1);
 				} catch (error) {
 					event.preventDefault();
+					error4.innerHTML = error;
 					error4.hidden = false;
 				}
 			}
@@ -245,6 +247,7 @@
 					breedArr = checkStringArray(breedArr, "Breed", 1);
 				} catch (error) {
 					event.preventDefault();
+					error5.innerHTML = error;
 					error5.hidden = false;
 				}
 			}
@@ -256,6 +259,7 @@
 					weightNum = checkWeight(weightNum, "Weight");
 				} catch (error) {
 					event.preventDefault();
+					error6.innerHTML = error;
 					error6.hidden = false;
 				}
 			}
@@ -265,6 +269,7 @@
 					description.value = checkString(description.value, "Description");
 				} catch (error) {
 					event.preventDefault();
+					error7.innerHTML = error;
 					error7.hidden = false;
 				}
 			}
@@ -276,6 +281,7 @@
 					traitArr = checkStringArray(traitArr, "Traits", 0);
 				} catch (error) {
 					event.preventDefault();
+					error8.innerHTML = error;
 					error8.hidden = false;
 				}
 			}
@@ -287,6 +293,7 @@
 					medicalArr = checkStringArray(medicalArr, "Medical Info", 0);
 				} catch (error) {
 					event.preventDefault();
+					error9.innerHTML = error;
 					error9.hidden = false;
 				}
 			}
@@ -298,32 +305,44 @@
 					vaccineArr = checkStringArray(vaccineArr, "Vaccines", 0);
 				} catch (error) {
 					event.preventDefault();
+					error10.innerHTML = error;
 					error10.hidden = false;
 				}
 			}
-			if (photo.value !== "") {
-				numPhotos.value = photo.files.length.toString();
-			}
+			
+			numPhotos.value = photo.files.length.toString();
 
 			if (deletePhotos.value.trim() !== "") {
 				try {
 					deletePhotos.value = deletePhotos.value.trim()
 					var deletePhotosArr = deletePhotos.value.split(",");
+					alert(deletePhotosArr)
 					for (let i in deletePhotosArr) {
 						checkNumString(deletePhotosArr[i]);
 						let photoNum = parseInt(deletePhotosArr[i]);
-						if (photoNum > photo.files.length && photoNum <= 0) throw 'Error: Not a valid photo to delete';
+						if (photoNum > parseInt(currentNumPhotos.value) || photoNum <= 0) throw 'Error: Not a valid photo to delete';
 					}
+					if (parseInt(currentNumPhotos.value) - deletePhotosArr.length <= 0) throw 'Error: Must have at least one photo';
 				} catch (error) {
 					event.preventDefault();
+					error13.innerHTML = error;
 					error13.hidden = false;
 				}
+			} else {
+				var deletePhotosArr = [];
 			}
 
 			try {
-				if (photo.files.length + parseInt(currentNumPhotos.value) - deletePhotosArr.length > 3) throw "Error: Too many photos uploaded";
+				if ((photo.files.length + parseInt(currentNumPhotos.value) - deletePhotosArr.length) > 3) throw "Error: Too many photos uploaded";
+				for (let i = 0; i < parseInt(numPhotos.value); i++) {
+					let specificPhoto = photo.files[i];
+					if (specificPhoto.type !== 'image/jpeg' && specificPhoto.type !== 'image/png') {
+						throw `Error: ${specificPhoto.name} is not the correct file type`;
+					}
+				}
 			} catch (error) {
 				event.preventDefault();
+				error12.innerHTML = error;
 				error12.hidden = false;
 			}
 		});
@@ -992,7 +1011,6 @@
 			let error9 = document.getElementById("error9");
 			let error10 = document.getElementById("error10");
 			let error11 = document.getElementById("error11");
-			let error12 = document.getElementById("error12");
 
 			error1.hidden = true;
 			error2.hidden = true;
@@ -1005,13 +1023,13 @@
 			error9.hidden = true;
 			error10.hidden = true;
 			error11.hidden = true;
-			error12.hidden = true;
 
 			try {
 				name.value = checkString(name.value, "Name");
 				name.value = checkName(name.value, "Name");
 			} catch (error) {
 				event.preventDefault();
+				error1.innerHTML = error;
 				error1.hidden = false;
 			}
 
@@ -1020,6 +1038,7 @@
 				sex.value = checkSex(sex.value, "Sex");
 			} catch (error) {
 				event.preventDefault();
+				error2.innerHTML = error;
 				error2.hidden = false;
 			}
 
@@ -1029,6 +1048,7 @@
 				ageNum = checkDogAge(ageNum, "Age");
 			} catch (error) {
 				event.preventDefault();
+				error3.innerHTML = error;
 				error3.hidden = false;
 			}
 
@@ -1038,6 +1058,7 @@
 				colorArr = checkStringArray(colorArr, "Color", 1);
 			} catch (error) {
 				event.preventDefault();
+				error4.innerHTML = error;
 				error4.hidden = false;
 			}
 
@@ -1047,6 +1068,7 @@
 				breedArr = checkStringArray(breedArr, "Breed", 1);
 			} catch (error) {
 				event.preventDefault();
+				error5.innerHTML = error;
 				error5.hidden = false;
 			}
 
@@ -1056,6 +1078,7 @@
 				weightNum = checkWeight(weightNum, "Weight");
 			} catch (error) {
 				event.preventDefault();
+				error6.innerHTML = error;
 				error6.hidden = false;
 			}
 
@@ -1063,6 +1086,7 @@
 				description.value = checkString(description.value, "Description");
 			} catch (error) {
 				event.preventDefault();
+				error7.innerHTML = error;
 				error7.hidden = false;
 			}
 
@@ -1073,6 +1097,7 @@
 					traitArr = checkStringArray(traitArr, "Traits", 0);
 				} catch (error) {
 					event.preventDefault();
+					error8.innerHTML = error;
 					error8.hidden = false;
 				}
 			}
@@ -1084,6 +1109,7 @@
 					medicalArr = checkStringArray(medicalArr, "Medical Info", 0);
 				} catch (error) {
 					event.preventDefault();
+					error9.innerHTML = error;
 					error9.hidden = false;
 				}
 			}
@@ -1095,26 +1121,29 @@
 					vaccineArr = checkStringArray(vaccineArr, "Vaccines", 0);
 				} catch (error) {
 					event.preventDefault();
+					error10.innerHTML = error;
 					error10.hidden = false;
 				}
 			}
 
 			try {
 				if (photo.value === "") throw "Error: No photo uploaded";
-				numPhotos.value = photo.files.length.toString();
-			} catch (error) {
-				event.preventDefault();
-				error11.hidden = false;
-			}
-			try {
 				if (photo.files.length > 3) throw "Error: Too many photos uploaded";
 				numPhotos.value = photo.files.length.toString();
+				for (let i = 0; i < parseInt(numPhotos.value); i++) {
+					let specificPhoto = photo.files[i];
+					if (specificPhoto.type !== 'image/jpeg' && specificPhoto.type !== 'image/png') {
+						throw `Error: ${specificPhoto.name} is not the correct file type`;
+					}
+				}
 			} catch (error) {
 				event.preventDefault();
-				error12.hidden = false;
+				error11.innerHTML = error;
+				error11.hidden = false;
 			}
 		});
 	}
+
 	if(commentForm){
 		commentForm.addEventListener("submit", (event) => {
 			let comment = document.getElementById("commentInput");
