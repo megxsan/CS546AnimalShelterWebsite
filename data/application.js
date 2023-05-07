@@ -33,6 +33,7 @@ const exportedMethods = {
 			yard,
 			reasoningExperience
 		);
+		// newApp["accepted"] = false;
 		newApp._id = new ObjectId();
 
 		let userCollection = await users();
@@ -86,12 +87,11 @@ const exportedMethods = {
 		phone,
 		livingAccommodations,
 		children,
-		childrenAges,
 		timeAlone,
 		animals,
-		typeAnimals,
 		yard,
-		reasoningExperience
+		reasoningExperience,
+		// accepted
 	) {
 		let checked = validation.checkAppInputs(
 			userId,
@@ -102,15 +102,13 @@ const exportedMethods = {
 			phone,
 			livingAccommodations,
 			children,
-			childrenAges,
 			timeAlone,
 			animals,
-			typeAnimals,
 			yard,
 			reasoningExperience
 		);
 
-		let result = await get(userId);
+		let result = await this.getApp(userId);
 		//at least 1 thing needs to be updated, else throw an error
 		if (
 			result.firstName === checked.firstName &&
@@ -120,13 +118,12 @@ const exportedMethods = {
 			result.phone === checked.phone &&
 			result.livingAccommodations === checked.livingAccommodations &&
 			result.children === checked.children &&
-			result.childrenAges === checked.childrenAges &&
 			result.timeAlone === checked.timeAlone &&
 			result.animals === checked.animals &&
-			result.typeAnimals === checked.typeAnimals &&
 			result.yard === checked.yard &&
-			result.reasoningExperience === checked.reasoningExperience
-		) {
+			result.reasoningExperience === checked.reasoningExperience 
+			// &&  result.accepted === accepted
+			) {
 			throw `At least 1 input needs to be different than the original band when you update`;
 		}
 		const update = {
@@ -138,19 +135,18 @@ const exportedMethods = {
 			phone: checked.phone,
 			livingAccommodations: checked.livingAccommodations,
 			children: checked.children,
-			childrenAges: checked.childrenAges,
+			// childrenAges: checked.childrenAges,
 			timeAlone: checked.timeAlone,
-			animals: checked,
-			animals,
-			typeAnimals: checked.typeAnimals,
+			animals: checked.animals,
 			yard: checked.yard,
-			reasoningExperience: checked.reasoningExperience,
+			reasoningExperience: checked.reasoningExperience
+			// accepted: true
 		};
 		//find the user and update it; throw error if this doesn't happen
 		const userCollection = await users();
 		const updatedUser = await userCollection.findOneAndUpdate(
-			{ _id: new ObjectId(id) },
-			{ $set: update },
+			{ _id: new ObjectId(userId) },
+			{ $set: {application: update} },
 			{ returnDocument: "after" }
 		);
 		if (updatedUser.lastErrorObject.n === 0)
@@ -198,7 +194,7 @@ const exportedMethods = {
 			throw `Error: Application could not be updated`;
 		return `${appID} is now interested`;
 	},
-	async appStatus(appID, dogID, status) {
+	async appStatus(appID, dogID, userID, status) {
 		//error checking
 		appID = validation.checkId(appID, "Application ID");
 		dogID = validation.checkId(dogID, "Dog ID");
@@ -207,56 +203,110 @@ const exportedMethods = {
 		if (status != "rejected" && status != "pending" && status != "accepted")
 			throw `Status can only be rejected, pending, or accepted.`;
 
-		let application = await getApp(ID);
-		let user = application.userId;
-		let userInfo = await userData.getUserById(user);
+		let application = await this.getApp(userID);
+		let userId = application.userId;
+		let userInfo = await user.getUserById(userId);
 
+		let dogCollection = await dogs();
 		const userCollection = await users();
 		let updated = {};
 
-		if (status === userInfo.pending) {
+		if (status === "pending") {
 			// await userData.updatedUser(userInfo.id, userInfo.firstName, userInfo.lastName, userInfo.age, userInfo.email, userInfo.password);
 			updated = await userCollection.findOneAndUpdate(
-				{ _id: new ObjectId(user) },
+				{ _id: new ObjectId(userId) },
 				{ $push: { pending: dogID } },
 				{ returnDocument: "after" }
 			);
 			if (updated.lastErrorObject.n === 0)
 				throw `Error: Pending could not be updated`;
-		} else if (status === userInfo.accepted) {
-			let index = 0;
-			for (let i = 0; i < userInfo.pending.length; i++) {
-				if (userInfo.pending[i] === dogID) {
-					index = i;
-					break;
-				}
-			}
-			let updatedPending = userInfo.pending.splice(index, 1);
+		} else if (status === "accepted") {
+
+			let doggo = await dog.getDogById(dogID)
+			let updatedPending = (userInfo.pending).filter(e => e != dogID);
 			updated = await userCollection.findOneAndUpdate(
-				{ _id: new ObjectId(user) },
-				{ $push: { accepted: dogID } },
+				{ _id: new ObjectId(userId) },
+				{ $push: { accepted: doggo.name } },
+				{ returnDocument: "after" }
+			);
+			if (updated.lastErrorObject.n === 0)
+				throw `Error: Pending could not be updated`;
+			updated = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(userId) },
 				{ $set: { pending: updatedPending } },
 				{ returnDocument: "after" }
 			);
 			if (updated.lastErrorObject.n === 0)
 				throw `Error: Pending could not be updated`;
+
+			let dogInfo = await dog.getDogById(dogID);
+			let updatedInterest = (dogInfo.interest).filter(e => e._id.toString() != appID);
+
+			let updatedDog = await dogCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogID) },
+				{ $set: { interest: updatedInterest } },
+				{ returnDocument: "after" }
+			);
+			if(updatedDog.lastErrorObject.n === 0) throw `interest cannot be updated`
+			updatedDog = await dogCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogID) },
+				{ $set: { adopted: true } },
+				{ returnDocument: "after" }
+			);
+			if(updatedDog.lastErrorObject.n === 0) throw `interest cannot be updated`
+
+			//now I need to update the dog array for the user that posted the dog
+			let userWithDog = await user.getUserById(dogInfo.userId);
+			let updatedDogArray = (userWithDog.dogs).filter(e => e != dogID);
+			updatedDogArray.push(updatedDog._id);
+			let updatedUserWithDog = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogInfo.userId) },
+				{ $set: { dog: updatedDogArray } },
+				{ returnDocument: "after" }
+			);
+			if(updatedUserWithDog.lastErrorObject.n === 0) throw `dog array cannot be updated`
+			// await dog.removeDog(dogID);
 		} else {
-			let index = 0;
-			for (let i = 0; i < userInfo.pending.length; i++) {
-				if (userInfo.pending[i] === dogID) {
-					index = i;
-					break;
-				}
-			}
-			let updatedPending = userInfo.pending.splice(index, 1);
+			let updatedPending = (userInfo.pending).filter(e => e != dogID);
+			let doggo = await dog.getDogById(dogID)
 			updated = await userCollection.findOneAndUpdate(
-				{ _id: new ObjectId(user) },
-				{ $push: { rejected: dogID } },
+				{ _id: new ObjectId(userId) },
+				{ $push: { rejected: doggo.name } },
+				{ returnDocument: "after" }
+			);
+			if (updated.lastErrorObject.n === 0)
+				throw `Error: Pending could not be updated`;
+
+			updated = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(userId) },
 				{ $set: { pending: updatedPending } },
 				{ returnDocument: "after" }
 			);
 			if (updated.lastErrorObject.n === 0)
 				throw `Error: Pending could not be updated`;
+
+			let dogInfo = await dog.getDogById(dogID);
+
+			let updatedInterest = (dogInfo.interest).filter(e => e._id.toString() != appID);
+
+			let updatedDog = await dogCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogID) },
+				{ $set: { interest: updatedInterest } },
+				{ returnDocument: "after" }
+			);
+			if(updatedDog.lastErrorObject.n === 0) throw `interest cannot be updated`
+
+			//now I need to update the dog array for the user that posted the dog
+			let userWithDog = await user.getUserById(dogInfo.userId);
+			let updatedDogArray = (userWithDog.dogs).filter(e => e != dogID);
+			updatedDogArray.push(updatedDog._id);
+			let updatedUserWithDog = await userCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogInfo.userId) },
+				{ $set: { dog: updatedDogArray } },
+				{ returnDocument: "after" }
+			);
+			if(updatedUserWithDog.lastErrorObject.n === 0) throw `dog array cannot be updated`
+
 		}
 		return updated;
 	},

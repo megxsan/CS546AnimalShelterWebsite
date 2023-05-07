@@ -232,10 +232,13 @@ const exportedMethods = {
 			livingAccommodations,
 			"Living Accommodations"
 		);
-		reasoningExperience = this.checkString(
-			reasoningExperience,
-			"Reasoning and Experience"
-		);
+		// reasoningExperience = this.checkString(
+		// 	reasoningExperience,
+		// 	"Reasoning and Experience"
+		// );
+
+		// reasoningExperience = reasoningExperience.trim();
+		if(reasoningExperience === "") throw `Reasoning Experience cannot be empty`
 		livingAccommodations = livingAccommodations.toLowerCase();
 		if (
 			livingAccommodations != "home" &&
@@ -259,9 +262,11 @@ const exportedMethods = {
 		)
 			throw `invalid value for children`;
 		// if (animals != "0" && animals != "1" && animals != "2" && animals != "3" && animals != "4") throw `invalid value for animals`;
-		if (yard != "yes" && yard != "no") throw `invalid value for yard`;
+		yard = yard.trim().toLowerCase();
+		// if (yard != "yes" && yard != "no") throw `invalid value for yard`;
 
 		let newApp = {
+			userId,
 			firstName,
 			lastName,
 			age,

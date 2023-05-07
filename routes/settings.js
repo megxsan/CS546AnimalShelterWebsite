@@ -20,27 +20,28 @@ router
         // if(!req.session.user){
         //         res.render('error', {title: "Seetings Error", error: "Must be signed in to access statuses"});
         // }
-        let user = await userData.getUserById(req.session.user._id);
-        let pending = [];
-        let accepted = [];
-        let rejected = [];
-
-        for(let i = 0; i < user.pending.length; i++){
-            let dog = await dogData.getDogById(user.pending[i]);
-            pending.push(dog);
+        try{
+            let user = await userData.getUserById(req.session.user._id);
+            let pending = [];
+            let accepted = [];
+            let rejected = [];
+    
+            for(let i = 0; i < user.pending.length; i++){
+                let dog = await dogData.getDogById(user.pending[i]);
+                pending.push(dog);
+            }
+            for(let i = 0; i < user.accepted.length; i++){
+                accepted.push(user.accepted[i]);
+            }
+            for(let i = 0; i < user.rejected.length; i++){
+                accepted.push(user.rejected[i]);
+            }
+            res.render('pages/myaccount', {title: "Status", signedIn: signedIn, pending: pending, accepted: accepted, rejected: rejected});
+        }catch(e){
+            console.log(e)
         }
 
-        for(let i = 0; i < user.accepted.length; i++){
-            let dog = await dogData.getDogById(user.accepted[i]);
-            accepted.push(dog);
-        }
-
-        for(let i = 0; i < user.rejected.length; i++){
-            let dog = await dogData.getDogById(rejected.pending[i]);
-            rejected.push(dog);
-        }
-        res.render('pages/myaccount', {title: "Status", signedIn: signedIn, pending: pending, accepted: accepted, rejected: rejected});
-        });
+    });
 router
 	.route("/get")
 	.get(async (req, res) => {

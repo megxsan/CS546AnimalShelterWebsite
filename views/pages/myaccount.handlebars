@@ -9,12 +9,14 @@
 		<br />
 		Accepted:
 		{{#each accepted}}
-			<p><a href="/dogs/{{_id}}">{{name}}</a></p>
+			{{!-- <p><a href="/dogs/{{_id}}">{{name}}</a></p> --}}
+			<p>{{this}}</p>
 		{{/each}}
 		<br />
 		Rejected:
 		{{#each rejected}}
-			<p><a href="/dogs/{{_id}}">{{name}}</a></p>
+			{{!-- <p><a href="/dogs/{{_id}}">{{name}}</a></p> --}}
+			<p>{{name}}</p>
 		{{/each}}
 	</p>
 

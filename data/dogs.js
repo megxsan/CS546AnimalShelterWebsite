@@ -8,6 +8,7 @@ import { DeleteObjectCommand, S3Client} from '@aws-sdk/client-s3';
 import { Transform } from 'stream';
 import * as dotenv from 'dotenv';
 import { userData } from "./index.js";
+import app from "./application.js";
 
 dotenv.config();
 
@@ -360,52 +361,37 @@ const exportedMethods = {
 		let all = await userData.getAllUsers();
 		for(let i = 0; i < all.length; i++){
 			//check liked
-			for(let j = 0; j < all[i].liked.length; j++){
-				if(all[i].liked[j] === id);
-				all[i].liked = all[i].liked.splice(j, 1);
-				j--;
+			let newLiked = all[i].liked.filter(e => e != id);
+			let newDisliked = all[i].disliked.filter(e => e != id);
+			let newPending = all[i].pending.filter(e => e != id);
+				const updateUser = {
+					firstName: all[i].firstName,
+					lastName: all[i].lastName,
+					age: all[i].age,
+					email: all[i].email,
+					password: all[i].password,
+					dogs: all[i].dogs,
+					quizResult: all[i].quizResult,
+					application: all[i].application,
+					accepted: all[i].accepted,
+					pending: newPending,
+					rejected: all[i].rejected,
+					liked: newLiked,
+					disliked: newDisliked,
+				};
+				const updated = await userCollection.findOneAndReplace(
+					{_id: new ObjectId(all[i]._id)},
+					updateUser,
+					{returnDocument: "after"}
+				);
+				if(updated.lastErrorObject.n === 0) throw [404, "Error, Update failed"];
+				updated.value._id = updated.value._id.toString();
 			}
-			//check disliked
-			for(let j = 0; j < all[i].disliked.length; j++){
-				if(all[i].disliked[j] === id);
-				all[i].disliked = all[i].disliked.splice(j, 1);
-				j--;
-			}
-			//check pending
-			for(let j = 0; j < all[i].pending.length; j++){
-				if(all[i].pending[j] === id);
-				all[i].pending = all[i].pending.splice(j, 1);
-				j--;
-			}
-			//now we have go replace the info for that specific user
-			const updatedUser = {
-				firstName: all[i].firstName,
-				lastName: all[i].lastName,
-				age: all[i].age,
-				email: all[i].email,
-				password: all[i].password,
-				dogs: all[i].dogs,
-				quizResult: all[i].quizResult,
-				application: all[i].application,
-				accepted: all[i].accepted,
-				pending: all[i].pending,
-				rejected: all[i].rejected,
-				liked: all[i].liked,
-				disliked: all[i].disliked,
-			};
-
-			//now update them in the database
-			const updated = await userCollection.findOneAndReplace(
-				{_id: new ObjectId(all[i]._id)},
-				updatedUser,
-				{returnDocument: "after"}
-			);
-			if(updated.lastErrorObject.n === 0) throw [404, "Error, Update failed"];
-			updated.value._id = updated.value._id.toString();
-		}
-
 		return `${deletedDog.value.name} has been successfully deleted!`;
+
 	},
+
+
 
 	async getMyDogs(id){
 		id = validation.checkId(id, "User ID");

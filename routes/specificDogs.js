@@ -44,6 +44,7 @@ router.route("/liked").get(async (req, res) => {
 	return res.status(200).render("pages/specificDogs", {
 		title: "Liked Dogs",
 		dogs: dogs,
+		signedIn: true
 	});
 });
 
