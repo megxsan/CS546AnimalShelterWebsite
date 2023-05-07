@@ -1,11 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
-
 	<head>
 		<meta charset="utf-8" />
 		<title>My Site</title>
 		<link rel="stylesheet" href="/public/css/main.css" />
 	</head>
-
 	<body>
 		<nav>
 			<ul class="nav">
@@ -18,15 +17,13 @@
 				{{/if}}
 			</ul>
 		</nav>
-
 		<main>
 			{{#if error}}
 				<p class = 'error'> You must be signed in to like or comment, and you can only like a post once!</p>
 			{{/if}}
-
 			{{{body}}}
 		</main>
 		<script src="../../public/js/form.js"></script>
-
+		<script src="../../public/js/edit-dog-form.js"></script>
 	</body>
 </html>
