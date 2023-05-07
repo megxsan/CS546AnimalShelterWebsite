@@ -2,6 +2,7 @@ import { userData } from "../data/index.js";
 import { dogData } from "../data/index.js";
 import { appData } from "../data/index.js";
 import validation from "../validation.js";
+import xss from 'xss';
 
 import { Router } from "express";
 const router = Router();
@@ -36,30 +37,37 @@ router
                 //error check all of the input
                 quiz.space = quiz.space.trim();
                 if(quiz.space != "apartment" && quiz.space != "houseB" && quiz.space != "houseN") throw `invalid space input`;
+                quiz.space = xss(quiz.space);
 
                 quiz.walks = quiz.walks.trim().toLowerCase();
                 if(quiz.walks != "none" && quiz.walks != "short" && quiz.walks != "long" && quiz.walks != "many") throw `invalid walks input`;
+                quiz.walks = xss(quiz.walks);
 
                 quiz.outside = quiz.outside.toLowerCase().trim();
                 if(quiz.outside != "inside" && quiz.outside != "out" && quiz.outside != "both") throw `invalid outside input`
+                quiz.outside = xss(quiz.outside);
 
                 quiz.fur = quiz.fur.toLowerCase().trim();
                 if(quiz.fur != "noshed" && quiz.fur != "shed" && quiz.fur != "bothshed") throw `invalid shed input`
+                quiz.fur = xss(quiz.fur);
 
                 quiz.size = quiz.size.toLowerCase().trim();
                 if(quiz.size  != "mini" && quiz.size != "small" && quiz.size != "medium" && quiz.size  != "large" && quiz.size  != "xlarge") throw `invalid size input`
-                
+                quiz.size = xss(quiz.size);
+
                 quiz.activity = quiz.activity.toLowerCase().trim();
                 if(quiz.activity != "lazy" && quiz.activity != "physical" && quiz.activity != "activityboth") throw `invalid activity input`
+                quiz.activity = xss(quiz.activity);
 
                 quiz.fam = quiz.fam.toLowerCase().trim();
                 if(quiz.fam != "me" && quiz.fam != "nokid" && quiz.fam != "kid") throw `invalid family input`
+                quiz.fam = xss(quiz.fam);
 
                 quiz.dog = quiz.dog.toLowerCase().trim();
                 if(quiz.dog != "working" && quiz.dog != "herding" && quiz.dog != "hound" && quiz.dog != "sporting" && quiz.dog != "nonsporting" && quiz.dog != "toy" && quiz.dog != "terrier") throw `invalid dog input`
-
+                quiz.dog = xss(quiz.dog);
         }catch(e){
-                res.status(400).render('pages/quiz', {title: "Quiz", signedIn: signedIn})
+                return res.status(400).render('pages/quiz', {title: "Quiz", signedIn: signedIn})
         }
 
         //here are counters to keep track of the quiz results
@@ -213,7 +221,7 @@ router
                 result.push("Terrier Group (Jack Russell Terrier, Border Terrier, Bull Terrier, Irish Terrier, etc)");
         }
 
-        res.render('pages/quizResult', {title: "Quiz Result", result:result, signedIn: signedIn});
+        return res.render('pages/quizResult', {title: "Quiz Result", result:result, signedIn: signedIn});
     });
 
  export default router;

@@ -3,6 +3,7 @@ import { dogData } from "../data/index.js";
 import { appData } from "../data/index.js";
 import validation from "../validation.js";
 import { dogs } from "../config/mongoCollections.js";
+import xss from 'xss';
 
 import { Router } from "express";
 const router = Router();
@@ -94,6 +95,7 @@ router
 	.post(async (req, res) => {
 		if (req.body.commentInput) {
 			let comment = req.body.commentInput;
+			comment = xss(comment);
 			if (!req.session.user) {
 				let dog = {};
 				let user = {};
