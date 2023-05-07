@@ -252,4 +252,20 @@ router
 	return;
 });
 
+router
+	.route("/:dogId/applications")
+	.get(async (req, res) => {
+		if(!req.session.user){
+			return res.render('pages/homepage', {title: "Home"});
+		}else{
+			try{
+				let info = await dogData.getDogById(req.params.dogId);
+				return res.render('pages/applicants', {title: "Applicants", dog: info})
+			}catch(e){
+				return res.status(500).render('pages/homepage', {title: "Home"});
+			}
+
+		}
+});
+
 export default router;
