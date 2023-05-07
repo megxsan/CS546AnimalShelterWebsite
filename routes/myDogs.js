@@ -262,10 +262,17 @@ router
 				let info = await dogData.getDogById(req.params.dogId);
 				return res.render('pages/applicants', {title: "Applicants", dog: info})
 			}catch(e){
-				return res.status(500).render('pages/homepage', {title: "Home"});
+				return res.status(500).render('pages/homepage', {title: "Home", signedIn: true});
 			}
-
+		}
+	})
+	.post(async (req, res) => {
+		if(!req.session.user){
+			return res.render('pages/homepage', {title: "Home", signedIn: true});
+		}else{
+			//this is where we accept/reject the application
 		}
 });
+
 
 export default router;
