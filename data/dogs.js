@@ -386,7 +386,6 @@ const exportedMethods = {
 				);
 				if(updated.lastErrorObject.n === 0) throw [404, "Error, Update failed"];
 				updated.value._id = updated.value._id.toString();
-				await app.appStatus()
 			}
 		return `${deletedDog.value.name} has been successfully deleted!`;
 

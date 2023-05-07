@@ -222,10 +222,11 @@ const exportedMethods = {
 				throw `Error: Pending could not be updated`;
 		} else if (status === "accepted") {
 
+			let doggo = await dog.getDogById(dogID)
 			let updatedPending = (userInfo.pending).filter(e => e != dogID);
 			updated = await userCollection.findOneAndUpdate(
 				{ _id: new ObjectId(userId) },
-				{ $push: { accepted: dogID } },
+				{ $push: { accepted: doggo.name } },
 				{ returnDocument: "after" }
 			);
 			if (updated.lastErrorObject.n === 0)
@@ -247,6 +248,12 @@ const exportedMethods = {
 				{ returnDocument: "after" }
 			);
 			if(updatedDog.lastErrorObject.n === 0) throw `interest cannot be updated`
+			updatedDog = await dogCollection.findOneAndUpdate(
+				{ _id: new ObjectId(dogID) },
+				{ $set: { adopted: true } },
+				{ returnDocument: "after" }
+			);
+			if(updatedDog.lastErrorObject.n === 0) throw `interest cannot be updated`
 
 			//now I need to update the dog array for the user that posted the dog
 			let userWithDog = await user.getUserById(dogInfo.userId);
@@ -258,12 +265,13 @@ const exportedMethods = {
 				{ returnDocument: "after" }
 			);
 			if(updatedUserWithDog.lastErrorObject.n === 0) throw `dog array cannot be updated`
+			// await dog.removeDog(dogID);
 		} else {
 			let updatedPending = (userInfo.pending).filter(e => e != dogID);
-
+			let doggo = await dog.getDogById(dogID)
 			updated = await userCollection.findOneAndUpdate(
 				{ _id: new ObjectId(userId) },
-				{ $push: { rejected: dogID } },
+				{ $push: { rejected: doggo.name } },
 				{ returnDocument: "after" }
 			);
 			if (updated.lastErrorObject.n === 0)

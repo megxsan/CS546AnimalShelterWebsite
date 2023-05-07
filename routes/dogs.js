@@ -250,13 +250,6 @@ router.route("/:dogId/apply").post(async (req, res) => {
 				signedIn: true,
 				applyErr: true,
 			});
-		// }else if(req.session.user._id === app.userId){
-		// 	return res.status(404).render("pages/singledog", {
-		// 		dog: dog,
-		// 		user: user,
-		// 		signedIn: true,
-		// 		own: true
-		// 	});
 		} else {
 			try {
 				await appData.sendApp(
