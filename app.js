@@ -12,10 +12,6 @@ import validation from "./validation.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const staticDir = express.static(__dirname + "/public");
-app.use("/public", staticDir);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
 
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
@@ -45,24 +41,28 @@ Handlebars.registerHelper("includes", function (array, value) {
 	return;
 });
 
-const rewriteUnsupportedBrowserMethods = (req, res, next) => {
-	// If the user posts to the server with a property called _method, rewrite the request's method
-	// To be that method; so if they post _method=PUT you can now allow browsers to POST to a route that gets
-	// rewritten in this middleware to a PUT route
-	if (req.body && req.body._method) {
-		req.method = req.body._method;
-		delete req.body._method;
-	}
+const handlebarsInstance = exphbs.create({
+	defaultLayout: 'main',
+	// Specify helpers which are only registered on this instance.
+	helpers: {
+	  asJSON: (obj, spacing) => {
+		if (typeof spacing === 'number')
+		  return new Handlebars.SafeString(JSON.stringify(obj, null, spacing));
+  
+		return new Handlebars.SafeString(JSON.stringify(obj));
+	  }
+	},
+	partialsDir: ['views/partials/']
+  });
 
-	// let the next middleware run:
-	next();
-};
+app.use(methodOverride("_method"));
 
-app.use("/public", staticDir);
+app.use("public", staticDir);
 app.use("/", express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(rewriteUnsupportedBrowserMethods);
+
+app.engine('handlebars', handlebarsInstance.engine);
 
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
