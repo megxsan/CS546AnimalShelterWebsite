@@ -291,26 +291,24 @@ const exportedMethods = {
 	},
 
 	checkArraysEqual(arr1, arr2){
-		if(arr1.length != arr2.length) return true;
+		if(arr1.length != arr2.length) return false;
 
-		let counter = 0;
-		//make everything lower case
-		for(let i = 0; i < arr1.length; i++){
-			arr1[i] = arr1[i].toLowerCase();
-			arr2[i] = arr2[i].toLowerCase();
+		let arr1Copy = [...arr1];
+		let arr2Copy = [...arr2];
+
+		/* Allow users to change capitalization
+		for(let i = 0; i < arrCopy1.length; i++){
+			arr1Copy[i] = arr1Copy[i].toLowerCase();
+			arr2Copy[i] = arr2Copy[i].toLowerCase();
 		}
+		*/
 
-		//compare all the values within it
-		for(let i = 0; i < arr1.length; i++){
-			if(arr2.includes(arr1[i])){
-				counter++;
+		for(let i = 0; i < arr1Copy.length; i++){
+			if(!arr2Copy.includes(arr1Copy[i])){
+				return false
 			}
 		}
-		let result = false;
-		if(counter === arr1.length){
-			result = true;
-		}
-		return result;
+		return true;
 	},
 	
 	checkNumString(strVal, varName) {

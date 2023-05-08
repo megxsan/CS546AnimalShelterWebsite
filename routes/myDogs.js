@@ -357,18 +357,19 @@ router
 			return;
 		}
 		let formData = data[0];
-		// console.log(formData);
+		let submitData = {};
 		if (formData.deletePhotoInput.trim() !== "") {
 			try {
-				formData.deletePhotoInput = formData.deletePhotoInput.trim()
+				formData.deletePhotoInput = formData.deletePhotoInput.trim();
 				var deletePhotosArr = formData.deletePhotoInput.split(",");
 				for (let i in deletePhotosArr) {
-					checkNumString(deletePhotosArr[i]);
+					validation.checkNumString(deletePhotosArr[i]);
 					let photoNum = parseInt(deletePhotosArr[i]);
 					if (photoNum > parseInt(formData.currentNumPhotos) || photoNum <= 0) throw 'Error: Not a valid photo to delete';
 					deletePhotosArr[i] = photoNum;
 				}
 			} catch (error) {
+				console.log(error);
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
@@ -380,7 +381,6 @@ router
 		}
 		try {
 			if (data.length > 4) throw `Error: Too many photos`;
-			console.log()
 			if (((data.length - 1) + parseInt(formData.currentNumPhotos) - deletePhotosArr.length) > 3) throw `Error: Too many photos`;
 		} catch (error) {
 			for (let i in picArr) {
@@ -404,6 +404,7 @@ router
 				formData.nameInput = validation.checkString(formData.nameInput, "Name");
 				formData.nameInput = validation.checkName(formData.nameInput, "Name");
 				// formData.nameInput = xss(formData.nameInput);
+				submitData["nameInput"] = formData.nameInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -412,7 +413,7 @@ router
 				return;
 			}
 		} else {
-			formData.nameInput = oldDog.name;
+			submitData["nameInput"] = oldDog.name;
 		}
 		if (formData.sexInput.trim() !== "") {
 			try {
@@ -420,6 +421,7 @@ router
 				formData.sexInput = validation.checkSex(formData.sexInput, "Sex");
 				// formData.sexInput = xss(formData.sexInput);
 
+				submitData["sexInput"] = formData.sexInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -428,7 +430,7 @@ router
 				return;
 			}
 		} else {
-			formData.sexInput = oldDog.sex;
+			submitData["sexInput"] = oldDog.sex;
 		}
 		if (formData.ageInput.trim() !== "") {
 			try {
@@ -436,6 +438,7 @@ router
 				formData.ageInput = parseInt(formData.ageInput)
 				formData.ageInput = validation.checkDogAge(formData.ageInput, "Age");
 				// formData.ageInput = xss(formData.ageInput);
+				submitData["ageInput"] = formData.ageInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -444,7 +447,7 @@ router
 				return;
 			}
 		} else {
-			formData.ageInput = oldDog.age;
+			submitData["ageInput"] = oldDog.age;
 		}
 		if (formData.colorInput.trim() !== "") {
 			try {
@@ -453,6 +456,7 @@ router
 				formData.colorInput = validation.checkStringArray(formData.colorInput, "Color", 1);
 				// formData.colorInput = xss(formData.colorInput);
 				// console.log(formData.colorInput);
+				submitData["colorInput"] = formData.colorInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -461,7 +465,7 @@ router
 				return;
 			}
 		} else {
-			formData.colorInput = oldDog.color;
+			submitData["colorInput"] = oldDog.color;
 		}
 		if (formData.breedInput.trim() !== "") {
 			try {
@@ -469,6 +473,7 @@ router
 				formData.breedInput = formData.breedInput.split(",");
 				formData.breedInput = validation.checkStringArray(formData.breedInput, "Breeds", 1);
 				// formData.breedInput = xss(formData.breedInput);
+				submitData["breedInput"] = formData.breedInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -477,7 +482,7 @@ router
 				return;
 			}
 		} else {
-			formData.breedInput = oldDog.breeds;
+			submitData["breedInput"] = oldDog.breeds;
 		}
 		if (formData.weightInput.trim() !== "") {
 			try {
@@ -485,6 +490,7 @@ router
 				formData.weightInput = parseInt(formData.weightInput)
 				formData.weightInput = validation.checkWeight(formData.weightInput, "Weight");
 				// formData.weightInput = xss(formData.weightInput);
+				submitData["weightInput"] = formData.weightInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -493,12 +499,13 @@ router
 				return;
 			}
 		} else {
-			formData.weightInput = oldDog.weight;
+			submitData["weightInput"] = oldDog.weight;
 		}
 		if (formData.descriptionInput.trim() !== "") {
 			try {
 				formData.descriptionInput = validation.checkString(formData.descriptionInput, "Description");
 				// formData.descriptionInput = xss(formData.descriptionInput);
+				submitData["descriptionInput"] = formData.descriptionInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -507,18 +514,19 @@ router
 				return;
 			}
 		} else {
-			formData.descriptionInput = oldDog.description;
+			submitData["descriptionInput"] = oldDog.description;
 		}
 		if (formData.traitInput.trim() !== "") {
 			try {
 				formData.traitInput = formData.traitInput.trim()
-				if (formData.traitInput === "") {
+				if (formData.traitInput === "" || (formData.traitInput.toLowerCase().trim() === "delete" && oldDog.traits.length === 0)) {
 					formData.traitInput = [];
 				} else {
 					formData.traitInput = formData.traitInput.split(",");
 				}
 				formData.traitInput = validation.checkStringArray(formData.traitInput, "Traits", 0);
 				// formData.traitInput = xss(formData.traitInput);
+				submitData["traitInput"] = formData.traitInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -527,18 +535,19 @@ router
 				return;
 			}
 		} else {
-			formData.traitInput = oldDog.traits;
+			submitData["traitInput"] = oldDog.traits;
 		}
 		if (formData.medicalInput.trim() !== "") {
 			try {
-				formData.medicalInput = formData.medicalInput.trim()
-				if (formData.medicalInput === "") {
+				formData.medicalInput = formData.medicalInput.trim();
+				if (formData.medicalInput === "" || (formData.medicalInput.toLowerCase().trim() === "delete" && oldDog.medicalInfo.length === 0)) {
 					formData.medicalInput = [];
 				} else {
 					formData.medicalInput = formData.medicalInput.split(",");
 				}
 				formData.medicalInput = validation.checkStringArray(formData.medicalInput, "Medical Info", 0);
 				// formData.medicalInput = xss(formData.medicalInput);
+				submitData["medicalInput"] = formData.medicalInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -547,18 +556,19 @@ router
 				return;
 			}
 		} else {
-			formData.medicalInput = oldDog.medicalInfo;
+			submitData["medicalInput"] = oldDog.medicalInfo;
 		}
 		if (formData.vaccineInput.trim() !== "") {
 			try {
 				formData.vaccineInput = formData.vaccineInput.trim()
-				if (formData.vaccineInput === "") {
+				if (formData.vaccineInput === ""  || (formData.vaccineInput.toLowerCase().trim() === "delete" && oldDog.vaccines.length === 0)) {
 					formData.vaccineInput = [];
 				} else {
 					formData.vaccineInput = formData.vaccineInput.split(",");
 				}
 				formData.vaccineInput = validation.checkStringArray(formData.vaccineInput, "Vaccines", 0);
 				// formData.vaccineInput = xss(formData.vaccineInput);
+				submitData["vaccineInput"] = formData.vaccineInput;
 			} catch (error) {
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -567,10 +577,11 @@ router
 				return;
 			}
 		} else {
-			formData.vaccineInput = oldDog.vaccines;
+			submitData["vaccineInput"] = oldDog.vaccines;
 		}
 		for (let i in deletePhotosArr) {
 			let deletedPhoto = await dogData.deletePhoto(oldDog.pictures[deletePhotosArr[i] - 1].key);
+			oldDog.pictures.splice(deletePhotosArr[i] - 1, 1);
 		}
 		picArr = oldDog.pictures.concat(picArr);
 		try {
@@ -586,9 +597,20 @@ router
 				validation.checkArraysEqual(formData.traitInput, oldDog.traits) &&
 				validation.checkArraysEqual(formData.medicalInput, oldDog.medicalInfo) && 
 				validation.checkArraysEqual(formData.vaccineInput, oldDog.vaccines)) {
+			if ((formData.nameInput !== "" && formData.nameInput === oldDog.name) ||
+				(formData.sexInput !== "" && formData.sexInput === oldDog.sex) ||
+				(formData.ageInput !== "" && formData.ageInput === oldDog.age) ||
+				(formData.colorInput.length !== 0 && validation.checkArraysEqual(formData.colorInput, oldDog.color)) ||
+				(formData.breedInput.length !== 0 && validation.checkArraysEqual(formData.breedInput, oldDog.breeds)) ||
+				(formData.weightInput !== "" && formData.weightInput === oldDog.weight) ||
+				(formData.descriptionInput !== "" && formData.descriptionInput === oldDog.description) ||
+				(formData.traitInput.length !== 0 && validation.checkArraysEqual(formData.traitInput, oldDog.traits)) ||
+				(formData.medicalInput.length !== 0 && validation.checkArraysEqual(formData.medicalInput, oldDog.medicalInfo)) ||
+				(formData.vaccineInput.length !== 0 && validation.checkArraysEqual(formData.vaccineInput, oldDog.vaccines))) {
 					throw 'Error: Form item must be different from the original'
 				}
-		} catch (error) {
+			} 
+		}catch (error) {
 			res.status(400).render("pages/editDog", {
 				dog: oldDog,
 				signedIn: signedIn,
@@ -598,6 +620,7 @@ router
 			});
 			return;
 		}
+		/*
 		try {
 			if ((oldDog.traits === [] && formData.traitInput[0].toLowerCase === "delete" && formData.traitInput.length === 1) &&
 				(oldDog.medicalInfo === [] && formData.medicalInput[0].toLowerCase === "delete" && formData.medicalInput.length === 1) &&
@@ -614,10 +637,10 @@ router
 			});
 			return;
 		}
+		*/
 		try {
-			var editDog = await dogData.updateDog(formData.nameInput, formData.sexInput, formData.ageInput, formData.colorInput, formData.breedInput, formData.weightInput, formData.descriptionInput, formData.traitInput, formData.medicalInput, formData.vaccineInput, picArr, req.params.dogId);
+			var editDog = await dogData.updateDog(submitData.nameInput, submitData.sexInput, submitData.ageInput, submitData.colorInput, submitData.breedInput, submitData.weightInput, submitData.descriptionInput, submitData.traitInput, submitData.medicalInput, submitData.vaccineInput, picArr, req.params.dogId);
 		} catch (error) {
-			console.log(error);
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}

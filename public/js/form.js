@@ -316,13 +316,12 @@
 				try {
 					deletePhotos.value = deletePhotos.value.trim()
 					var deletePhotosArr = deletePhotos.value.split(",");
-					alert(deletePhotosArr)
 					for (let i in deletePhotosArr) {
 						checkNumString(deletePhotosArr[i]);
 						let photoNum = parseInt(deletePhotosArr[i]);
 						if (photoNum > parseInt(currentNumPhotos.value) || photoNum <= 0) throw 'Error: Not a valid photo to delete';
 					}
-					if (parseInt(currentNumPhotos.value) - deletePhotosArr.length <= 0) throw 'Error: Must have at least one photo';
+					if (photo.files.length + parseInt(currentNumPhotos.value) - deletePhotosArr.length <= 0) throw 'Error: Must have at least one photo';
 				} catch (error) {
 					event.preventDefault();
 					error13.innerHTML = error;
