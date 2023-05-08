@@ -4,7 +4,7 @@
 	<address>Owner: {{user.firstName}} {{user.lastName}}</address>
 
 	{{#each dog.pictures}}
-		<img src="{{url}}" alt="dog"/>
+		<img src="{{url}}" alt="dog" />
 	{{/each}}
 
 	<h3>Sex:</h3>
@@ -23,6 +23,9 @@
 			<li>{{this}}</li>
 		{{/each}}
 	</ul>
+
+	<h3>Age:</h3>
+	<p>{{dog.age}}</p>
 
 	<h3>Weight:</h3>
 	<p>{{dog.weight}}</p>
@@ -59,22 +62,35 @@
 
 	<h3>Likes:</h3>
 	<p id="numLikes">{{dog.likes}}</p>
-	<form id="like-form" method="post">
-		<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden>
-		<button type="submit" id="liked" value="liked">Like Post</button>
-	</form>	
-
-
-	{{!-- {{#if error}}
+	<!-- You must be signed in to like and comment -->
+	{{#if signedIn}}
+		<!-- You cannot like your own dog -->
+		{{#if (includes currUser.dogs dog._id)}}{{else}}
+			{{#if (includes currUser.liked dog._id)}}
+				<form id="like-form" method="post">
+					<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden />
+					<input id="isLiked" value="true" name="isLiked" hidden />
+					<button type="submit" id="liked" value="liked">Unlike Post</button>
+				</form>
+			{{else}}
+				<form id="like-form" method="post">
+					<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden />
+					<input id="isLiked" value="false" name="isLiked" hidden />
+					<button type="submit" id="liked" value="liked">Like Post </button>
+				</form>
+			{{/if}}
+		{{/if}}
+		{{!-- {{#if error}}
 		<p>You must be signed in to like or comment!</p>
 	{{/if}} --}}
-	<form id="comment-form" method="post">
-		<label for="commentInput" id="comment">Post a comment here!</label>
-		<p id="popup" class="error" hidden>A comment cannot be empty!</p>
-		<input id="commentInput" type="text" name="commentInput">
-		<br>
-		<button type="submit">Submit</button>
-	</form>
+		<form id="comment-form" method="post">
+			<label for="commentInput" id="comment">Post a comment here!</label>
+			<p id="popup" class="error" hidden>A comment cannot be empty!</p>
+			<input id="commentInput" type="text" name="commentInput" />
+			<br />
+			<button type="submit">Submit</button>
+		</form>
+	{{/if}}
 
 	<h3>Comments:</h3>
 	{{#each dog.comments}}
@@ -82,13 +98,30 @@
 	{{/each}}
 
 	{{#if applyErr}}
-		<p>You either are not signed in, do not have a filled out application,
-			you have already applied to this dog, or you own this dog.</p>
+		<p>You either are not signed in, do not have a filled out application, you
+			have already applied to this dog, or you own this dog.</p>
 	{{/if}}
-	<h3>Apply for this dog:</h3>
-	<form id="apply-form" method="post" action="/dogs/{{dog._id}}/apply">
-		<button type="submit" id="apply">Apply Now!</button>
-	</form>
+	<!-- Must be signed in to apply -->
+	{{#if signedIn}}
+		<!-- Must not be your own dog to apply -->
+		{{#if (includes currUser.dogs dog._id)}}{{else}}
+			<!-- Cannot be currently applied, rejected, or accepted -->
+			{{#if (includes currUser.pending dog._id)}}{{else}}
+				{{#if (includes currUser.accepted dog._id)}}{{else}}
+					{{#if (includes currUser.rejected dog._id)}}{{else}}
+						<h3>Apply for this dog:</h3>
+						<form
+							id="apply-form"
+							method="post"
+							action="/dogs/{{dog._id}}/apply"
+						>
+							<button type="submit" id="apply">Apply Now!</button>
+						</form>
+					{{/if}}
+				{{/if}}
+			{{/if}}
+		{{/if}}
+	{{/if}}
 
 	{{#if signedIn}}
 		{{#if (includes currUser.disliked dog._id)}}

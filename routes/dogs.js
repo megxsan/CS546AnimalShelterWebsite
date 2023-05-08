@@ -3,7 +3,7 @@ import { dogData } from "../data/index.js";
 import { appData } from "../data/index.js";
 import validation from "../validation.js";
 import { dogs } from "../config/mongoCollections.js";
-import xss from 'xss';
+import xss from "xss";
 
 import { Router } from "express";
 const router = Router();
@@ -93,6 +93,14 @@ router
 		}
 	})
 	.post(async (req, res) => {
+		let signedIn = true;
+		if (!req.session.user) {
+			signedIn = false;
+		}
+		let currUser = {};
+		if (signedIn) {
+			currUser = await userData.getUserById(req.session.user._id);
+		}
 		if (req.body.commentInput) {
 			let comment = req.body.commentInput;
 			comment = xss(comment);
@@ -112,6 +120,7 @@ router
 					user: user,
 					signedIn: false,
 					error: true,
+					currUser: currUser,
 				});
 			}
 			comment = comment.trim();
@@ -129,6 +138,7 @@ router
 						dog: dog,
 						user: user,
 						signedIn: true,
+						currUser: currUser,
 					});
 				}
 				dog = await dogData.getDogById(req.params.dogId);
@@ -139,6 +149,7 @@ router
 			}
 		} else if (req.body.likeValue) {
 			let likes = req.body.likeValue;
+			let isLiked = req.body.isLiked;
 			if (!req.session.user) {
 				let dog = {};
 				let user = {};
@@ -155,28 +166,46 @@ router
 					user: user,
 					signedIn: false,
 					error: true,
+					currUser: currUser,
 				});
 			} else {
 				let dog = await dogData.getDogById(req.params.dogId);
 				let user = await userData.getUserById(dog.userId);
 				try {
-					let added = await dogData.addLike(
-						req.params.dogId,
-						req.session.user._id
-					);
-					dog = await dogData.getDogById(req.params.dogId);
-					user = await userData.getUserById(dog.userId);
-					res.render("pages/singledog", {
-						dog: dog,
-						user: user,
-						signedIn: true,
-					});
+					if (isLiked === "false") {
+						let added = await dogData.addLike(
+							req.params.dogId,
+							req.session.user._id
+						);
+						dog = await dogData.getDogById(req.params.dogId);
+						user = await userData.getUserById(dog.userId);
+						res.render("pages/singledog", {
+							dog: dog,
+							user: user,
+							signedIn: true,
+							currUser: currUser,
+						});
+					} else {
+						let removed = await dogData.removeLike(
+							req.params.dogId,
+							req.session.user._id
+						);
+						dog = await dogData.getDogById(req.params.dogId);
+						user = await userData.getUserById(dog.userId);
+						res.render("pages/singledog", {
+							dog: dog,
+							user: user,
+							signedIn: true,
+							currUser: currUser,
+						});
+					}
 				} catch (e) {
 					res.status(500).render("pages/singledog", {
 						dog: dog,
 						user: user,
 						signedIn: true,
 						error: true,
+						currUser: currUser,
 					});
 				}
 			}
@@ -225,7 +254,9 @@ router
 router.route("/:dogId/apply").post(async (req, res) => {
 	let dog = {};
 	let user = {};
+	let signedIn = true;
 	if (!req.session.user) {
+		signedIn = false;
 		try {
 			dog = await dogData.getDogById(req.params.dogId);
 			user = await userData.getUserById(dog.userId);
@@ -237,10 +268,14 @@ router.route("/:dogId/apply").post(async (req, res) => {
 		return res.status(404).render("pages/singledog", {
 			dog: dog,
 			user: user,
-			signedIn: false,
+			signedIn: signedIn,
 			applyErr: true,
 		});
 	} else {
+		let currUser = {};
+		if (signedIn) {
+			currUser = await userData.getUserById(req.session.user._id);
+		}
 		let applicant = await userData.getUserById(req.session.user._id);
 		let dog = await dogData.getDogById(req.params.dogId);
 		let user = await userData.getUserById(dog.userId);
@@ -249,8 +284,9 @@ router.route("/:dogId/apply").post(async (req, res) => {
 			return res.status(404).render("pages/singledog", {
 				dog: dog,
 				user: user,
-				signedIn: true,
+				signedIn: signedIn,
 				applyErr: true,
+				currUser: currUser,
 			});
 		} else {
 			try {
@@ -271,6 +307,7 @@ router.route("/:dogId/apply").post(async (req, res) => {
 					user: user,
 					signedIn: true,
 					applyErr: true,
+					currUser: currUser,
 				});
 			}
 		}
