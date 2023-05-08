@@ -1,11 +1,13 @@
-<!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8">
-		<title>My Site</title>
-		<link rel="stylesheet" href="/public/css/main.css">
+		<meta charset="utf-8" />
+		<title>Adorable Animal Adoption Agency</title>
+		<link rel="stylesheet" href="/public/css/main.css" />
 	</head>
 	<body>
+		<header>
+			<h1>Adorable Animal Adoption Agency</h1>
+		</header>
 		<nav>
 			<ul class="nav">
 				<li class="navlist"><a href="/">Main Page</a></li>
@@ -19,13 +21,15 @@
 		</nav>
 		<main>
 			{{#if error}}
-				<p class = 'error'> You must be signed in to like or comment, and you can only like a post once!</p>
+				<p class="error">
+					You must be signed in to like or comment, and you can only like a post
+					once!</p>
 			{{/if}}
 
 			{{#if own}}
-				<p class = 'error'>You can't apply to your own dog!</p>
+				<p class="error">You can't apply to your own dog!</p>
 			{{/if}}
-			
+
 			{{{body}}}
 		</main>
 		<script src="/../../public/js/form.js"></script>

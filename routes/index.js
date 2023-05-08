@@ -16,7 +16,7 @@ const constructorMethod = (app) => {
 	app.use("/account/specificDogs", specificDogsRoutes);
 
 	app.use("*", (req, res) => {
-		res.redirect("/");
+		res.status(400).redirect("/");
 	});
 };
 

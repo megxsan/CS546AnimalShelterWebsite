@@ -30,7 +30,7 @@
 			{{#if ../signedIn}}
 				{{#if (includes ../user.disliked _id)}}
 				{{else}}
-					{{#if (includes ../user.rejected _id)}}
+					{{#if (includes ../user.rejected name)}}
 					{{else}}
 						<article id="{{_id}}" class="dog">
 							<h2><a href="/dogs/{{_id}}">{{name}}</a></h2>
