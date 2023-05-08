@@ -21,13 +21,11 @@ Handlebars.registerHelper("includes", function (array, value) {
 		try {
 			array = validation.checkStringArray(array, "includes array", 0);
 		} catch (error) {
-			console.log(error);
 			return;
 		}
 		try {
 			value = validation.checkString(value.toString(), "includes value");
 		} catch (error) {
-			console.log(error);
 			return;
 		}
 		let i = false;
