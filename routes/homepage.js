@@ -43,7 +43,6 @@ router
 		if (!req.session.user) {
 			signedIn = false;
 		}
-		console.log(req.method);
 		let info = req.body;
 		req.body = {};
 		let dogCollection = await dogs();
@@ -69,7 +68,6 @@ router
 			}
 			obj.breeds = { $in: breedsArray };
 		}
-		//console.log(info);
 		let min = parseInt(info.weightinput[0]);
 		let max = parseInt(info.weightinput[1]);
 		obj.weight = { $gte: min, $lte: max };
@@ -300,7 +298,5 @@ router
 			signedIn: signedIn,
 		});
 	})
-	.post(async (req, res) => {
-		console.log(req.body);
-	});
+	.post(async (req, res) => {});
 export default router;

@@ -21,7 +21,8 @@
 		if (strVal.length === 0)
 			throw `Error: ${varName} cannot be an empty string or string with just spaces`;
 		let regExp = /^\d+$/;
-		if(!regExp.test(strVal)) throw `Error: ${strVal} is not a valid value for ${varName} as it contains letters`;
+		if (!regExp.test(strVal))
+			throw `Error: ${strVal} is not a valid value for ${varName} as it contains letters`;
 		return strVal;
 	}
 
@@ -131,7 +132,7 @@
 	const ignoreForm = document.getElementById("ignore-form");
 	const commentForm = document.getElementById("comment-form");
 	const applyForm = document.getElementById("apply-form");
-	const editDogForm = document.getElementById("edit-dog-form"); 
+	const editDogForm = document.getElementById("edit-dog-form");
 
 	if (editDogForm) {
 		editDogForm.addEventListener("submit", (event) => {
@@ -180,20 +181,22 @@
 			error13.hidden = true;
 			emptyError.hidden = true;
 
-			if (name.value.trim() === "" && 
-				sex.value.trim() === "" && 
-				age.value.trim() === "" && 
-				color.value.trim() === "" && 
+			if (
+				name.value.trim() === "" &&
+				sex.value.trim() === "" &&
+				age.value.trim() === "" &&
+				color.value.trim() === "" &&
 				breed.value.trim() === "" &&
-				weight.value.trim() === "" && 
-				description.value.trim() === "" && 
-				trait.value.trim() === "" && 
-				medical.value.trim() === "" && 
-				vaccine.value.trim() === "" && 
-				photo.value.trim() === "" && 
-				deletePhotos.value.trim() === "") {
-					event.preventDefault();
-					emptyError.hidden = false;
+				weight.value.trim() === "" &&
+				description.value.trim() === "" &&
+				trait.value.trim() === "" &&
+				medical.value.trim() === "" &&
+				vaccine.value.trim() === "" &&
+				photo.value.trim() === "" &&
+				deletePhotos.value.trim() === ""
+			) {
+				event.preventDefault();
+				emptyError.hidden = false;
 			}
 			if (name.value.trim() !== "") {
 				try {
@@ -309,19 +312,26 @@
 					error10.hidden = false;
 				}
 			}
-			
+
 			numPhotos.value = photo.files.length.toString();
 
 			if (deletePhotos.value.trim() !== "") {
 				try {
-					deletePhotos.value = deletePhotos.value.trim()
+					deletePhotos.value = deletePhotos.value.trim();
 					var deletePhotosArr = deletePhotos.value.split(",");
 					for (let i in deletePhotosArr) {
 						checkNumString(deletePhotosArr[i]);
 						let photoNum = parseInt(deletePhotosArr[i]);
-						if (photoNum > parseInt(currentNumPhotos.value) || photoNum <= 0) throw 'Error: Not a valid photo to delete';
+						if (photoNum > parseInt(currentNumPhotos.value) || photoNum <= 0)
+							throw "Error: Not a valid photo to delete";
 					}
-					if (photo.files.length + parseInt(currentNumPhotos.value) - deletePhotosArr.length <= 0) throw 'Error: Must have at least one photo';
+					if (
+						photo.files.length +
+							parseInt(currentNumPhotos.value) -
+							deletePhotosArr.length <=
+						0
+					)
+						throw "Error: Must have at least one photo";
 				} catch (error) {
 					event.preventDefault();
 					error13.innerHTML = error;
@@ -332,10 +342,19 @@
 			}
 
 			try {
-				if ((photo.files.length + parseInt(currentNumPhotos.value) - deletePhotosArr.length) > 3) throw "Error: Too many photos uploaded";
+				if (
+					photo.files.length +
+						parseInt(currentNumPhotos.value) -
+						deletePhotosArr.length >
+					3
+				)
+					throw "Error: Too many photos uploaded";
 				for (let i = 0; i < parseInt(numPhotos.value); i++) {
 					let specificPhoto = photo.files[i];
-					if (specificPhoto.type !== 'image/jpeg' && specificPhoto.type !== 'image/png') {
+					if (
+						specificPhoto.type !== "image/jpeg" &&
+						specificPhoto.type !== "image/png"
+					) {
 						throw `Error: ${specificPhoto.name} is not the correct file type`;
 					}
 				}
@@ -645,7 +664,6 @@
 			if (newPassword.value) {
 				try {
 					newPassword.value = checkPassword(newPassword.value, "New Password");
-					console.log(newPassword.value);
 					passErr = false;
 				} catch (e) {
 					newPassword.value = "";
@@ -1131,7 +1149,10 @@
 				numPhotos.value = photo.files.length.toString();
 				for (let i = 0; i < parseInt(numPhotos.value); i++) {
 					let specificPhoto = photo.files[i];
-					if (specificPhoto.type !== 'image/jpeg' && specificPhoto.type !== 'image/png') {
+					if (
+						specificPhoto.type !== "image/jpeg" &&
+						specificPhoto.type !== "image/png"
+					) {
 						throw `Error: ${specificPhoto.name} is not the correct file type`;
 					}
 				}
@@ -1143,7 +1164,7 @@
 		});
 	}
 
-	if(commentForm){
+	if (commentForm) {
 		commentForm.addEventListener("submit", (event) => {
 			let comment = document.getElementById("commentInput");
 			let error = document.getElementById("comment");
@@ -1167,12 +1188,11 @@
 			}
 		});
 	}
-	if(applyForm){
+	if (applyForm) {
 		apply.addEventListener("submit", (event) => {
 			let apply = document.getElementById("apply");
 			apply.value = apply.value.trim().toLowerCase();
-			console.log(apply.value)
-			if(apply.value != applying){
+			if (apply.value != applying) {
 				event.preventDefault();
 			}
 		});
