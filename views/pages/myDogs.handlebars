@@ -1,10 +1,11 @@
 <section>
 	<h1>My Dogs</h1>
 	{{#each dogs}}
-		<article class="dog">
-			<h2><a href="/account/dogs/{{_id}}">{{name}}</a></h2>
-			{{!-- <img src="{{pictures[0]}}" /> --}}
-		</article>
+		{{#if name}}
+			<article class="dog">
+				<h2><a class="myDog" href="/account/dogs/{{_id}}">{{name}}</a></h2>
+			</article>
+		{{/if}}
 	{{/each}}
 	<a href="/account/dogs/add">Create Dog Post</a>
 </section>
