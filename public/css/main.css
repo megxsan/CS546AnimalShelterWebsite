@@ -115,3 +115,8 @@ p{
 address{
     color:white;
 }
+
+error1 {
+    color: #ffdad2;
+    background-color: #0e7075;
+}
