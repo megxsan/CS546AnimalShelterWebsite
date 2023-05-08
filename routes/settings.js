@@ -38,7 +38,7 @@ router
             }
             res.render('pages/myaccount', {title: "Status", signedIn: signedIn, pending: pending, accepted: accepted, rejected: rejected});
         }catch(e){
-            console.log(e)
+            res.redirect("../");
         }
 
     });

@@ -40,7 +40,7 @@ router
                 signedIn = false;
         }
         if(!req.session.user._id){
-                res.render('error', {title: "Application Error", error: "Must be signed in to edit an application"});
+                res.render('pages/homepage', {title: "HomePage", signedIn:false});
         }
         res.render('pages/updateApp', {tite:"Editing Application Page", user: req.session.user._id, signedIn: signedIn});
         })

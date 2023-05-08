@@ -17,10 +17,8 @@ router.route("/").get(async (req, res) => {
                 -Seeing all your dogs
         */
 	if (!req.session.user._id) {
-		res.render("error", {
-			title: "Dog Error",
-			error: "Must be signed in to access your dogs",
-		});
+		// return res.render('pages/homepage', {title: "Home", signedIn:false})
+		res.status(401).redirect("../")
 	}
 	try {
 		let dogs = await dogData.getMyDogs(req.session.user._id);
@@ -30,7 +28,7 @@ router.route("/").get(async (req, res) => {
 			signedIn: signedIn,
 		});
 	} catch (e) {
-		res.status(500).render("error", { title: "MyDogs Error", error: e });
+		res.status(500).render("pages/myDogs", { title: "MyDogs Error", signedIn: true});
 	}
 });
 
@@ -45,15 +43,13 @@ router
 			signedIn = false;
 		}
 		if (!req.session.user._id) {
-			res.render("error", {
-				title: "Dog Error",
-				error: "Must be signed in to post your dog",
-			});
+			// return res.render('pages/homepage', {title: "Home", signedIn:false})
+			res.status(401).redirect("../")
 		}
 		try {
 			res.render("pages/addDog", { title: "Add Dog", signedIn: signedIn });
 		} catch (error) {
-			res.status(500).render("error", { title: "Add Dog Error", error: e });
+			res.status(500).render("pages/addDog", { title: "Add Dog", signedIn: signedIn });
 		}
 	})
 	.post(async (req, res) => {
@@ -65,7 +61,7 @@ router
 				signedIn = false;
 		}
 		if(!req.session.user._id){
-				res.render('error', {title: "Dog Error", error: "Must be signed in to post your dog"});
+				res.status(401).render('error', {title: "Dog Error", error: "Must be signed in to post your dog"});
 				return;
 		}
 		try {
@@ -88,7 +84,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -97,7 +93,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -106,7 +102,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render('error', {title: "Add Dog Error", error: error});
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		let formData = data[0]
@@ -118,7 +114,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -129,7 +125,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -143,7 +139,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -155,7 +151,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -167,7 +163,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -180,7 +176,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -190,7 +186,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -206,7 +202,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -223,7 +219,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -240,7 +236,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		try {
@@ -250,7 +246,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Add Dog Error", error: error });
+			res.status(400).render("pages/addDog", { title: "Add Dog Error", error: error, signedIn: true});
 			return;
 		}
 		res.redirect(`/account/dogs/${newDog._id}`);
@@ -266,13 +262,13 @@ router.route("/:dogId")
 		try {
 			req.params.dogId = validation.checkId(req.params.dogId, "Dog ID");
 		} catch (e) {
-			res.status(400).render("error", { title: "DogID Error", error: e });
+			res.status(400).render("pages/myDogs", { title: "DogID Error", error: e, signedIn: true});
 		}
 		let dog = {};
 		try {
 			dog = await dogData.getDogById(req.params.dogId);
 		} catch (e) {
-			res.status(404).render("error", { title: "DogID Error", error: e });
+			res.status(400).render("pages/myDogs", { title: "DogID Error", error: e, signedIn: true});
 		}
 		// TO DO: Check if user is owner of dog
 		res.status(200).render("pages/mySingleDog", {
@@ -295,13 +291,13 @@ router
 		try {
 			req.params.dogId = validation.checkId(req.params.dogId, "Dog ID");
 		} catch (e) {
-			res.status(400).render("error", { title: "DogID Error", error: e });
+			res.status(400).render("pages/error", { title: "DogID Error", error: e, signedIn: signedIn});
 		}
 		let dog = {};
 		try {
 			dog = await dogData.getDogById(req.params.dogId);
 		} catch (e) {
-			res.status(404).render("error", { title: "DogID Error", error: e });
+			res.status(404).render("pages/error", { title: "DogID Error", error: e, signedIn: signedIn});
 		}
 		for (let i in dog.pictures) {
 			dog.pictures[i]["index"] = i;
@@ -326,13 +322,13 @@ router
 				signedIn = false;
 		}
 		if(!req.session.user._id){
-				res.render('error', {title: "Dog Error", error: "Must be signed in to post your dog"});
+				res.render('error', {title: "Dog Error", signedIn: signedIn, error: "Must be signed in to post your dog"});
 				return;
 		}
 		try {
 			var data = await dogData.uploadPhoto(req);
 		} catch (error) {
-			res.status(500).render('error', {title: "Server Error", error: error});
+			res.status(500).render('error', {title: "Server Error", signedIn: signedIn, error: error});
 			return;
 		}
 		let picArr = [];
@@ -349,7 +345,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Edit Dog Error", error: error });
+			res.status(400).render("pages/error", { title: "Edit Dog Error", signedIn: signedIn, error: error });
 			return;
 		}
 		try {
@@ -358,7 +354,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Edit Dog Error", error: error });
+			res.status(400).render("pages/error", { title: "Edit Dog Error", signedIn: signedIn,  error: error });
 			return;
 		}
 		let formData = data[0];
@@ -374,11 +370,11 @@ router
 					deletePhotosArr[i] = photoNum;
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Edit Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Edit Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -391,13 +387,13 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render('error', {title: "Edit Dog Error", error: error});
+			res.status(400).render('error', {title: "Edit Dog Error", signedIn: signedIn, error: error});
 			return;
 		}
 		try {
 			var oldDog = await dogData.getDogById(req.params.dogId);
 		} catch (error) {
-			res.status(400).render("error", { title: "Edit Dog Error", error: error });
+			res.status(400).render("pages/error", { title: "Edit Dog Error", signedIn: signedIn, error: error });
 			return;
 		}
 		let isFemale = false;
@@ -414,7 +410,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Edit Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Edit Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -431,7 +427,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Add Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Add Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -448,7 +444,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Add Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Add Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -465,7 +461,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Add Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Add Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -482,7 +478,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Add Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Add Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -499,7 +495,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Add Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Add Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -514,7 +510,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Add Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Add Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -535,7 +531,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Add Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Add Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -556,7 +552,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Add Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Add Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -577,7 +573,7 @@ router
 				for (let i in picArr) {
 					let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 				}
-				res.status(400).render("error", { title: "Add Dog Error", error: error });
+				res.status(400).render("pages/error", { title: "Add Dog Error", signedIn: signedIn, error: error });
 				return;
 			}
 		} else {
@@ -646,7 +642,7 @@ router
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
-			res.status(400).render("error", { title: "Edit Dog Error", error: error });
+			res.status(400).render("pages/error", { title: "Edit Dog Error", signedIn: signedIn, error: error });
 			return;
 		}
 		res.redirect(`/account/dogs/${req.params.dogId}`);
@@ -664,17 +660,12 @@ router
 			signedIn = false;
 		}
 		if (!req.session.user._id) {
-			res.render("error", {
-				title: "Dog Delete Error",
-				error: "Must be signed in to delete your dog",
-			});
-			return;
+			return res.status(401).render('pages/homepage', {title: "Home", signedIn:false})
 		}
 		try {
 			let deletedDog = await dogData.removeDog(req.params.dogId);
 		} catch (e) {
-			console.log(e)
-			// res.status(404).render("error", { title: "Dog Delete Error", error: e });
+			res.status(404).render("pages/error", { title: "Dog Delete Error", signedIn: signedIn, error: e });
 			return;
 		}
 		res.redirect("/account/dogs");
@@ -685,7 +676,7 @@ router
 	.route("/:dogId/applications")
 	.get(async (req, res) => {
 		if(!req.session.user){
-			return res.render('pages/homepage', {title: "Home", signedIn: false});
+			return res.status(401).render('pages/homepage', {title: "Home", signedIn: false});
 		}else{
 			try{
 				let info = await dogData.getDogById(req.params.dogId);		
@@ -697,7 +688,7 @@ router
 	})
 	.post(async (req, res) => {
 		if(!req.session.user){
-			return res.render('pages/homepage', {title: "Home", signedIn: true});
+			return res.status(401).render('pages/homepage', {title: "Home", signedIn: true});
 		}else{
 			//this is where we accept/reject the application
 			let user = await userData.getUserById(req.body.userId);
