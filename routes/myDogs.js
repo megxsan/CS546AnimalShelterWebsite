@@ -113,7 +113,7 @@ router
 		try {
 			formData.nameInput = validation.checkString(formData.nameInput, "Name");
 			formData.nameInput = validation.checkName(formData.nameInput, "Name");
-			// formData.nameInput = xss(formData.nameInput);
+			formData.nameInput = xss(formData.nameInput);
 		} catch (error) {
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -124,7 +124,7 @@ router
 		try {
 			formData.sexInput = validation.checkString(formData.sexInput, "Sex");
 			formData.sexInput = validation.checkSex(formData.sexInput, "Sex");
-			// formData.sexInput = xss(formData.sexInput);
+			formData.sexInput = xss(formData.sexInput);
 		} catch (error) {
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -136,7 +136,9 @@ router
 			formData.ageInput = formData.ageInput.trim()
 			formData.ageInput = parseInt(formData.ageInput)
 			formData.ageInput = validation.checkDogAge(formData.ageInput, "Age");
-			// formData.ageInput = xss(formData.ageInput);
+			formData.ageInput = xss(formData.ageInput);
+			formData.ageInput = parseInt(formData.ageInput)
+
 		} catch (error) {
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -146,9 +148,9 @@ router
 		}
 		try {
 			formData.colorInput = formData.colorInput.trim()
+			formData.colorInput = xss(formData.colorInput);
 			formData.colorInput = formData.colorInput.split(",");
 			formData.colorInput = validation.checkStringArray(formData.colorInput, "Color", 1);
-			// formData.colorInput = xss(formData.colorInput);
 		} catch (error) {
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -158,9 +160,9 @@ router
 		}
 		try {
 			formData.breedInput = formData.breedInput.trim()
+			formData.breedInput = xss(formData.breedInput);
 			formData.breedInput = formData.breedInput.split(",");
 			formData.breedInput = validation.checkStringArray(formData.breedInput, "Breeds", 1);
-			// formData.breedInput = xss(formData.breedInput);
 		} catch (error) {
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -170,9 +172,10 @@ router
 		}
 		try {
 			formData.weightInput = formData.weightInput.trim()
+			formData.weightInput = xss(formData.weightInput);
 			formData.weightInput = parseInt(formData.weightInput)
 			formData.weightInput = validation.checkWeight(formData.weightInput, "Weight");
-			// formData.weightInput = xss(formData.weightInput);
+
 		} catch (error) {
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -181,7 +184,8 @@ router
 			return;
 		}
 		try {
-			formData.descriptionInput = validation.checkString(formData.descriptionInput, "Description");;
+			formData.descriptionInput = validation.checkString(formData.descriptionInput, "Description");
+			formData.descriptionInput = xss(formData.descriptionInput);
 		} catch (error) {
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -191,13 +195,13 @@ router
 		}
 		try {
 			formData.traitInput = formData.traitInput.trim()
+			formData.traitInput = xss(formData.traitInput);
 			if (formData.traitInput === "") {
 				formData.traitInput = [];
 			} else {
 				formData.traitInput = formData.traitInput.split(",");
 			}
 			formData.traitInput = validation.checkStringArray(formData.traitInput, "Traits", 0);
-			// formData.traitInput = xss(formData.traitInput);
 		} catch (error) {
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
@@ -207,13 +211,13 @@ router
 		}
 		try {
 			formData.medicalInput = formData.medicalInput.trim()
+			formData.medicalInput = xss(formData.medicalInput);
 			if (formData.medicalInput === "") {
 				formData.medicalInput = [];
 			} else {
 				formData.medicalInput = formData.medicalInput.split(",");
 			}
 			formData.medicalInput = validation.checkStringArray(formData.medicalInput, "Medical Info", 0);
-			// formData.medicalInput = xss(formData.medicalInput);
 
 		} catch (error) {
 			for (let i in picArr) {
@@ -224,13 +228,13 @@ router
 		}
 		try {
 			formData.vaccineInput = formData.vaccineInput.trim()
+			formData.vaccineInput = xss(formData.vaccineInput);
 			if (formData.vaccineInput === "") {
 				formData.vaccineInput = [];
 			} else {
 				formData.vaccineInput = formData.vaccineInput.split(",");
 			}
 			formData.vaccineInput = validation.checkStringArray(formData.vaccineInput, "Vaccines", 0);
-			// formData.vaccineInput = xss(formData.vaccineInput);
 
 		} catch (error) {
 			for (let i in picArr) {
@@ -242,6 +246,7 @@ router
 		try {
 			var newDog = await dogData.addDog(formData.nameInput, formData.sexInput, formData.ageInput, formData.colorInput, formData.breedInput, formData.weightInput, formData.descriptionInput, formData.traitInput, formData.medicalInput, formData.vaccineInput, picArr, req.session.user._id);
 		} catch (error) {
+			console.log(error);
 			for (let i in picArr) {
 				let deletedPhoto = await dogData.deletePhoto(picArr[i].key);
 			}
@@ -403,7 +408,7 @@ router
 			try {
 				formData.nameInput = validation.checkString(formData.nameInput, "Name");
 				formData.nameInput = validation.checkName(formData.nameInput, "Name");
-				// formData.nameInput = xss(formData.nameInput);
+				formData.nameInput = xss(formData.nameInput);
 				submitData["nameInput"] = formData.nameInput;
 			} catch (error) {
 				for (let i in picArr) {
@@ -419,7 +424,7 @@ router
 			try {
 				formData.sexInput = validation.checkString(formData.sexInput, "Sex");
 				formData.sexInput = validation.checkSex(formData.sexInput, "Sex");
-				// formData.sexInput = xss(formData.sexInput);
+				formData.sexInput = xss(formData.sexInput);
 
 				submitData["sexInput"] = formData.sexInput;
 			} catch (error) {
@@ -435,9 +440,9 @@ router
 		if (formData.ageInput.trim() !== "") {
 			try {
 				formData.ageInput = formData.ageInput.trim()
+				formData.ageInput = xss(formData.ageInput);
 				formData.ageInput = parseInt(formData.ageInput)
 				formData.ageInput = validation.checkDogAge(formData.ageInput, "Age");
-				// formData.ageInput = xss(formData.ageInput);
 				submitData["ageInput"] = formData.ageInput;
 			} catch (error) {
 				for (let i in picArr) {
@@ -452,10 +457,9 @@ router
 		if (formData.colorInput.trim() !== "") {
 			try {
 				formData.colorInput = formData.colorInput.trim()
+				formData.colorInput = xss(formData.colorInput);
 				formData.colorInput = formData.colorInput.split(",");
 				formData.colorInput = validation.checkStringArray(formData.colorInput, "Color", 1);
-				// formData.colorInput = xss(formData.colorInput);
-				// console.log(formData.colorInput);
 				submitData["colorInput"] = formData.colorInput;
 			} catch (error) {
 				for (let i in picArr) {
@@ -470,9 +474,9 @@ router
 		if (formData.breedInput.trim() !== "") {
 			try {
 				formData.breedInput = formData.breedInput.trim()
+				formData.breedInput = xss(formData.breedInput);
 				formData.breedInput = formData.breedInput.split(",");
 				formData.breedInput = validation.checkStringArray(formData.breedInput, "Breeds", 1);
-				// formData.breedInput = xss(formData.breedInput);
 				submitData["breedInput"] = formData.breedInput;
 			} catch (error) {
 				for (let i in picArr) {
@@ -487,9 +491,9 @@ router
 		if (formData.weightInput.trim() !== "") {
 			try {
 				formData.weightInput = formData.weightInput.trim()
+				formData.weightInput = xss(formData.weightInput);
 				formData.weightInput = parseInt(formData.weightInput)
 				formData.weightInput = validation.checkWeight(formData.weightInput, "Weight");
-				// formData.weightInput = xss(formData.weightInput);
 				submitData["weightInput"] = formData.weightInput;
 			} catch (error) {
 				for (let i in picArr) {
@@ -504,7 +508,7 @@ router
 		if (formData.descriptionInput.trim() !== "") {
 			try {
 				formData.descriptionInput = validation.checkString(formData.descriptionInput, "Description");
-				// formData.descriptionInput = xss(formData.descriptionInput);
+				formData.descriptionInput = xss(formData.descriptionInput);
 				submitData["descriptionInput"] = formData.descriptionInput;
 			} catch (error) {
 				for (let i in picArr) {
@@ -519,13 +523,13 @@ router
 		if (formData.traitInput.trim() !== "") {
 			try {
 				formData.traitInput = formData.traitInput.trim()
+				formData.traitInput = xss(formData.traitInput);
 				if (formData.traitInput === "" || (formData.traitInput.toLowerCase().trim() === "delete" && oldDog.traits.length === 0)) {
 					formData.traitInput = [];
 				} else {
 					formData.traitInput = formData.traitInput.split(",");
 				}
 				formData.traitInput = validation.checkStringArray(formData.traitInput, "Traits", 0);
-				// formData.traitInput = xss(formData.traitInput);
 				submitData["traitInput"] = formData.traitInput;
 			} catch (error) {
 				for (let i in picArr) {
@@ -540,13 +544,13 @@ router
 		if (formData.medicalInput.trim() !== "") {
 			try {
 				formData.medicalInput = formData.medicalInput.trim();
+				formData.medicalInput = xss(formData.medicalInput);
 				if (formData.medicalInput === "" || (formData.medicalInput.toLowerCase().trim() === "delete" && oldDog.medicalInfo.length === 0)) {
 					formData.medicalInput = [];
 				} else {
 					formData.medicalInput = formData.medicalInput.split(",");
 				}
 				formData.medicalInput = validation.checkStringArray(formData.medicalInput, "Medical Info", 0);
-				// formData.medicalInput = xss(formData.medicalInput);
 				submitData["medicalInput"] = formData.medicalInput;
 			} catch (error) {
 				for (let i in picArr) {
@@ -561,13 +565,13 @@ router
 		if (formData.vaccineInput.trim() !== "") {
 			try {
 				formData.vaccineInput = formData.vaccineInput.trim()
+				formData.vaccineInput = xss(formData.vaccineInput);
 				if (formData.vaccineInput === ""  || (formData.vaccineInput.toLowerCase().trim() === "delete" && oldDog.vaccines.length === 0)) {
 					formData.vaccineInput = [];
 				} else {
 					formData.vaccineInput = formData.vaccineInput.split(",");
 				}
 				formData.vaccineInput = validation.checkStringArray(formData.vaccineInput, "Vaccines", 0);
-				// formData.vaccineInput = xss(formData.vaccineInput);
 				submitData["vaccineInput"] = formData.vaccineInput;
 			} catch (error) {
 				for (let i in picArr) {
@@ -585,8 +589,6 @@ router
 		}
 		picArr = oldDog.pictures.concat(picArr);
 		try {
-			// console.log(formData);
-			// console.log(oldDog);
 			if (formData.nameInput === oldDog.name &&
 				formData.sexInput === oldDog.sex &&
 				formData.ageInput === oldDog.age &&

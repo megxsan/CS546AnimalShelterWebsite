@@ -34,7 +34,7 @@ router
                 accepted.push(user.accepted[i]);
             }
             for(let i = 0; i < user.rejected.length; i++){
-                accepted.push(user.rejected[i]);
+                rejected.push(user.rejected[i]);
             }
             res.render('pages/myaccount', {title: "Status", signedIn: signedIn, pending: pending, accepted: accepted, rejected: rejected});
         }catch(e){
