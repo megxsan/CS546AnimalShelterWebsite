@@ -1,4 +1,5 @@
 <section>
+    <h1>Register</h1>
     <form method="post" id="registration-form">
         <label for="firstNameInput">First Name:</label>
         <input type="text" id="firstNameInput" name="firstNameInput">
@@ -15,7 +16,7 @@
         <button type="submit">Submit</button>
     </form>
     <div id="error" class="error" hidden></div>
-    <div class="error">
+    {{!-- <div class="error"> --}}
     {{#each errors}}
         <p class="error">{{this}}</p>
     {{/each}}
