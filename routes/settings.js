@@ -38,7 +38,7 @@ router
             }
             res.render('pages/myaccount', {title: "Status", signedIn: signedIn, pending: pending, accepted: accepted, rejected: rejected});
         }catch(e){
-            res.redirect("../");
+            res.status(401).redirect("../");
         }
 
     });
@@ -58,7 +58,7 @@ router
 
 		// OLIVIA CODED THIS FOR TESTING PURPOSE (NEEDS TO BE MODIFIED FOR BETTER ERROR CHECKING)
 		if (!req.session.user) {
-			res.render('pages/settings', {title: "Status", taken:false, signedIn: signedIn});
+			res.status(401).render('pages/settings', {title: "Status", taken:false, signedIn: signedIn});
 		} else {
 			let data = await userData.getUserById(req.session.user._id);
 			res.render('pages/settings', {first: data.firstName, last: data.lastName, age: data.age, email: data.email, taken:false, signedIn: signedIn});

@@ -21,7 +21,7 @@ router
                 if(Object.keys(application).length === 0){
                         hasApp = false;
                         noApp = true;
-                        res.render('pages/app', {title: "Application", app: hasApp, noApp: noApp, signedIn: signedIn});
+                        res.status(400).render('pages/app', {title: "Application", app: hasApp, noApp: noApp, signedIn: signedIn});
                 }else{
                         hasApp = true;
                         noApp = false;
@@ -40,7 +40,7 @@ router
                 signedIn = false;
         }
         if(!req.session.user._id){
-                res.render('pages/homepage', {title: "HomePage", signedIn:false});
+                res.status(401).render('pages/homepage', {title: "HomePage", signedIn:false});
         }
         res.render('pages/updateApp', {tite:"Editing Application Page", user: req.session.user._id, signedIn: signedIn});
         })
