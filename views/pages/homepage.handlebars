@@ -24,7 +24,7 @@
 		</fieldset>
 		<button id="filterButton" type="submit">Reset Filter</button>
 	</form>
-	<h1>All Dogs</h1>
+	<h2>All Dogs</h2>
 	{{#each dogs}}
 		{{#if adopted}}{{else}}
 			{{#if ../signedIn}}
@@ -33,14 +33,14 @@
 					{{#if (includes ../user.rejected _id)}}
 					{{else}}
 						<article id="{{_id}}" class="dog">
-							<h2><a href="/dogs/{{_id}}">{{name}}</a></h2>
+							<h3><a href="/dogs/{{_id}}">{{name}}</a></h3>
 							{{!-- <img src="{{pictures[0]}}" /> --}}
 						</article>
 					{{/if}}
 				{{/if}}
 			{{else}}
 				<article id="{{_id}}" class="dog">
-					<h2><a href="/dogs/{{_id}}">{{name}}</a></h2>
+					<h3><a href="/dogs/{{_id}}">{{name}}</a></h3>
 					{{!-- <img src="{{pictures[0]}}" /> --}}
 				</article>
 			{{/if}}

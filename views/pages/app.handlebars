@@ -1,7 +1,7 @@
 <section>
     {{#if app}}
         <!-- write out all of the fields of the application-->
-        <h1>Your Application</h1>
+        <h2>Your Application</h2>
         <p>Name: {{{first}}} {{{last}}}</p>
         <p>Age: {{{age}}}</p>
         <p>Email: {{{email}}}</p>
@@ -18,7 +18,7 @@
     {{/if}}
 
     {{#if noApp}}
-            <h1>You have not filled out an application!</h1>
+            <h2>You have not filled out an application!</h2>
             <a href = "/account/application/edit">Click here to fill out an application!</a>
     {{/if}}
 </section>

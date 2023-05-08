@@ -1,6 +1,6 @@
 <section>
-    <h1>Edit Dog Post</h1>
-    <h2>Fill out the form items you want to change</h2>
+    <h2>Edit Dog Post</h2>
+    <h3>Fill out the form items you want to change</h3>
     <form id="edit-dog-form" action="/account/dogs/{{dogId}}/edit?_method=PATCH" enctype="multipart/form-data" method="POST">
         <input type="hidden" name="_method" value="PATCH">
         {{#if error}}
@@ -62,7 +62,7 @@
             <p class="error">Error: Please enter a valid description!</p>
         </div>
 
-        <h2>If you want to delete info, type delete:</h2>
+        <h4>If you want to delete info, type delete:</h4>
         <label for="traitInput">Traits (separated by comma):</label> <br>
         <textarea id="traitInput" name="traitInput" rows="5" cols="50"></textarea> <br>
         <div id="error8" class="error" hidden>

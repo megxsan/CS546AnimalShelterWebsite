@@ -1,40 +1,40 @@
 <article class="dog">
-	<h1>{{dog.name}}</h1>
-	<h2>Here's more information!</h2>
+	<h2>{{dog.name}}</h2>
+	<h3>Here's more information on {{dog.name}}!</h3>
 	<address>Owner: {{user.firstName}} {{user.lastName}}</address>
 
 	{{#each dog.pictures}}
 		<img src="{{url}}" alt="dog" />
 	{{/each}}
 
-	<h3>Sex:</h3>
+	<h4>Sex:</h4>
 	<p>{{dog.sex}}</p>
 
-	<h3>Color:</h3>
+	<h4>Color:</h4>
 	<ul>
 		{{#each dog.color}}
 			<li>{{this}}</li>
 		{{/each}}
 	</ul>
 
-	<h3>Breeds:</h3>
+	<h4>Breeds:</h4>
 	<ul>
 		{{#each dog.breeds}}
 			<li>{{this}}</li>
 		{{/each}}
 	</ul>
 
-	<h3>Age:</h3>
+	<h4>Age:</h4>
 	<p>{{dog.age}}</p>
 
-	<h3>Weight:</h3>
+	<h4>Weight:</h4>
 	<p>{{dog.weight}}</p>
 
-	<h3>Description:</h3>
+	<h4>Description:</h4>
 	<p>{{dog.description}}</p>
 
 	{{#if dog.traits.length}}
-		<h3>Traits:</h3>
+		<h4>Traits:</h4>
 		<ul>
 			{{#each dog.traits}}
 				<li>{{this}}</li>
@@ -43,7 +43,7 @@
 	{{/if}}
 
 	{{#if dog.medicalInfo.length}}
-		<h3>Medical Info:</h3>
+		<h4>Medical Info:</h4>
 		<ul>
 			{{#each dog.medicalInfo}}
 				<li>{{this}}</li>
@@ -52,7 +52,7 @@
 	{{/if}}
 
 	{{#if dog.vaccines.length}}
-		<h3>Vaccines:</h3>
+		<h4>Vaccines:</h4>
 		<ul>
 			{{#each dog.vaccines}}
 				<li>{{this}}</li>
@@ -60,7 +60,7 @@
 		</ul>
 	{{/if}}
 
-	<h3>Likes:</h3>
+	<h4>Likes:</h4>
 	<p id="numLikes">{{dog.likes}}</p>
 	<!-- You must be signed in to like and comment -->
 	{{#if signedIn}}
@@ -92,7 +92,7 @@
 		</form>
 	{{/if}}
 
-	<h3>Comments:</h3>
+	<h4>Comments:</h4>
 	{{#each dog.comments}}
 		<p>{{this}}</p>
 	{{/each}}
@@ -109,7 +109,7 @@
 			{{#if (includes currUser.pending dog._id)}}{{else}}
 				{{#if (includes currUser.accepted dog._id)}}{{else}}
 					{{#if (includes currUser.rejected dog._id)}}{{else}}
-						<h3>Apply for this dog:</h3>
+						<h4>Apply for this dog:</h4>
 						<form
 							id="apply-form"
 							method="post"

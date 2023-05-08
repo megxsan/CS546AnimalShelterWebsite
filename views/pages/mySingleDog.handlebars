@@ -1,36 +1,36 @@
 <article class="dog">
 
-	<h1>{{dog.name}}</h1>
-	<h2>Here's the information on {{dog.name}}</h2>
+	<h2>{{dog.name}}</h2>
+	<h3>Here's the information on {{dog.name}}</h3>
 	{{#each dog.pictures}}
 		<img alt="dog" src="{{url}}" />
 	{{/each}}
 
-	<h3>Sex:</h3>
+	<h4>Sex:</h4>
 	<p>{{dog.sex}}</p>
 
-	<h3>Color:</h3>
+	<h4>Color:</h4>
 	<ul>
 		{{#each dog.color}}
 			<li>{{this}}</li>
 		{{/each}}
 	</ul>
 
-	<h3>Breeds:</h3>
+	<h4>Breeds:</h4>
 	<ul>
 		{{#each dog.breeds}}
 			<li>{{this}}</li>
 		{{/each}}
 	</ul>
 
-	<h3>Weight:</h3>
+	<h4>Weight:</h4>
 	<p>{{dog.weight}}</p>
 
-	<h3>Description:</h3>
+	<h4>Description:</h4>
 	<p>{{dog.description}}</p>
 
 	{{#if dog.traits.length}}
-		<h3>Traits:</h3>
+		<h4>Traits:</h4>
 		<ul>
 			{{#each dog.traits}}
 				<li>{{this}}</li>
@@ -39,7 +39,7 @@
 	{{/if}}
 
 	{{#if dog.medicalInfo.length}}
-		<h3>Medical Info:</h3>
+		<h4>Medical Info:</h4>
 		<ul>
 			{{#each dog.medicalInfo}}
 				<li>{{this}}</li>
@@ -48,7 +48,7 @@
 	{{/if}}
 
 	{{#if dog.vaccines.length}}
-		<h3>Vaccines:</h3>
+		<h4>Vaccines:</h4>
 		<ul>
 			{{#each dog.vaccines}}
 				<li>{{this}}</li>
@@ -56,7 +56,7 @@
 		</ul>
 	{{/if}}
 
-	<h3>Likes:</h3>
+	<h4>Likes:</h4>
 	<p>{{dog.likes}}</p>
 
 	<!-- <a href="/account/dogs/{{dogId}}/edit">Click here to edit your dog post!</a> <br> -->

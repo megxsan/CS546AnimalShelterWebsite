@@ -1,26 +1,26 @@
 <section>
-	<h1>Your Resources</h1>
-	<h2>My Application Statuses</h2>
+	<h2>Your Resources</h2>
+	<h3>My Application Statuses</h3>
 	{{! <p> }}
-	<h3>Pending:</h3>
+	<h4>Pending:</h4>
 	{{#each pending}}
 		<p><a href="/dogs/{{_id}}">{{name}}</a></p>
 	{{/each}}
 	<br />
-	<h3>Accepted:</h3>
+	<h4>Accepted:</h4>
 	{{#each accepted}}
 		{{!-- <p><a href="/dogs/{{_id}}">{{name}}</a></p> --}}
 		<p>{{this}}</p>
 	{{/each}}
 	<br />
-	<h3>Rejected:</h3>
+	<h4>Rejected:</h4>
 	{{#each rejected}}
 		{{!-- <p><a href="/dogs/{{_id}}">{{name}}</a></p> --}}
 		<p>{{this}}</p>
 	{{/each}}
 	{{! </p> }}
 
-	<h2>Links & Forms</h2>
+	<h3>Links & Forms</h3>
 	<a href="/account/settings/get">Click here to see your settings!</a>
 	<br />
 	<a href="/account/quiz">Click here to access our quiz!</a>
