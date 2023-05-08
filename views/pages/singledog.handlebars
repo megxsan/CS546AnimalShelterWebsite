@@ -1,10 +1,10 @@
 <article class="dog">
 	<h1>{{dog.name}}</h1>
-
+	<h2>Here's more information!</h2>
 	<address>Owner: {{user.firstName}} {{user.lastName}}</address>
 
 	{{#each dog.pictures}}
-		<img src="{{url}}" />
+		<img src="{{url}}" alt="dog"/>
 	{{/each}}
 
 	<h3>Sex:</h3>

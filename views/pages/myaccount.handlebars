@@ -1,24 +1,24 @@
 <section>
 	<h1>Your Resources</h1>
 	<h2>My Application Statuses</h2>
-	<p>
-		Pending:
+	{{!-- <p> --}}
+		<p>Pending:</p>
 		{{#each pending}}
 			<p><a href="/dogs/{{_id}}">{{name}}</a></p>
 		{{/each}}
 		<br />
-		Accepted:
+		<p>Accepted:</p>
 		{{#each accepted}}
 			{{!-- <p><a href="/dogs/{{_id}}">{{name}}</a></p> --}}
 			<p>{{this}}</p>
 		{{/each}}
 		<br />
-		Rejected:
+		<p>Rejected:</p>
 		{{#each rejected}}
 			{{!-- <p><a href="/dogs/{{_id}}">{{name}}</a></p> --}}
 			<p>{{name}}</p>
 		{{/each}}
-	</p>
+	{{!-- </p> --}}
 
 	<h2>Links & Forms</h2>
 	<a href="/account/settings/get">Click here to see your settings!</a>

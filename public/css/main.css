@@ -6,6 +6,10 @@ h2 {
 	color: #ebad83;
 }
 
+h3{
+    color:white;
+}
+
 body {
 	background-color: #0e7075;
 }
@@ -16,7 +20,7 @@ label {
 }
 
 .error {
-	color: #f3a089;
+	color: #ffdad2;
 	font-size: large;
 	font-weight: bolder;
 }
@@ -106,4 +110,8 @@ button[type=submit]:hover {
 p{
     color:white;
     font-size: 20;
+}
+
+address{
+    color:white;
 }
