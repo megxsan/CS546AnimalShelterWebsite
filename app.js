@@ -21,13 +21,11 @@ Handlebars.registerHelper("includes", function (array, value) {
 		try {
 			array = validation.checkStringArray(array, "includes array", 0);
 		} catch (error) {
-			console.log(error);
 			return;
 		}
 		try {
 			value = validation.checkString(value.toString(), "includes value");
 		} catch (error) {
-			console.log(error);
 			return;
 		}
 		let i = false;
@@ -42,18 +40,18 @@ Handlebars.registerHelper("includes", function (array, value) {
 });
 
 const handlebarsInstance = exphbs.create({
-	defaultLayout: 'main',
+	defaultLayout: "main",
 	// Specify helpers which are only registered on this instance.
 	helpers: {
-	  asJSON: (obj, spacing) => {
-		if (typeof spacing === 'number')
-		  return new Handlebars.SafeString(JSON.stringify(obj, null, spacing));
-  
-		return new Handlebars.SafeString(JSON.stringify(obj));
-	  }
+		asJSON: (obj, spacing) => {
+			if (typeof spacing === "number")
+				return new Handlebars.SafeString(JSON.stringify(obj, null, spacing));
+
+			return new Handlebars.SafeString(JSON.stringify(obj));
+		},
 	},
-	partialsDir: ['views/partials/']
-  });
+	partialsDir: ["views/partials/"],
+});
 
 app.use(methodOverride("_method"));
 
@@ -62,7 +60,7 @@ app.use("/", express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.engine('handlebars', handlebarsInstance.engine);
+app.engine("handlebars", handlebarsInstance.engine);
 
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");

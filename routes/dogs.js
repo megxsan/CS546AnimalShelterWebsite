@@ -210,7 +210,6 @@ router
 				}
 			}
 		} else {
-			console.log(req.body);
 			if (!req.session.user) {
 				res.render("error", {
 					title: "DogID Error",
@@ -235,14 +234,12 @@ router
 					try {
 						await userData.addIgnoredDog(info.dogId, req.session.user._id);
 					} catch (e) {
-						console.log(e);
 						//res.status(404).render("error", { title: "Ignore Error", error: e });
 					}
 				} else {
 					try {
 						await userData.removeIgnoredDog(info.dogId, req.session.user._id);
 					} catch (e) {
-						console.log(e);
 						//res.status(404).render("error", { title: "Ignore Error", error: e });
 					}
 				}
@@ -301,7 +298,6 @@ router.route("/:dogId/apply").post(async (req, res) => {
 					signedIn: true,
 				});
 			} catch (e) {
-				console.log(e);
 				return res.status(500).render("pages/singledog", {
 					dog: dog,
 					user: user,

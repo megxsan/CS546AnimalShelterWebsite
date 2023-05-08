@@ -544,7 +544,6 @@ const exportedMethods = {
 			const response = await client.send(command);
 			return `${key} has been successfully deleted!`;
 		} catch (err) {
-			console.log(err);
 			return;
 		}
 	},
