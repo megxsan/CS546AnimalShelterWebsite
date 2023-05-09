@@ -8,3 +8,5 @@ This is how you run our code!!
 There's no seed, as we used Mongo Atlas to put data into our databse. 
 If you want to access our database in MongoDB Compass, the connection string is 
 "mongodb+srv://ilovedogs:PatrickHill@cs546cluster.7shp1ex.mongodb.net/?retryWrites=true&w=majority"
+
+Github Link: https://github.com/megxsan/CS546AnimalShelterWebsite.git
