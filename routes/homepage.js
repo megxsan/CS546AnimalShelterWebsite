@@ -88,7 +88,7 @@ router
 			res.render("pages/loginForm");
 		} catch (e) {
 			req.session.error = e;
-			res.status(500).json({ error: "Redirect to /error" });
+			res.status(500).render("pages/error", { title: "Login Error", error: e, signedIn: true});
 			return;
 		}
 	})
@@ -157,7 +157,7 @@ router
 			res.render("pages/registerForm");
 		} catch (e) {
 			req.session.error = e;
-			res.status(500).json({ error: "Redirect to /error" });
+			res.status(500).render("pages/error", { title: "Registration Error", error: e, signedIn: true});
 			return;
 		}
 	})
@@ -165,6 +165,7 @@ router
 		/*  Post 
                 -Recieving signup form
         */
+		console.log("Testing Register Submit")
 		let errors = [];
 		let data = req.body;
 		try {
