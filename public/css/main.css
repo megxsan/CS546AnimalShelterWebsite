@@ -125,3 +125,8 @@ error1 {
 	color: #ffdad2;
 	background-color: #0e7075;
 }
+
+img {
+	max-width: 500px;
+	max-height: 500px;
+}
