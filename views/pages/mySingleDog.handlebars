@@ -23,8 +23,11 @@
 		{{/each}}
 	</ul>
 
+	<h4>Age:</h4>
+	<p>{{dog.age}}</p>
+
 	<h4>Weight:</h4>
-	<p>{{dog.weight}}</p>
+	<p>{{dog.weight}} pounds</p>
 
 	<h4>Description:</h4>
 	<p>{{dog.description}}</p>
@@ -66,12 +69,13 @@
   		<button type="submit">Click here to edit your dog post!</button>
 	</form>
 	-->
-	
-    <a href="/account/dogs/{{dogId}}/applications">Click here to see the applications for your dog!</a><br>
+
+	<a href="/account/dogs/{{dogId}}/applications">Click here to see the
+		applications for your dog!</a><br />
 
 	<form method="post" action="/account/dogs/{{dogId}}/delete?_method=DELETE">
-  		<input type="hidden" name="_method" value="DELETE">
-  		<button type="submit">Click here to delete your dog post!</button>
+		<input type="hidden" name="_method" value="DELETE" />
+		<button type="submit">Click here to delete your dog post!</button>
 	</form>
 
 </article>
