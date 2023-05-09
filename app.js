@@ -39,28 +39,12 @@ Handlebars.registerHelper("includes", function (array, value) {
 	return;
 });
 
-const handlebarsInstance = exphbs.create({
-	defaultLayout: "main",
-	// Specify helpers which are only registered on this instance.
-	helpers: {
-		asJSON: (obj, spacing) => {
-			if (typeof spacing === "number")
-				return new Handlebars.SafeString(JSON.stringify(obj, null, spacing));
-
-			return new Handlebars.SafeString(JSON.stringify(obj));
-		},
-	},
-	partialsDir: ["views/partials/"],
-});
-
 app.use(methodOverride("_method"));
 
 app.use("public", staticDir);
 app.use("/", express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.engine("handlebars", handlebarsInstance.engine);
 
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");

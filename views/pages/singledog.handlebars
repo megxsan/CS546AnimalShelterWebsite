@@ -66,18 +66,21 @@
 	{{#if signedIn}}
 		<!-- You cannot like your own dog -->
 		{{#if (includes currUser.dogs dog._id)}}{{else}}
-			{{#if (includes currUser.liked dog._id)}}
-				<form id="like-form" method="post">
-					<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden />
-					<input id="isLiked" value="true" name="isLiked" hidden />
-					<button type="submit" id="liked" value="liked">Unlike Post</button>
-				</form>
+			{{#if (includes currUser.disliked dog._id)}}
 			{{else}}
-				<form id="like-form" method="post">
-					<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden />
-					<input id="isLiked" value="false" name="isLiked" hidden />
-					<button type="submit" id="liked" value="liked">Like Post </button>
-				</form>
+				{{#if (includes currUser.liked dog._id)}}
+					<form id="like-form" method="post">
+						<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden />
+						<input id="isLiked" value="true" name="isLiked" hidden />
+						<button type="submit" id="liked" value="liked">Unlike Post</button>
+					</form>
+				{{else}}
+					<form id="like-form" method="post">
+						<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden />
+						<input id="isLiked" value="false" name="isLiked" hidden />
+						<button type="submit" id="liked" value="liked">Like Post </button>
+					</form>
+				{{/if}}
 			{{/if}}
 		{{/if}}
 		{{!-- {{#if error}}
@@ -92,10 +95,14 @@
 		</form>
 	{{/if}}
 
+	<input id="dogId" type="hidden" name="dogId" value="{{dog._id}}">
+
 	<h4>Comments:</h4>
+	<div id="comment-area">
 	{{#each dog.comments}}
 		<p>{{this}}</p>
 	{{/each}}
+	</div>
 
 	{{#if applyErr}}
 		<p>You either are not signed in, do not have a filled out application, you
@@ -125,18 +132,21 @@
 
 	{{#if signedIn}}
 		{{#if (includes currUser.dogs dog._id)}}{{else}}
-			{{#if (includes currUser.disliked dog._id)}}
-				<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
-					<input id="dogId" value={{dog._id}} name="dogId" hidden />
-					<input id="isIgnored" value="true" name="isIgnored" hidden />
-					<button id="ignorebutton" type="submit">Unignore Dog</button>
-				</form>
+			{{#if (includes currUser.liked dog._id)}}
 			{{else}}
-				<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
-					<input id="dogId" value={{dog._id}} name="dogId" hidden />
-					<input id="isIgnored" value="false" name="isIgnored" hidden />
-					<button id="ignorebutton" type="submit">Ignore Dog</button>
-				</form>
+				{{#if (includes currUser.disliked dog._id)}}
+					<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
+						<input id="dogId" value={{dog._id}} name="dogId" hidden />
+						<input id="isIgnored" value="true" name="isIgnored" hidden />
+						<button id="ignorebutton" type="submit">Unignore Dog</button>
+					</form>
+				{{else}}
+					<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
+						<input id="dogId" value={{dog._id}} name="dogId" hidden />
+						<input id="isIgnored" value="false" name="isIgnored" hidden />
+						<button id="ignorebutton" type="submit">Ignore Dog</button>
+					</form>
+				{{/if}}
 			{{/if}}
 		{{/if}}
 	{{/if}}
