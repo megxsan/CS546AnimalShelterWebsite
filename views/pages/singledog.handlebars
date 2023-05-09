@@ -124,18 +124,20 @@
 	{{/if}}
 
 	{{#if signedIn}}
-		{{#if (includes currUser.disliked dog._id)}}
-			<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
-				<input id="dogId" value={{dog._id}} name="dogId" hidden />
-				<input id="isIgnored" value="true" name="isIgnored" hidden />
-				<button id="ignorebutton" type="submit">Unignore Dog</button>
-			</form>
-		{{else}}
-			<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
-				<input id="dogId" value={{dog._id}} name="dogId" hidden />
-				<input id="isIgnored" value="false" name="isIgnored" hidden />
-				<button id="ignorebutton" type="submit">Ignore Dog</button>
-			</form>
+		{{#if (includes currUser.dogs dog._id)}}{{else}}
+			{{#if (includes currUser.disliked dog._id)}}
+				<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
+					<input id="dogId" value={{dog._id}} name="dogId" hidden />
+					<input id="isIgnored" value="true" name="isIgnored" hidden />
+					<button id="ignorebutton" type="submit">Unignore Dog</button>
+				</form>
+			{{else}}
+				<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
+					<input id="dogId" value={{dog._id}} name="dogId" hidden />
+					<input id="isIgnored" value="false" name="isIgnored" hidden />
+					<button id="ignorebutton" type="submit">Ignore Dog</button>
+				</form>
+			{{/if}}
 		{{/if}}
 	{{/if}}
 </article>
