@@ -1,0 +1,81 @@
+<article class="dog">
+
+	<h2>{{dog.name}}</h2>
+	<h3>Here's the information on {{dog.name}}</h3>
+	{{#each dog.pictures}}
+		<img alt="dog" src="{{url}}" />
+	{{/each}}
+
+	<h4>Sex:</h4>
+	<p>{{dog.sex}}</p>
+
+	<h4>Color:</h4>
+	<ul>
+		{{#each dog.color}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ul>
+
+	<h4>Breeds:</h4>
+	<ul>
+		{{#each dog.breeds}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ul>
+
+	<h4>Age:</h4>
+	<p>{{dog.age}}</p>
+
+	<h4>Weight:</h4>
+	<p>{{dog.weight}} pounds</p>
+
+	<h4>Description:</h4>
+	<p>{{dog.description}}</p>
+
+	{{#if dog.traits.length}}
+		<h4>Traits:</h4>
+		<ul>
+			{{#each dog.traits}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	{{#if dog.medicalInfo.length}}
+		<h4>Medical Info:</h4>
+		<ul>
+			{{#each dog.medicalInfo}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	{{#if dog.vaccines.length}}
+		<h4>Vaccines:</h4>
+		<ul>
+			{{#each dog.vaccines}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	<h4>Likes:</h4>
+	<p>{{dog.likes}}</p>
+
+	<!-- <a href="/account/dogs/{{dogId}}/edit">Click here to edit your dog post!</a> <br> -->
+
+	<a href="/account/dogs/{{dogId}}/edit">Click here to edit your dog post!</a>
+	<!-- <form method="get" action="/account/dogs/{{dogId}}/edit">
+  		<button type="submit">Click here to edit your dog post!</button>
+	</form>
+	-->
+
+	<a href="/account/dogs/{{dogId}}/applications">Click here to see the
+		applications for your dog!</a><br />
+
+	<form method="post" action="/account/dogs/{{dogId}}/delete?_method=DELETE">
+		<input type="hidden" name="_method" value="DELETE" />
+		<button type="submit">Click here to delete your dog post!</button>
+	</form>
+
+</article>

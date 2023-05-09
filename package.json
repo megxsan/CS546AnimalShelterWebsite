@@ -1,0 +1,37 @@
+{
+	"name": "546-project",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"type": "module",
+	"scripts": {
+		"start": "node app.js",
+		"seed": "node seed.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/megxsan/CS546AnimalShelterWebsite.git#development"
+	},
+	"author": "Facundo Rechter, Megan Sanford, Olivia Eng, Tyler Lane",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/megxsan/CS546AnimalShelterWebsite/issues"
+	},
+	"homepage": "https://github.com/megxsan/CS546AnimalShelterWebsite/tree/development#readme",
+	"dependencies": {
+		"@aws-sdk/client-s3": "^3.298.0",
+		"@aws-sdk/lib-storage": "^3.298.0",
+		"bcrypt": "^5.1.0",
+		"bcryptjs": "^2.4.3",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"express-handlebars": "^7.0.7",
+		"express-session": "^1.17.3",
+		"formidable": "^2.1.1",
+		"handlebars": "^4.7.7",
+		"method-override": "^3.0.0",
+		"mongodb": "^5.2.0",
+		"xss": "^1.0.14"
+	}
+}

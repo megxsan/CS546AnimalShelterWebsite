@@ -1,0 +1,139 @@
+<section>
+    <h2>Fill Out Your Application!</h2>
+    <h3>All form items must be completed to complete your application</h3>
+
+    <div id="error" hidden>
+        <p>Double check for correct input!</p>
+    </div>
+    <form id="application-form" method="post">
+        <label for="firstNameInput" id="first">First Name</label>
+        <input id="firstNameInput" type="text" name = "firstNameInput"> <br>
+
+        <label for="lastNameInput" id="last">Last Name</label>
+        <input id="lastNameInput" type="text" name = "lastNameInput"> <br>
+
+        <label for="emailInput" id="email">Email</label>
+        <input id="emailInput" type="email" name = "emailInput"> <br>
+
+        <label for="ageInput" id="age">Age</label>
+        <input id="ageInput" type="number" name = "ageInput"> <br>
+
+        <label for="phoneInput" id="phone">Phone Number (in the form of XXX-XXX-XXXX)</label>
+        <input id="phoneInput" type="tel" name = "phoneInput" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"> <br>   
+
+        <label for="livingAccommodationsInput" id="accommodations">What best describes your living situation?</label>
+        <select id="livingAccommodationsInput" name="livingAccommodationsInput">
+            <option value="home">Home</option>
+            <option value="apartment">Apartment</option>
+            <option value="townhouse">Townhouse</option>
+            <option value="other">Other</option>
+        </select> <br>
+
+        <label for="childrenInput" id="children">How many children do you have?</label>
+        <select id="childrenInput" name="childrenInput">
+            <option value="0">None</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+            <option value="more than 3">More than 3</option>
+        </select>
+{{!-- 
+        <label for="childrenInput" id="children">Do you have any children?</label>
+        <select id="childrenInput" name="childrenInput">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select> <br>
+
+        <label for="childrenAgesInput" id="ages">If so, how old are your children?</label>
+        <fieldset id="childrenAgesInput"> --}}
+            {{!-- <input id="0" value="0" type="checkbox" name="childrenAgesInput">
+            <label for="0">0</label> <br>
+            <input id="1" value ="1" type="checkbox" name="childrenAgesInput">
+            <label for="1">1</label> <br>
+            <input id="2" value="2" type="checkbox" name="childrenAgesInput">
+            <label for="2">2</label> <br>
+            <input id="3" value ="3" type="checkbox" name="childrenAgesInput">
+            <label for="3">3</label> <br>
+            <input id="4" value="4" type="checkbox" name="childrenAgesInput">
+            <label for="4">4</label> <br>
+            <input id="5" value ="5" type="checkbox" name="childrenAgesInput">
+            <label for="5">5</label> <br>
+            <input id="6" value="6" type="checkbox" name="childrenAgesInput">
+            <label for="6">6</label> <br>
+            <input id="7" value ="7" type="checkbox" name="childrenAgesInput">
+            <label for="7">7</label> <br>
+            <input id="8" value ="8" type="checkbox" name="childrenAgesInput">
+            <label for="8">8</label> <br>
+            <input id="9" value="9" type="checkbox" name="childrenAgesInput">
+            <label for="9">9</label> <br>
+            <input id="10" value ="10" type="checkbox" name="childrenAgesInput">
+            <label for="10">10</label> <br>
+            <input id="11" value ="11" type="checkbox" name="childrenAgesInput">
+            <label for="11">11</label> <br>
+            <input id="12" value="12" type="checkbox" name="childrenAgesInput">
+            <label for="12">12</label> <br>
+            <input id="13" value ="13" type="checkbox" name="childrenAgesInput">
+            <label for="13">13</label> <br>
+            <input id="14" value="14" type="checkbox" name="childrenAgesInput">
+            <label for="14">14</label> <br>
+            <input id="15" value ="15" type="checkbox" name="childrenAgesInput">
+            <label for="15">15</label> <br>
+            <input id="16" value="16" type="checkbox" name="childrenAgesInput">
+            <label for="16">16</label> <br>
+            <input id="17" value ="17" type="checkbox" name="childrenAgesInput">
+            <label for="17">17</label> <br>
+        </fieldset> --}}
+
+        <label for="timeAloneInput" id="timeAlone">How much time would the dog spend alone per day in hours?</label>
+        <input id="timeAloneInput" type="number" name = "timeAloneInput"> <br>   
+
+        <label for="animalsInput" id="animals">How many pets do you already own?</label>
+        <select id="animalsInput" name="animalsInput">
+            <option value="0">None</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+            <option value="more than 3">More than 3</option>
+        </select>
+        {{!-- <label for="animalsInput" id="animals">Do you have any other pets?</label>
+        <select id="animalsInput" name="animalsInput">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select> <br>
+
+        <label for="otherPetInput">If so, what other pets do you have?</label>
+        <fieldset id="otherPetInput">
+            <input id="dog" value="dog" type="checkbox" name="otherPetInput">
+            <label for="dog">dog</label> <br>
+            <input id="cat" value ="cat" type="checkbox" name="otherPetInput">
+            <label for="cat">cat</label> <br>
+            <input id="other" value="other" type="checkbox" name="otherPetInput">
+            <label for="other">other</label> <br>
+        </fieldset> --}}
+
+        <label for="yardInput" id="yard">Do you have a fenced in yard?</label>
+        <select id="yardInput" name="yardInput">
+
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        {{!-- <fieldset id="yardInput">
+            <input id="enclosed front yard" value="enclosed front yard" type="checkbox" name="yardInput">
+            <label for="enclosed front yard">Enclosed Front Yard</label> <br>
+            <input id="enclosed back yard" value ="enclosed back yard" type="checkbox" name="yardInput">
+            <label for="enclosed back yard">Enclosed Back Yard</label> <br>
+            <input id="garage" value="garage" type="checkbox" name="yardInput">
+            <label for="garage">Garage</label> <br>
+            <input id="dog house" value ="dog house" type="checkbox" name="yardInput">
+            <label for="dog house">Dog House</label> <br>
+            <input id="otherYard" value="other" type="checkbox" name="yardInput">
+            <label for="otherYard">Other</label> <br>
+        </fieldset> --}}
+
+        <label for="reasoningInput" id="reasoning">Why do you want this dog?</label>
+        <input id="reasoningInput" type="text" name = "reasoningInput"> <br>  
+
+        <button id="appButton" type="submit">Submit</button>
+
+    </form>
+</section>

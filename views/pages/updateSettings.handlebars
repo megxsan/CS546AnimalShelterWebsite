@@ -1,0 +1,47 @@
+<section>
+    <h2>Update Your Settings</h2>
+    <h3>You must fill out at least 1 data form (in addition to current password) to update your settings</h3>
+    <form id="settings-form" method="post">
+        <div id="emptyError" class="error" hidden>
+            <p>At least 1 setting must be changed to fill out this form</p>
+        </div>
+
+        <label for="firstNameInput" id="first">First Name</label>
+        <input id="firstNameInput" type="text" name = "firstNameInput"> <br>
+        <div id="error1" class="error" hidden>
+            <p class="red">Error: Please enter a valid name! </p>
+        </div>
+
+        <label for="lastNameInput" id="last">Last Name</label>
+        <input id="lastNameInput" type="text" name = "lastNameInput"> <br>
+        <div id="error2" class="error" hidden>
+            <p class="red">Error: Please enter a valid name! </p>
+        </div>
+
+        <label for="emailInput" id="email">Email</label>
+        <input id="emailInput" type="email" name = "emailInput"> <br>
+           <div id="error3" class="error" hidden>
+            <p class="red">Error: Email is either invalid or taken! </p>
+        </div>
+
+        <label for="ageInput" id="age">Age</label>
+        <input id="ageInput" type="number" name = "ageInput"> <br>
+        <div id="error4" class="error" hidden>
+            <p class="red">Error: Please enter a valid age! </p>
+        </div>
+
+        <label for="oldPasswordInput" id="oldPassword">Current Password</label>
+        <input id="oldPasswordInput" type="password" name = "oldPasswordInput"> <br>
+        <div id="error5" class="error" hidden>
+            <p class="red">Error: Missing / incorrect password </p>
+        </div>
+
+        <label for="newPasswordInput" id="newPassword">Updated Password</label>
+        <input id="newPasswordInput" type="password" name = "newPasswordInput"> <br>
+        <div id="error6" class="error" hidden>
+            <p class="red">Error: New Password doesn't meet the requirements</p>
+        </div>
+
+        <button id = "updateSettingsButton" type ="submit">Submit</button>
+    </form>
+</section>

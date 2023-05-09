@@ -1,0 +1,143 @@
+<article class="dog">
+	<h2>{{dog.name}}</h2>
+	<h3>Here's more information on {{dog.name}}!</h3>
+	<address>Owner: {{user.firstName}} {{user.lastName}}</address>
+
+	{{#each dog.pictures}}
+		<img src="{{url}}" alt="dog" />
+	{{/each}}
+
+	<h4>Sex:</h4>
+	<p>{{dog.sex}}</p>
+
+	<h4>Color:</h4>
+	<ul>
+		{{#each dog.color}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ul>
+
+	<h4>Breeds:</h4>
+	<ul>
+		{{#each dog.breeds}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ul>
+
+	<h4>Age:</h4>
+	<p>{{dog.age}}</p>
+
+	<h4>Weight:</h4>
+	<p>{{dog.weight}} pounds</p>
+
+	<h4>Description:</h4>
+	<p>{{dog.description}}</p>
+
+	{{#if dog.traits.length}}
+		<h4>Traits:</h4>
+		<ul>
+			{{#each dog.traits}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	{{#if dog.medicalInfo.length}}
+		<h4>Medical Info:</h4>
+		<ul>
+			{{#each dog.medicalInfo}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	{{#if dog.vaccines.length}}
+		<h4>Vaccines:</h4>
+		<ul>
+			{{#each dog.vaccines}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	<h4>Likes:</h4>
+	<p id="numLikes">{{dog.likes}}</p>
+	<!-- You must be signed in to like and comment -->
+	{{#if signedIn}}
+		<!-- You cannot like your own dog -->
+		{{#if (includes currUser.dogs dog._id)}}{{else}}
+			{{#if (includes currUser.liked dog._id)}}
+				<form id="like-form" method="post">
+					<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden />
+					<input id="isLiked" value="true" name="isLiked" hidden />
+					<button type="submit" id="liked" value="liked">Unlike Post</button>
+				</form>
+			{{else}}
+				<form id="like-form" method="post">
+					<input id="likeValue" value="{{dog.likes}}" name="likeValue" hidden />
+					<input id="isLiked" value="false" name="isLiked" hidden />
+					<button type="submit" id="liked" value="liked">Like Post </button>
+				</form>
+			{{/if}}
+		{{/if}}
+		{{!-- {{#if error}}
+		<p>You must be signed in to like or comment!</p>
+	{{/if}} --}}
+		<form id="comment-form" method="post">
+			<label for="commentInput" id="comment">Post a comment here!</label>
+			<p id="popup" class="error" hidden>A comment cannot be empty!</p>
+			<input id="commentInput" type="text" name="commentInput" />
+			<br />
+			<button type="submit">Submit</button>
+		</form>
+	{{/if}}
+
+	<h4>Comments:</h4>
+	{{#each dog.comments}}
+		<p>{{this}}</p>
+	{{/each}}
+
+	{{#if applyErr}}
+		<p>You either are not signed in, do not have a filled out application, you
+			have already applied to this dog, or you own this dog.</p>
+	{{/if}}
+	<!-- Must be signed in to apply -->
+	{{#if signedIn}}
+		<!-- Must not be your own dog to apply -->
+		{{#if (includes currUser.dogs dog._id)}}{{else}}
+			<!-- Cannot be currently applied, rejected, or accepted -->
+			{{#if (includes currUser.pending dog._id)}}{{else}}
+				{{#if (includes currUser.accepted dog._id)}}{{else}}
+					{{#if (includes currUser.rejected dog._id)}}{{else}}
+						<h4>Apply for this dog:</h4>
+						<form
+							id="apply-form"
+							method="post"
+							action="/dogs/{{dog._id}}/apply"
+						>
+							<button type="submit" id="apply">Apply Now!</button>
+						</form>
+					{{/if}}
+				{{/if}}
+			{{/if}}
+		{{/if}}
+	{{/if}}
+
+	{{#if signedIn}}
+		{{#if (includes currUser.dogs dog._id)}}{{else}}
+			{{#if (includes currUser.disliked dog._id)}}
+				<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
+					<input id="dogId" value={{dog._id}} name="dogId" hidden />
+					<input id="isIgnored" value="true" name="isIgnored" hidden />
+					<button id="ignorebutton" type="submit">Unignore Dog</button>
+				</form>
+			{{else}}
+				<form id="ignore-form" method="post" action="/dogs/{{dog._id}}">
+					<input id="dogId" value={{dog._id}} name="dogId" hidden />
+					<input id="isIgnored" value="false" name="isIgnored" hidden />
+					<button id="ignorebutton" type="submit">Ignore Dog</button>
+				</form>
+			{{/if}}
+		{{/if}}
+	{{/if}}
+</article>

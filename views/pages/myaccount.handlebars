@@ -1,0 +1,38 @@
+<section>
+	<h2>Your Resources</h2>
+	<h3>My Application Statuses</h3>
+	{{! <p> }}
+	<h4>Pending:</h4>
+	{{#each pending}}
+		<p><a href="/dogs/{{_id}}">{{name}}</a></p>
+	{{/each}}
+	<br />
+	<h4>Accepted:</h4>
+	{{#each accepted}}
+		{{!-- <p><a href="/dogs/{{_id}}">{{name}}</a></p> --}}
+		<p>{{this}}</p>
+	{{/each}}
+	<br />
+	<h4>Rejected:</h4>
+	{{#each rejected}}
+		{{!-- <p><a href="/dogs/{{_id}}">{{name}}</a></p> --}}
+		<p>{{this}}</p>
+	{{/each}}
+	{{! </p> }}
+
+	<h3>Links & Forms</h3>
+	<a href="/account/settings/get">Click here to see your settings!</a>
+	<br />
+	<a href="/account/quiz">Click here to access our quiz!</a>
+	<br />
+	<a href="/account/dogs">Click here to see the dogs you posted!</a>
+	<br />
+	<a href="/account/application">Click here to access your application!</a>
+	<br />
+	<a href="/account/specificDogs/liked">Click here to see the dogs you liked!</a>
+	<br />
+	<a href="/account/specificDogs/ignored">Click here to see the dogs you
+		ignored!</a>
+	<br />
+
+</section>

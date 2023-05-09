@@ -1,0 +1,78 @@
+<section>
+    <h2>Quiz!</h2>
+    <h3>See what dog breeds are best for you!</h3>
+
+    <div id="error" hidden>
+        <p>Please make sure all questions are completed!</p>
+    </div>
+
+    <form id="quiz-form" method="post">
+		<label for="space" id="spaceInput">What best describes your living situation?</label>
+        <select id="space" name="space">
+            <option value="apartment">Apartment</option>
+            <option value="houseB">House with a Backyard</option>
+            <option value="houseN">House without a Backyard</option>
+
+        </select>
+
+		<label for="walks" id="walksInput">How many walks can you go on per day</label>
+        <select id="walks" name="walks">
+            <option value="none">I don't have time for walks!</option>
+            <option value="short">I could go for one short walk a day</option>
+            <option value="long">I could go for one long walk a day</option>
+			<option value="many">I can go for multiple walks a day!</option>
+
+        </select>
+
+		<label for="outside" id="outsideInput">Do you like to spend time outside?</label>
+        <select id="outside" name="outside">
+            <option value="inside">I would rather stay inside</option>
+            <option value="out">I love being outside</option>
+            <option value="both">I like both</option>
+        </select>
+
+		<label for="fur" id="furInput">Does shedding bother you?</label>
+        <select id="fur" name="fur">
+            <option value="noshed">I can't handle all that fur!</option>
+            <option value="shed">Bring on the fur!</option>
+            <option value="bothshed">Either way, it doesn't bother me!</option>
+        </select>
+
+		<label for="size" id="sizeInput">What size dog is ideal for you?</label>
+        <select id="size" name="size">
+            <option value="mini">Very Small (less than 10 pounds)</option>
+            <option value="small">Small (10 to 20 pounds)</option>
+            <option value="medium">Medium (20 to 60 pounds)</option>
+			<option value="large">Large (60 to 100 pounds)</option>
+			<option value="xlarge">Very Large (more than 100 pounds)</option>
+        </select>
+
+		<label for="activity" id="activityInput">Which best describes how you would spend your free time?</label>
+        <select id="activity" name="activity">
+            <option value="lazy">I like to relax (I can be a couch potato sometimes)</option>
+            <option value="physical">I like to be active, whether it be exercise or being busy</option>
+            <option value="activityboth">It depends on my mood. I like to be busy but also take time to relax</option>
+        </select>
+
+		<label for="fam" id="famInput">Who would the dog be spending the most time with?</label>
+        <select id="fam" name="fam">
+            <option value="me">Just me, I live at my own place!</option>
+            <option value="nokid">Me and my family, but everyone is grown up!</option>
+            <option value="kid">Me and my family, including kids!</option>
+        </select>	
+
+		<label for="dog" id="dogInput">What main traits would you want most in a dog?</label>
+        <select id="dog" name="dog">
+            <option value="working">Intelligent and Loyal</option>
+            <option value="herding">Smart and Energetic</option>
+            <option value="hound">Affectionate and Strong-Willed</option>
+			<option value="sporting">High Energy and Active</option>
+			<option value="nonsporting">Versatile and Loving</option>
+			<option value="toy">Smart and Affectionate</option>
+			<option value="terrier">Observant and Affectionate</option>
+		</select>
+
+		<button id="quizButton" type="submit">Submit</button>
+
+    </form>
+</section>

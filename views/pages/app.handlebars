@@ -1,0 +1,24 @@
+<section>
+    {{#if app}}
+        <!-- write out all of the fields of the application-->
+        <h2>Your Application</h2>
+        <p>Name: {{{first}}} {{{last}}}</p>
+        <p>Age: {{{age}}}</p>
+        <p>Email: {{{email}}}</p>
+        <p>Phone: {{{phone}}}</p>
+        <p>Living Accommodations: {{{livingAccommodations}}}</p>
+        <p>How many children you have: {{{children}}}</p>
+        <p>Time you would be away from your dog (in hours): {{{timeAlone}}}</p>
+        <p>How many pets you already have: {{{animals}}}</p>
+        <p>Do you have a fenced in backward: {{{yard}}}</p>
+        <p>Why you want this dog: {{{reasoningExperience}}}</p>
+
+        <a href = "/account/application/edit">Click here to update your application!</a>
+
+    {{/if}}
+
+    {{#if noApp}}
+            <h2>You have not filled out an application!</h2>
+            <a href = "/account/application/edit">Click here to fill out an application!</a>
+    {{/if}}
+</section>

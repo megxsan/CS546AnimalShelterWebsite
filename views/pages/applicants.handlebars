@@ -1,0 +1,33 @@
+<section>
+
+    <h2>Applicants for {{dog.name}}</h2>
+    {{#each dog.interest}}
+
+        <h3>{{this.firstName}} {{this.lastName}}</h3>
+        <p>Age: {{this.age}}</p>
+        <p>Email: {{this.email}}</p>
+        <p>Phone Number: {{this.phone}}</p>
+        <p>Living Accommodations: {{this.livingAccommodations}}</p>
+        <p>How many children they have: {{this.children}}</p>
+        <p>How many hours the dog would be away: {{this.timeAlone}}</p> 
+        <p>How many pets they already have: {{this.animals}}</p>
+        <p>Why they want this dog: {{this.reasoningExperience}}</p>
+        <p>{{this.accepted}}</p>
+
+        <form id="accpeted-form" method="post" value="accepted">
+            <input id="accept" value="accepted" name="accept" hidden>
+            <input id="userId" value={{this.userId}} name="userId" hidden>
+            <button id="accepted" value="accepted">Accept Application</button>
+        </form>
+        {{#if this.accepted}}
+            <p>You have accepted this application! Please reach out to them to interview them to continue the process!</p>
+        {{else}}
+            <form id="reject-form" method="post" value="rejected">
+                <input id="reject" value="rejected" name="reject" hidden>
+                <input id="userId" value={{this.userId}} name="userId" hidden>
+                <button id="rejected" value="rejected">Reject Application</button>
+            </form>
+        {{/if}}
+
+    {{/each}}
+</section>

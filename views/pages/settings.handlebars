@@ -1,0 +1,14 @@
+<!-- show all of the settings and then lead to a form to update them -->
+<section>
+    <h2>Your Information</h2>
+        <p>Name: {{{first}}} {{{last}}}</p>
+        <p>Email: {{{email}}}</p>
+        <p>Age: {{{age}}}</p>
+
+    	{{#if taken}}
+            <p class="error">You either put in an email that was taken, you did not put in new input, or you put in the wrong password.<br>
+            Feel free to click the link below and try again!</p>
+	    {{/if}}
+
+    <a href="/account/settings/edit">Any wrong information? Click here to update!</a>
+</section>
