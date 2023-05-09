@@ -265,7 +265,7 @@ const exportedMethods = {
 				{ returnDocument: "after" }
 			);
 			if(updatedUserWithDog.lastErrorObject.n === 0) throw `dog array cannot be updated`
-			await dog.removeDog(dogID);
+			// await dog.removeDog(dogID);
 		} else {
 			let updatedPending = (userInfo.pending).filter(e => e != dogID);
 			let doggo = await dog.getDogById(dogID)
