@@ -642,10 +642,12 @@ router
 			return;
 		}
 		*/
-		for (let i in deletePhotosArr) {
+		let deleteKey = [];
+		for (let i = 0; i < deletePhotosArr.length; i++) {
 			let deletedPhoto = await dogData.deletePhoto(oldDog.pictures[deletePhotosArr[i] - 1].key);
-			oldDog.pictures.splice(deletePhotosArr[i] - 1, 1);
+			deleteKey.push(oldDog.pictures[deletePhotosArr[i] - 1].key);
 		}
+		oldDog.pictures = oldDog.pictures.filter(e => !deleteKey.includes(e.key));
 		picArr = oldDog.pictures.concat(picArr);
 		try {
 			var editDog = await dogData.updateDog(submitData.nameInput, submitData.sexInput, submitData.ageInput, submitData.colorInput, submitData.breedInput, submitData.weightInput, submitData.descriptionInput, submitData.traitInput, submitData.medicalInput, submitData.vaccineInput, picArr, req.params.dogId);
