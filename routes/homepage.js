@@ -165,7 +165,6 @@ router
 		/*  Post 
                 -Recieving signup form
         */
-		console.log("Testing Register Submit")
 		let errors = [];
 		let data = req.body;
 		try {
